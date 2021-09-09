@@ -124,15 +124,14 @@ import draggable from 'vuedraggable';
 import { debounce } from 'throttle-debounce';
 import { saveAs } from 'file-saver';
 import ClipboardJS from 'clipboard';
-import render from '@/components/render/render';
+// import render from '@/components/render/render';
 import FormDrawer from './FormDrawer';
 import JsonDrawer from './JsonDrawer';
 import RightPanel from './RightPanel';
 import {
   inputComponents, selectComponents, layoutComponents, formConf
 } from '@/components/generator/config';
-import {
-  exportDefault, beautifierConf, isNumberStr, titleCase, deepClone
+import { beautifierConf, titleCase, deepClone
 } from '@/utils/index';
 import {
   makeUpHtml, vueTemplate, vueScript, cssStyle
@@ -149,7 +148,7 @@ import {
 import loadBeautifier from '@/utils/loadBeautifier';
 
 let beautifier;
-const emptyActiveData = { style: {}, autosize: {}};
+// const emptyActiveData = { style: {}, autosize: {}};
 let oldActiveId;
 let tempActiveData;
 const drawingListInDB = getDrawingList();
@@ -159,7 +158,6 @@ const idGlobal = getIdGlobal();
 export default {
   components: {
     draggable,
-    render,
     FormDrawer,
     JsonDrawer,
     RightPanel,
