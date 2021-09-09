@@ -13,4 +13,4 @@ export default {
   'el-date-picker': 'change',
   'el-rate': 'change',
   tinymce: 'blur'
-}
+};

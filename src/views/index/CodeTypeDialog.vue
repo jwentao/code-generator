@@ -77,7 +77,7 @@ export default {
         label: '弹窗',
         value: 'dialog'
       }]
-    }
+    };
   },
   computed: {
   },
@@ -86,23 +86,23 @@ export default {
   methods: {
     onOpen() {
       if (this.showFileName) {
-        this.formData.fileName = `${+new Date()}.vue`
+        this.formData.fileName = `${+new Date()}.vue`;
       }
     },
     onClose() {
     },
     close(e) {
-      this.$emit('update:visible', false)
+      this.$emit('update:visible', false);
     },
     handelConfirm() {
       this.$refs.elForm.validate(valid => {
-        if (!valid) return
-        this.$emit('confirm', { ...this.formData })
-        this.close()
-      })
+        if (!valid) return;
+        this.$emit('confirm', { ...this.formData });
+        this.close();
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

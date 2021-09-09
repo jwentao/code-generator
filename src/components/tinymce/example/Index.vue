@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Tinymce from '../index.vue'
+import Tinymce from '../index.vue';
 
 export default {
   components: {
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       defaultValue: '<p>配置文档参阅：http://tinymce.ax-z.cn</p>'
-    }
+    };
   },
   computed: {
 
@@ -34,5 +34,5 @@ export default {
   methods: {
 
   }
-}
+};
 </script>

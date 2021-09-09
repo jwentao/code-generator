@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import { deepClone } from '@/utils/index'
+import { deepClone } from '@/utils/index';
 
 export default {
   components: {},
@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       resources: null
-    }
+    };
   },
   computed: {},
   watch: {},
@@ -77,33 +77,33 @@ export default {
   mounted() {},
   methods: {
     onOpen() {
-      this.resources = this.originResource.length ? deepClone(this.originResource) : ['']
+      this.resources = this.originResource.length ? deepClone(this.originResource) : [''];
     },
     onClose() {
     },
     close() {
-      this.$emit('update:visible', false)
+      this.$emit('update:visible', false);
     },
     handelConfirm() {
-      const results = this.resources.filter(item => !!item) || []
-      this.$emit('save', results)
-      this.close()
+      const results = this.resources.filter(item => !!item) || [];
+      this.$emit('save', results);
+      this.close();
       if (results.length) {
-        this.resources = results
+        this.resources = results;
       }
     },
     deleteOne(index) {
-      this.resources.splice(index, 1)
+      this.resources.splice(index, 1);
     },
     addOne(url) {
       if (this.resources.indexOf(url) > -1) {
-        this.$message('资源已存在')
+        this.$message('资源已存在');
       } else {
-        this.resources.push(url)
+        this.resources.push(url);
       }
     }
   }
-}
+};
 
 </script>
 <style lang="scss" scoped>

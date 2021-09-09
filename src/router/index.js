@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '@/views/index/Home.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '@/views/index/Home.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -25,10 +25,10 @@ const routes = [
     name: 'table',
     component: () => import(/* webpackChunkName: "table-generator" */'@/views/table/Index.vue')
   }
-]
+];
 
 const router = new VueRouter({
   routes
-})
+});
 
-export default router
+export default router;

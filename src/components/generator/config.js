@@ -10,7 +10,7 @@ export const formConf = {
   disabled: false,
   span: 24,
   formBtns: true
-}
+};
 
 // 输入型组件 【左面板】
 export const inputComponents = [
@@ -147,7 +147,7 @@ export const inputComponents = [
     height: 300, // 编辑器高度
     branding: false // 隐藏右下角品牌烙印
   }
-]
+];
 
 // 选择型组件 【左面板】
 export const selectComponents = [
@@ -506,7 +506,7 @@ export const selectComponents = [
     'list-type': 'text',
     multiple: false
   }
-]
+];
 
 // 布局型组件 【左面板】
 export const layoutComponents = [
@@ -545,4 +545,4 @@ export const layoutComponents = [
     circle: false,
     disabled: false
   }
-]
+];

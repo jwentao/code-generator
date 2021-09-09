@@ -34,4 +34,4 @@ export default [
     readonly: false,
     disabled: false
   }
-]
+];

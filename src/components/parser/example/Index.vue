@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Parser from '../Parser'
+import Parser from '../Parser';
 
 // 若parser是通过安装npm方式集成到项目中的，使用此行引入
 // import Parser from 'form-gen-parser'
@@ -172,9 +172,9 @@ export default {
                 2) formRef='elForm', 所以this.$refs.elForm可以拿到当前表单的ref(vue组件)
               `,
               'color:#409EFF;font-size: 15px'
-            )
-            console.log('表单的Model：', this.formData)
-            console.log('表单的ref：', this.$refs.elForm)
+            );
+            console.log('表单的Model：', this.formData);
+            console.log('表单的ref：', this.$refs.elForm);
           }
         },
         formRef: 'elForm',
@@ -272,7 +272,7 @@ export default {
         formBtns: true,
         unFocusedComponentBorder: false
       }
-    }
+    };
   },
   computed: {},
   watch: {},
@@ -283,36 +283,36 @@ export default {
       // 请求回来的表单数据
       const data = {
         mobile: '18836662555'
-      }
+      };
       // 回填数据
-      this.fillFormData(this.formConf, data)
+      this.fillFormData(this.formConf, data);
       // 更新表单
-      this.key2 = +new Date()
-    }, 2000)
+      this.key2 = +new Date();
+    }, 2000);
   },
   methods: {
     fillFormData(form, data) {
       form.fields.forEach(item => {
-        const val = data[item.__vModel__]
+        const val = data[item.__vModel__];
         if (val) {
-          item.__config__.defaultValue = val
+          item.__config__.defaultValue = val;
         }
-      })
+      });
     },
     change() {
-      this.key2 = +new Date()
-      const t = this.formConf
-      this.formConf = this.formConf2
-      this.formConf2 = t
+      this.key2 = +new Date();
+      const t = this.formConf;
+      this.formConf = this.formConf2;
+      this.formConf2 = t;
     },
     sumbitForm1(data) {
-      console.log('sumbitForm1提交数据：', data)
+      console.log('sumbitForm1提交数据：', data);
     },
     sumbitForm2(data) {
-      console.log('sumbitForm2提交数据：', data)
+      console.log('sumbitForm2提交数据：', data);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
