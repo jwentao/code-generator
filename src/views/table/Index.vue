@@ -60,6 +60,7 @@
           清空
         </el-button>
       </div>
+
       <el-scrollbar class="center-scrollbar">
         <el-row class="center-board-row" :gutter="formConf.gutter">
           <el-form
@@ -86,6 +87,21 @@
               从左侧拖入或点选组件进行表单设计
             </div>
           </el-form>
+        </el-row>
+
+        <el-row>
+          <el-table
+            border
+          >
+            <el-table-column
+              v-for="item in drawingList"
+              :key="item.renderKey"
+              :label="item.__config__.label"
+              min-width="150"
+              align="center"
+              :prop="item.__vModel__"
+            />
+          </el-table>
         </el-row>
       </el-scrollbar>
     </div>
@@ -226,6 +242,7 @@ export default {
       handler(val) {
         this.saveDrawingListDebounce(val);
         if (val.length === 0) this.idGlobal = 100;
+        console.log(val);
       },
       deep: true
     },
@@ -417,6 +434,12 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 @import '@/styles/home';
+.center-board-row {
+  & > .el-form {
+    // 69 = 12+15+42
+    height: calc(100vh - 169px);
+  }
+}
 </style>
