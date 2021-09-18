@@ -90,18 +90,10 @@
         </el-row>
 
         <el-row>
-          <el-table
+          <DragTable
             border
-          >
-            <el-table-column
-              v-for="item in drawingList"
-              :key="item.renderKey"
-              :label="item.__config__.label"
-              min-width="150"
-              align="center"
-              :prop="item.__vModel__"
-            />
-          </el-table>
+            :columns="tableColumns"
+          />
         </el-row>
       </el-scrollbar>
     </div>
@@ -162,6 +154,7 @@ import {
   getDrawingList, saveDrawingList, getIdGlobal, saveIdGlobal, getFormConf
 } from '@/utils/db';
 import loadBeautifier from '@/utils/loadBeautifier';
+import DragTable from '@/views/table/DragTable';
 
 let beautifier;
 // const emptyActiveData = { style: {}, autosize: {}};
@@ -179,7 +172,8 @@ export default {
     JsonDrawer,
     RightPanel,
     CodeTypeDialog,
-    DraggableItem
+    DraggableItem,
+    DragTable
   },
   data() {
     return {
@@ -215,7 +209,9 @@ export default {
           title: '布局型组件',
           list: layoutComponents
         }
-      ]
+      ],
+
+      tableColumns: []
     };
   },
   computed: {
@@ -242,7 +238,6 @@ export default {
       handler(val) {
         this.saveDrawingListDebounce(val);
         if (val.length === 0) this.idGlobal = 100;
-        console.log(val);
       },
       deep: true
     },
@@ -293,10 +288,19 @@ export default {
       }
     },
     addComponent(item) {
+      console.log('addComponent');
       const clone = this.cloneComponent(item);
       this.drawingList.push(clone);
       this.activeFormItem(clone);
+      this.addTableColumn(clone);
     },
+
+    addTableColumn(clone) {
+      const column = { ...clone };
+      this.tableColumns.push(column);
+      console.log(this.tableColumns);
+    },
+
     cloneComponent(origin) {
       const clone = deepClone(origin);
       const config = clone.__config__;
@@ -304,6 +308,7 @@ export default {
       this.createIdAndKey(clone);
       clone.placeholder !== undefined && (clone.placeholder += config.label);
       tempActiveData = clone;
+      console.log(tempActiveData);
       return tempActiveData;
     },
     createIdAndKey(item) {
