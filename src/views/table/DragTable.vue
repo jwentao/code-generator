@@ -10,8 +10,7 @@
       <el-table-column
         v-for="(item, index) in tableHeader"
         :key="item.__vModel__ + index"
-        :prop="item.__vModel__"
-        :label="item.__config__.label"
+        v-bind="item.__config__"
         :column-key="index.toString()"
       >
         <template slot="header" slot-scope="{ column }">
@@ -31,6 +30,11 @@
 <script>
 import { getTableColumns, saveTableColumns } from '@/utils/db';
 const columnsInDB = getTableColumns();
+
+const DEFAULT_COLUMNS_CONFIG = {
+  align: 'center',
+  minWidth: 100
+};
 
 export default {
   name: 'DragTable',
@@ -55,13 +59,16 @@ export default {
       this.tableHeader = [];
     }
   },
-  watch: {
-    columns(val) {
-      this.tableHeader = val;
-    }
-  },
   methods: {
-    addTableColumn(column) {
+    addTableColumn(origin) {
+      const column = {
+        __vModel__: origin.__vModel__,
+        __config__: {
+          prop: origin.__vModel__,
+          label: origin.__config__.label,
+          ...DEFAULT_COLUMNS_CONFIG
+        }
+      };
       this.tableHeader.push(column);
       saveTableColumns(this.tableHeader);
     },
