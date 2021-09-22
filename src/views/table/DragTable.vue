@@ -29,21 +29,17 @@
   </div>
 </template>
 <script>
+import { getTableColumns, saveTableColumns } from '@/utils/db';
+const columnsInDB = getTableColumns();
 
 export default {
   name: 'DragTable',
   components: {
   },
   mixins: [],
-  props: {
-    columns: {
-      default: () => [],
-      type: Array
-    }
-  },
   data() {
     return {
-      tableHeader: this.columns,
+      tableHeader: [],
       dragState: {
         start: -9, // 起始元素的 index
         end: -9, // 移动鼠标时所覆盖的元素 index
@@ -52,12 +48,24 @@ export default {
       }
     };
   },
+  mounted() {
+    if (Array.isArray(columnsInDB) && columnsInDB.length > 0) {
+      this.tableHeader = columnsInDB;
+    } else {
+      this.tableHeader = [];
+    }
+  },
   watch: {
     columns(val) {
       this.tableHeader = val;
     }
   },
   methods: {
+    addTableColumn(column) {
+      this.tableHeader.push(column);
+      saveTableColumns(this.tableHeader);
+    },
+
     getHeaderClasses(index) {
       const result = [];
       if (index === this.dragState.start) {
@@ -156,6 +164,7 @@ export default {
         }
       }
       this.tableHeader = tempData;
+      saveTableColumns(this.tableHeader);
     }
   }
 };

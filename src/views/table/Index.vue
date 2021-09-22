@@ -91,8 +91,8 @@
 
         <el-row>
           <DragTable
+            ref="DragTable"
             border
-            :columns="tableColumns"
           />
         </el-row>
       </el-scrollbar>
@@ -209,9 +209,7 @@ export default {
           title: '布局型组件',
           list: layoutComponents
         }
-      ],
-
-      tableColumns: []
+      ]
     };
   },
   computed: {
@@ -285,10 +283,10 @@ export default {
       if (obj.from !== obj.to) {
         this.activeData = tempActiveData;
         this.activeId = this.idGlobal;
+        this.addTableColumn(tempActiveData);
       }
     },
     addComponent(item) {
-      console.log('addComponent');
       const clone = this.cloneComponent(item);
       this.drawingList.push(clone);
       this.activeFormItem(clone);
@@ -296,9 +294,9 @@ export default {
     },
 
     addTableColumn(clone) {
+      console.log(clone);
       const column = { ...clone };
-      this.tableColumns.push(column);
-      console.log(this.tableColumns);
+      this.$refs.DragTable.addTableColumn(column);
     },
 
     cloneComponent(origin) {
@@ -308,7 +306,6 @@ export default {
       this.createIdAndKey(clone);
       clone.placeholder !== undefined && (clone.placeholder += config.label);
       tempActiveData = clone;
-      console.log(tempActiveData);
       return tempActiveData;
     },
     createIdAndKey(item) {

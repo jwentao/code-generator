@@ -5,6 +5,25 @@ const DRAWING_ID = 'idGlobal';
 const TREE_NODE_ID = 'treeNodeId';
 const FORM_CONF = 'formConf';
 
+const TABLE_COLUMNS = 'TABLE_COLUMNS';
+
+export function getTableColumns() {
+  const version = localStorage.getItem(DRAWING_ITEMS_VERSION_KEY);
+  if (version !== DRAWING_ITEMS_VERSION) {
+    localStorage.setItem(DRAWING_ITEMS_VERSION_KEY, DRAWING_ITEMS_VERSION);
+    saveTableColumns([]);
+    return null;
+  }
+
+  const str = localStorage.getItem(TABLE_COLUMNS);
+  if (str) return JSON.parse(str);
+  return null;
+}
+
+export function saveTableColumns(list) {
+  localStorage.setItem(TABLE_COLUMNS, JSON.stringify(list));
+}
+
 export function getDrawingList() {
   // 加入缓存版本的概念，保证缓存数据与程序匹配
   const version = localStorage.getItem(DRAWING_ITEMS_VERSION_KEY);
