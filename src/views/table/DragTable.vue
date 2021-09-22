@@ -1,30 +1,38 @@
 <template>
-  <el-table
-    class="w-table"
-    v-bind="$attrs"
-    v-on="$listeners"
-  >
-    <draggable
-      :list="columns"
+  <div class="w-table" :class="{'w-table_moving': dragState.dragging}">
+    <el-table
+      class="drag-table"
+      v-bind="$attrs"
+      :cell-class-name="cellClassName"
+      :header-cell-class-name="headerCellClassName"
+      v-on="$listeners"
     >
       <el-table-column
-        v-for="item in columns"
-        :key="item.__vModel__"
+        v-for="(item, index) in tableHeader"
+        :key="item.__vModel__ + index"
         :prop="item.__vModel__"
         :label="item.__config__.label"
-        :render-header="renderHeader"
-      />
-    </draggable>
-
-  </el-table>
+        :column-key="index.toString()"
+      >
+        <template slot="header" slot-scope="{ column }">
+          <div
+            class="table-header"
+            :class="getHeaderClasses(index)"
+            @mousedown="handleMouseDown($event, column)"
+            @mousemove="handleMouseMove($event, column)"
+          >
+            {{ item.__config__.label }}
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 <script>
-import draggable from 'vuedraggable';
 
 export default {
   name: 'DragTable',
   components: {
-    draggable
   },
   mixins: [],
   props: {
@@ -44,8 +52,35 @@ export default {
       }
     };
   },
-  watch: {},
+  watch: {
+    columns(val) {
+      this.tableHeader = val;
+    }
+  },
   methods: {
+    getHeaderClasses(index) {
+      const result = [];
+      if (index === this.dragState.start) {
+        result.push('holder');
+      }
+      if (index === this.dragState.end) {
+        if (this.dragState.direction === 'left') {
+          result.push('target-left');
+        } else if (this.dragState.direction === 'right') {
+          result.push('target-right');
+        }
+      }
+      return result.join(' ');
+    },
+    headerCellClassName({ column, columnIndex }) {
+      const active = columnIndex - 1 === this.dragState.end ? `darg_active_${this.dragState.direction}` : '';
+      const start = columnIndex - 1 === this.dragState.start ? `darg_start` : '';
+      return `${active} ${start}`;
+    },
+
+    cellClassName({ column, columnIndex }) {
+      return (columnIndex - 1 === this.dragState.start ? `darg_start` : '');
+    },
     renderHeader(createElement, { column }) {
       return createElement(
         'div', {
@@ -96,10 +131,10 @@ export default {
         const index = parseInt(column.columnKey); // 记录起始列
         if (index - this.dragState.start !== 0) {
           this.dragState.direction = index - this.dragState.start < 0 ? 'left' : 'right'; // 判断拖动方向
-          this.dragState.end = parseInt(column.columnKey);
         } else {
           this.dragState.direction = undefined;
         }
+        this.dragState.end = parseInt(column.columnKey);
       } else {
         return false;
       }
@@ -126,6 +161,34 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+.drag-table {
+  ::v-deep .el-table__header {
+    th {
+      padding: 0;
+    }
+
+    .cell {
+      padding: 0;
+    }
+  }
+
+  .table-header {
+    padding: 12px 10px;
+  }
+
+  .holder {
+    background-color: #f6f7ff;
+  }
+
+  .target-left {
+    border-left: 1px dashed #787be8;
+  }
+
+  .target-right {
+    border-right: 1px dashed #787be8;
+  }
+}
+
 .w-table {
   .el-table .darg_start {
     background-color: #f3f3f3;
