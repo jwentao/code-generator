@@ -20,6 +20,10 @@
             @mousedown="handleMouseDown($event, column)"
             @mousemove="handleMouseMove($event, column)"
           >
+            <div class="op-wrap">
+              <span>复制</span>
+              <span>删除</span>
+            </div>
             {{ item.__config__.label }}
           </div>
         </template>
@@ -189,6 +193,13 @@ export default {
 
   .table-header {
     padding: 12px 10px;
+    position: relative;
+
+    .op-wrap {
+      position: absolute;
+      top: -12px;
+      z-index: 9999;
+    }
   }
 
   .holder {
