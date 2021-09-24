@@ -5,5 +5,6 @@ todo
 
 + ~~表格拖动排序~~
 + 表格column配置
++ 右侧panel区分
 + form配置独立
 + ~~table配置记忆~~
