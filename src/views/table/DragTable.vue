@@ -9,7 +9,7 @@
     >
       <el-table-column
         v-for="(item, index) in tableHeader"
-        :key="item.__vModel__ + index"
+        :key="item.__config__.prop + index"
         v-bind="item.__config__"
         :column-key="index.toString()"
       >
@@ -62,7 +62,6 @@ export default {
   methods: {
     addTableColumn(origin) {
       const column = {
-        __vModel__: origin.__vModel__,
         __config__: {
           prop: origin.__vModel__,
           label: origin.__config__.label,
