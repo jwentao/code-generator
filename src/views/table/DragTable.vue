@@ -21,8 +21,8 @@
             @mousemove="handleMouseMove($event, column)"
           >
             <div class="op-wrap">
-              <span>复制</span>
-              <span>删除</span>
+              <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
+              <span class="op-del" @click.stop="handleDel(index)"><i class="el-icon-delete" /></span>
             </div>
             {{ item.__config__.label }}
           </div>
@@ -99,22 +99,14 @@ export default {
     cellClassName({ column, columnIndex }) {
       return (columnIndex - 1 === this.dragState.start ? `darg_start` : '');
     },
-    renderHeader(createElement, { column }) {
-      return createElement(
-        'div', {
-          'class': ['thead-cell'],
-          on: {
-            mousedown: ($event) => { this.handleMouseDown($event, column); },
-            mousemove: ($event) => { this.handleMouseMove($event, column); }
-          }
-        }, [
-          // 添加 <a> 用于显示表头 label
-          createElement('a', column.label),
-          // 添加一个空标签用于显示拖动动画
-          createElement('span', {
-            'class': ['virtual']
-          })
-        ]);
+
+    handleCopy(column) {
+      this.tableHeader.push(column);
+      saveTableColumns(this.tableHeader);
+    },
+
+    handleDel(index) {
+      this.tableHeader.splice(index, 1);
     },
 
     handleMouseDown(e, column) {
@@ -180,6 +172,8 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+$lighterBlue: #409EFF;
+
 .drag-table {
   ::v-deep .el-table__header {
     th {
@@ -194,11 +188,48 @@ export default {
   .table-header {
     padding: 12px 10px;
     position: relative;
+    &:hover {
+      & > .op-wrap {
+        display: initial;
+      }
+    }
 
     .op-wrap {
+      display: none;
       position: absolute;
-      top: -12px;
+      top: 0;
+      right: 0;
       z-index: 9999;
+    }
+
+    .op-copy, .op-del {
+      display: inline-block;
+      background: #fff;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      border: 1px solid;
+      cursor: pointer;
+    }
+    .op-copy {
+      border-color: $lighterBlue;
+      color: $lighterBlue;
+
+      &:hover{
+        background: $lighterBlue;
+        color: #fff;
+      }
+    }
+
+    .op-del {
+      border-color: #F56C6C;
+      color: #F56C6C;
+      margin-left: 4px;
+
+      &:hover{
+        background: #F56C6C;
+        color: #fff;
+      }
     }
   }
 

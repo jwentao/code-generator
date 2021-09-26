@@ -294,7 +294,6 @@ export default {
     },
 
     addTableColumn(clone) {
-      console.log(clone);
       const column = { ...clone };
       this.$refs.DragTable.addTableColumn(column);
     },
