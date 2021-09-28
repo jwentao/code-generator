@@ -31,6 +31,7 @@
 <script>
 import { getTableColumns, saveTableColumns } from '@/utils/db';
 const columnsInDB = getTableColumns();
+import { debounce } from 'throttle-debounce';
 
 const DEFAULT_COLUMNS_CONFIG = {
   align: 'left',
@@ -38,6 +39,8 @@ const DEFAULT_COLUMNS_CONFIG = {
   minWidth: 100,
   fixed: undefined
 };
+
+const saveTableColumnsDebounce = debounce(300, saveTableColumns);
 
 export default {
   name: 'DragTable',
@@ -56,6 +59,14 @@ export default {
       activeIndex: -1
     };
   },
+  watch: {
+    tableHeader: {
+      deep: true,
+      handler(val) {
+        saveTableColumnsDebounce(val);
+      }
+    }
+  },
   mounted() {
     if (Array.isArray(columnsInDB) && columnsInDB.length > 0) {
       this.tableHeader = columnsInDB;
@@ -73,7 +84,6 @@ export default {
         }
       };
       this.tableHeader.push(column);
-      saveTableColumns(this.tableHeader);
     },
 
     activeColumn(item, index) {
@@ -101,7 +111,6 @@ export default {
 
     handleCopy(item) {
       this.tableHeader.push(item);
-      saveTableColumns(this.tableHeader);
     },
 
     handleDel(index) {
@@ -154,7 +163,6 @@ export default {
         }
       }
       this.tableHeader = tempData;
-      saveTableColumns(this.tableHeader);
     }
   }
 };

@@ -11,20 +11,20 @@
         <el-input v-model="config.width" placeholder="宽度" />
       </el-form-item>
       <el-form-item label="最小宽度">
-        <el-input v-model="config.minWidth" placeholder="最小宽度" />
+        <el-input v-model="config.minWidth" :disabled="!!config.width" placeholder="最小宽度" />
       </el-form-item>
       <el-form-item label="对齐方式">
         <el-select v-model="config.align">
-          <el-option value="left" label="left"></el-option>
-          <el-option value="center" label="center"></el-option>
-          <el-option value="right" label="right"></el-option>
+          <el-option value="left" label="left" />
+          <el-option value="center" label="center" />
+          <el-option value="right" label="right" />
         </el-select>
       </el-form-item>
       <el-form-item label="固定列">
         <el-select v-model="config.fixed">
-          <el-option value="left" label="left"></el-option>
-          <el-option value="right" label="right"></el-option>
-          <el-option :value="undefined" label="不固定"></el-option>
+          <el-option value="left" label="left" />
+          <el-option value="right" label="right" />
+          <el-option :value="undefined" label="不固定" />
         </el-select>
       </el-form-item>
     </el-form>
@@ -40,12 +40,12 @@ export default {
       default: () => ({})
     }
   },
+  data: () => ({}),
   computed: {
     config() {
       return this.activeData.__config__ || {};
     }
   },
-  data: () => ({}),
   watch: {
     activeData: {
       deep: true,
