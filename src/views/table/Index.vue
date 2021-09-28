@@ -93,17 +93,24 @@
           <DragTable
             ref="DragTable"
             border
+            @activeItem="activeTableItem"
           />
         </el-row>
       </el-scrollbar>
     </div>
 
     <right-panel
+      v-show="showPanel === 'form'"
       :active-data="activeData"
       :form-conf="formConf"
       :show-field="!!drawingList.length"
       @tag-change="tagChange"
     />
+
+    <table-right-panel
+      v-show="showPanel === 'table'"
+      :active-data="activeTableData"
+    ></table-right-panel>
 
     <form-drawer
       :visible.sync="drawerVisible"
@@ -136,6 +143,7 @@ import ClipboardJS from 'clipboard';
 import FormDrawer from '../index/FormDrawer';
 import JsonDrawer from '../index/JsonDrawer';
 import RightPanel from '../index/RightPanel';
+import TableRightPanel from './TableRightPanel';
 import {
   inputComponents, selectComponents, layoutComponents, formConf
 } from '@/components/generator/config';
@@ -171,6 +179,7 @@ export default {
     FormDrawer,
     JsonDrawer,
     RightPanel,
+    TableRightPanel,
     CodeTypeDialog,
     DraggableItem,
     DragTable
@@ -183,6 +192,7 @@ export default {
       inputComponents,
       selectComponents,
       layoutComponents,
+      showPanel: 'form',
       labelWidth: 100,
       drawingList: drawingDefault,
       drawingData: {},
@@ -194,6 +204,7 @@ export default {
       generateConf: null,
       showFileName: false,
       activeData: drawingDefault[0],
+      activeTableData: {},
       saveDrawingListDebounce: debounce(340, saveDrawingList),
       saveIdGlobalDebounce: debounce(340, saveIdGlobal),
       leftComponents: [
@@ -276,8 +287,13 @@ export default {
   },
   methods: {
     activeFormItem(element) {
+      this.showPanel = 'form';
       this.activeData = element;
       this.activeId = element.__config__.formId;
+    },
+    activeTableItem(column) {
+      this.showPanel = 'table';
+      this.activeTableData = column;
     },
     onEnd(obj) {
       if (obj.from !== obj.to) {
@@ -397,6 +413,7 @@ export default {
       this.operationType = 'copy';
     },
     tagChange(newTag) {
+      console.log(newTag);
       newTag = this.cloneComponent(newTag);
       const config = newTag.__config__;
       newTag.__vModel__ = this.activeData.__vModel__;

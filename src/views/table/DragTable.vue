@@ -16,6 +16,7 @@
           :class="getHeaderClasses(index)"
           @mousedown="handleMouseDown($event, column)"
           @mousemove="handleMouseMove($event, column)"
+          @click="activeColumn(item, index)"
         >
           <div class="op-wrap">
             <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
@@ -32,8 +33,10 @@ import { getTableColumns, saveTableColumns } from '@/utils/db';
 const columnsInDB = getTableColumns();
 
 const DEFAULT_COLUMNS_CONFIG = {
-  align: 'center',
-  minWidth: 100
+  align: 'left',
+  width: undefined,
+  minWidth: 100,
+  fixed: undefined
 };
 
 export default {
@@ -49,7 +52,8 @@ export default {
         end: -9, // end index
         dragging: false,
         direction: undefined
-      }
+      },
+      activeIndex: -1
     };
   },
   mounted() {
@@ -72,6 +76,11 @@ export default {
       saveTableColumns(this.tableHeader);
     },
 
+    activeColumn(item, index) {
+      this.activeIndex = index;
+      this.$emit('activeItem', item);
+    },
+
     getHeaderClasses(index) {
       const result = [];
       if (index === this.dragState.start) {
@@ -84,11 +93,14 @@ export default {
           result.push('target-right');
         }
       }
+      if (index === this.activeIndex) {
+        result.push('header-active');
+      }
       return result.join(' ');
     },
 
-    handleCopy(column) {
-      this.tableHeader.push(column);
+    handleCopy(item) {
+      this.tableHeader.push(item);
       saveTableColumns(this.tableHeader);
     },
 
@@ -166,7 +178,7 @@ $lighterBlue: #409EFF;
     position: relative;
     &:hover {
       & > .op-wrap {
-        display: initial;
+        display: inline-block;
       }
     }
 
@@ -186,6 +198,7 @@ $lighterBlue: #409EFF;
       height: 22px;
       border: 1px solid;
       cursor: pointer;
+      text-align: center;
     }
     .op-copy {
       border-color: $lighterBlue;
@@ -219,6 +232,10 @@ $lighterBlue: #409EFF;
 
   .target-right {
     border-right: 1px dashed #787be8;
+  }
+
+  .header-active {
+    background-color: #f6f7ff;
   }
 }
 </style>
