@@ -110,7 +110,7 @@
     <table-right-panel
       v-show="showPanel === 'table'"
       :active-data="activeTableData"
-    ></table-right-panel>
+    />
 
     <form-drawer
       :visible.sync="drawerVisible"
