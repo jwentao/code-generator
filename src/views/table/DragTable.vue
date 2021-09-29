@@ -2,7 +2,9 @@
   <el-table
     class="drag-table"
     v-bind="$attrs"
+    :data="tableData"
     v-on="$listeners"
+    @header-dragend="headerWidthChange"
   >
     <el-table-column
       v-for="(item, index) in tableHeader"
@@ -14,16 +16,23 @@
         <div
           class="table-header"
           :class="getHeaderClasses(index)"
-          @mousedown="handleMouseDown($event, column)"
-          @mousemove="handleMouseMove($event, column)"
           @click="activeColumn(item, index)"
         >
-          <div class="op-wrap">
-            <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
-            <span class="op-del" @click.stop="handleDel(index)"><i class="el-icon-delete" /></span>
+          <div
+            class="inner-wrap"
+            @mousedown="handleMouseDown($event, column)"
+            @mousemove="handleMouseMove($event, column)"
+          >
+            <div class="op-wrap">
+              <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
+              <span class="op-del" @click.stop="handleDel(index)"><i class="el-icon-delete" /></span>
+            </div>
+            {{ item.__config__.label }}
           </div>
-          {{ item.__config__.label }}
         </div>
+      </template>
+      <template slot-scope="{row}">
+        {{ row[item.__config__.prop] }}
       </template>
     </el-table-column>
   </el-table>
@@ -50,6 +59,7 @@ export default {
   data() {
     return {
       tableHeader: [],
+      tableData: [],
       dragState: {
         start: -9, // start index
         end: -9, // end index
@@ -64,6 +74,7 @@ export default {
       deep: true,
       handler(val) {
         saveTableColumnsDebounce(val);
+        this.generateMockData(val);
       }
     }
   },
@@ -89,6 +100,22 @@ export default {
     activeColumn(item, index) {
       this.activeIndex = index;
       this.$emit('activeItem', item);
+    },
+
+    generateMockData(header) {
+      if (!header || !header.length) {
+        this.tableData = [];
+      }
+      const temp = {};
+      header.forEach(item => {
+        temp[item.__config__.prop] = item.__config__.prop;
+      });
+      this.tableData = [temp];
+      console.log(this.tableData);
+    },
+
+    headerWidthChange(newW, oldW, col, event) {
+      this.$set(this.tableHeader[col.columnKey].__config__, 'width', newW);
     },
 
     getHeaderClasses(index) {
