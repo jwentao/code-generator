@@ -97,6 +97,10 @@ export default {
       this.tableHeader.push(column);
     },
 
+    getTableHeader() {
+      return this.tableHeader;
+    },
+
     activeColumn(item, index) {
       this.activeIndex = index;
       this.$emit('activeItem', item);
@@ -111,7 +115,6 @@ export default {
         temp[item.__config__.prop] = item.__config__.prop;
       });
       this.tableData = [temp];
-      console.log(this.tableData);
     },
 
     headerWidthChange(newW, oldW, col, event) {

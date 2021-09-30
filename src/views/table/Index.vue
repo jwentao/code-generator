@@ -388,6 +388,16 @@ export default {
     generateCode() {
       const { type } = this.generateConf;
       this.AssembleFormData();
+      // todo generate table code
+      const tableData = this.$refs.DragTable.getTableHeader();
+      const tableScript = vueScript(makeUpJs({
+        fields: tableData
+      }, type));
+      console.log(tableScript);
+      const tableHtml = vueTemplate(makeUpHtml({
+        fields: tableData
+      }, type));
+      console.log(tableHtml);
       const script = vueScript(makeUpJs(this.formData, type));
       const html = vueTemplate(makeUpHtml(this.formData, type));
       const css = cssStyle(makeUpCss(this.formData));
