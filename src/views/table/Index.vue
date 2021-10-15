@@ -151,8 +151,8 @@ import { beautifierConf, titleCase, deepClone
 } from '@/utils/index';
 import {
   makeUpHtml, vueTemplate, vueScript, cssStyle
-} from '@/components/generator/html';
-import { makeUpJs } from '@/components/generator/js';
+} from '@/components/generator/tableHtml';
+import { makeUpJs } from '@/components/generator/tableJs';
 import { makeUpCss } from '@/components/generator/css';
 import drawingDefault from '@/components/generator/drawingDefault';
 import logo from '@/assets/logo.png';
@@ -390,16 +390,17 @@ export default {
       this.AssembleFormData();
       // todo generate table code
       const tableData = this.$refs.DragTable.getTableHeader();
-      const tableScript = vueScript(makeUpJs({
-        fields: tableData
-      }, type));
-      console.log(tableScript);
-      const tableHtml = vueTemplate(makeUpHtml({
-        fields: tableData
-      }, type));
-      console.log(tableHtml);
-      const script = vueScript(makeUpJs(this.formData, type));
-      const html = vueTemplate(makeUpHtml(this.formData, type));
+      // const tableScript = vueScript(makeUpTableJs({
+      //   fields: tableData
+      // }, type));
+      // console.log(tableScript);
+      // const tableHtml = vueTemplate(makeUpHtml({
+      //   fields: tableData
+      // }, type));
+      // console.log(tableHtml);
+
+      const script = vueScript(makeUpJs(this.formData, tableData, type));
+      const html = vueTemplate(makeUpHtml(this.formData, tableData, type));
       const css = cssStyle(makeUpCss(this.formData));
       return beautifier.html(html + script + css, beautifierConf.html);
     },

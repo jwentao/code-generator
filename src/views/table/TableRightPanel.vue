@@ -11,7 +11,7 @@
         <el-input v-model="config.width" placeholder="宽度" />
       </el-form-item>
       <el-form-item label="最小宽度">
-        <el-input v-model="config.minWidth" :disabled="!!config.width" placeholder="最小宽度" />
+        <el-input v-model="config['min-width']" :disabled="!!config.width" placeholder="最小宽度" />
       </el-form-item>
       <el-form-item label="对齐方式">
         <el-select v-model="config.align">

@@ -45,7 +45,7 @@ import { debounce } from 'throttle-debounce';
 const DEFAULT_COLUMNS_CONFIG = {
   align: 'left',
   width: undefined,
-  minWidth: 100,
+  'min-width': 100,
   fixed: undefined
 };
 
