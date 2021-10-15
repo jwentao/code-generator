@@ -114,14 +114,14 @@
 
     <form-drawer
       :visible.sync="drawerVisible"
-      :form-data="formData"
+      :form-data="configData"
       size="100%"
       :generate-conf="generateConf"
     />
     <json-drawer
       size="60%"
       :visible.sync="jsonDrawerVisible"
-      :json-str="JSON.stringify(formData)"
+      :json-str="JSON.stringify(configData)"
       @refresh="refreshJson"
     />
     <code-type-dialog
@@ -198,7 +198,7 @@ export default {
       drawingData: {},
       activeId: drawingDefault[0].formId,
       drawerVisible: false,
-      formData: {},
+      configData: {},
       dialogVisible: false,
       jsonDrawerVisible: false,
       generateConf: null,
@@ -339,10 +339,15 @@ export default {
       }
       return item;
     },
-    AssembleFormData() {
-      this.formData = {
-        fields: deepClone(this.drawingList),
-        ...this.formConf
+    AssembleConfigData() {
+      this.configData = {
+        form: {
+          fields: deepClone(this.drawingList),
+          ...this.formConf
+        },
+        table: {
+          columns: this.$refs.DragTable.getTableHeader()
+        }
       };
     },
     generate(data) {
@@ -351,7 +356,7 @@ export default {
       func && func(data);
     },
     execRun(data) {
-      this.AssembleFormData();
+      this.AssembleConfigData();
       this.drawerVisible = true;
     },
     execDownload(data) {
@@ -387,25 +392,16 @@ export default {
     },
     generateCode() {
       const { type } = this.generateConf;
-      this.AssembleFormData();
+      this.AssembleConfigData();
       // todo generate table code
-      const tableData = this.$refs.DragTable.getTableHeader();
-      // const tableScript = vueScript(makeUpTableJs({
-      //   fields: tableData
-      // }, type));
-      // console.log(tableScript);
-      // const tableHtml = vueTemplate(makeUpHtml({
-      //   fields: tableData
-      // }, type));
-      // console.log(tableHtml);
 
-      const script = vueScript(makeUpJs(this.formData, tableData, type));
-      const html = vueTemplate(makeUpHtml(this.formData, tableData, type));
-      const css = cssStyle(makeUpCss(this.formData));
+      const script = vueScript(makeUpJs(this.configData, type));
+      const html = vueTemplate(makeUpHtml(this.configData, type));
+      const css = cssStyle(makeUpCss(this.configData));
       return beautifier.html(html + script + css, beautifierConf.html);
     },
     showJson() {
-      this.AssembleFormData();
+      this.AssembleConfigData();
       this.jsonDrawerVisible = true;
     },
     download() {

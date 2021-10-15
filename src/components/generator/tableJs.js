@@ -15,12 +15,12 @@ const inheritAttrs = {
 
 /**
  * 组装js 【入口函数】
- * @param {Object} formConfig 整个表单配置
- * @param tableConfig table配置
+ * @param {Object} config 整个表单配置
  * @param {String} type 生成类型，文件或弹窗等
  */
-export function makeUpJs(formConfig, tableConfig, type) {
-  confGlobal = formConfig = deepClone(formConfig);
+export function makeUpJs(config, type) {
+  const { form: formConfig } = deepClone(config);
+  confGlobal = formConfig;
   const dataList = [];
   const ruleList = [];
   const optionsList = [];

@@ -11,7 +11,8 @@ function addCss(cssList, el) {
   }
 }
 
-export function makeUpCss(conf) {
+export function makeUpCss(config) {
+  const { form: conf } = config;
   const cssList = [];
   conf.fields.forEach(el => addCss(cssList, el));
   return cssList.join('\n');

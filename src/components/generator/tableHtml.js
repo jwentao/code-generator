@@ -71,7 +71,7 @@ function buildFromBtns(scheme, type) {
 function buildTableTemplate(config) {
   const items = [];
   console.log(config);
-  config.forEach(item => {
+  config.columns.forEach(item => {
     const { __config__ } = item;
     const attrs = [];
     Object.keys(__config__).forEach(attr => {
@@ -397,12 +397,12 @@ function buildElUploadChild(scheme) {
 
 /**
  * 组装html代码。【入口函数】
- * @param {Object} formConfig 整个表单配置
- * @param tableConfig
+ * @param {Object} config 整个配置
  * @param {String} type 生成类型，文件或弹窗等
  */
-export function makeUpHtml(formConfig, tableConfig, type) {
+export function makeUpHtml(config, type) {
   const htmlList = [];
+  const { form: formConfig, table: tableConfig } = config;
   confGlobal = formConfig;
   // 判断布局是否都沾满了24个栅格，以备后续简化代码结构
   someSpanIsNot24 = formConfig.fields.some(item => item.__config__.span !== 24);
