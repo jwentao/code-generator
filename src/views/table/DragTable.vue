@@ -84,6 +84,7 @@ export default {
     } else {
       this.tableHeader = [];
     }
+    console.log(this.$attrs);
   },
   methods: {
     addTableColumn(origin) {

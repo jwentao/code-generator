@@ -12,6 +12,13 @@ export const formConf = {
   formBtns: true
 };
 
+// 表格属性
+export const tableConf = {
+  data: 'tableData',
+  'max-height': undefined,
+  stripe: false
+};
+
 // 输入型组件 【左面板】
 export const inputComponents = [
   {

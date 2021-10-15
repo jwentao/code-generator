@@ -92,7 +92,7 @@
         <el-row>
           <DragTable
             ref="DragTable"
-            border
+            v-bind="tableConf"
             @activeItem="activeTableItem"
           />
         </el-row>
@@ -109,6 +109,7 @@
 
     <table-right-panel
       v-show="showPanel === 'table'"
+      :table-conf="tableConf"
       :active-data="activeTableData"
     />
 
@@ -145,7 +146,7 @@ import JsonDrawer from '../index/JsonDrawer';
 import RightPanel from '../index/RightPanel';
 import TableRightPanel from './TableRightPanel';
 import {
-  inputComponents, selectComponents, layoutComponents, formConf
+  inputComponents, selectComponents, layoutComponents, formConf, tableConf
 } from '@/components/generator/config';
 import { beautifierConf, titleCase, deepClone
 } from '@/utils/index';
@@ -189,6 +190,7 @@ export default {
       logo,
       idGlobal,
       formConf,
+      tableConf,
       inputComponents,
       selectComponents,
       layoutComponents,
