@@ -293,12 +293,12 @@ export default {
     setDefaultConfig() {
       this.configData = {
         form: {
-          fields: drawingDefault,
-          __config__: formConf
+          fields: [...drawingDefault],
+          __config__: { ...formConf }
         },
         table: {
           columns: [],
-          __config__: tableConf
+          __config__: { ...tableConf }
         }
       };
     },
@@ -392,7 +392,9 @@ export default {
     empty() {
       this.$confirm('确定要清空所有组件吗？', '提示', { type: 'warning' }).then(
         () => {
-          this.drawingList = [];
+          // this.drawingList = [];
+          this.setDefaultConfig();
+          this.setConfigData();
           this.idGlobal = 100;
         }
       );
@@ -415,7 +417,6 @@ export default {
     generateCode() {
       const { type } = this.generateConf;
       this.AssembleConfigData();
-      // todo generate table code
 
       const script = vueScript(makeUpJs(this.configData, type));
       const html = vueTemplate(makeUpHtml(this.configData, type));
