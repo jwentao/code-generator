@@ -1,13 +1,13 @@
 <template>
   <el-table
     class="drag-table"
-    v-bind="$attrs"
+    v-bind="tableConf"
     :data="tableData"
     v-on="$listeners"
     @header-dragend="headerWidthChange"
   >
     <el-table-column
-      v-for="(item, index) in tableHeader"
+      v-for="(item, index) in columns"
       :key="item.__config__.prop + index"
       v-bind="item.__config__"
       :column-key="index.toString()"
@@ -38,9 +38,6 @@
   </el-table>
 </template>
 <script>
-import { getTableColumns, saveTableColumns } from '@/utils/db';
-const columnsInDB = getTableColumns();
-import { debounce } from 'throttle-debounce';
 
 const DEFAULT_COLUMNS_CONFIG = {
   align: 'left',
@@ -49,16 +46,23 @@ const DEFAULT_COLUMNS_CONFIG = {
   fixed: undefined
 };
 
-const saveTableColumnsDebounce = debounce(300, saveTableColumns);
-
 export default {
   name: 'DragTable',
   components: {
   },
   mixins: [],
+  props: {
+    tableConf: {
+      type: Object,
+      default: () => ({})
+    },
+    columns: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
-      tableHeader: [],
       tableData: [],
       dragState: {
         start: -9, // start index
@@ -70,21 +74,8 @@ export default {
     };
   },
   watch: {
-    tableHeader: {
-      deep: true,
-      handler(val) {
-        saveTableColumnsDebounce(val);
-        this.generateMockData(val);
-      }
-    }
   },
   mounted() {
-    if (Array.isArray(columnsInDB) && columnsInDB.length > 0) {
-      this.tableHeader = columnsInDB;
-    } else {
-      this.tableHeader = [];
-    }
-    console.log(this.$attrs);
   },
   methods: {
     addTableColumn(origin) {
@@ -95,11 +86,11 @@ export default {
           ...DEFAULT_COLUMNS_CONFIG
         }
       };
-      this.tableHeader.push(column);
+      this.columns.push(column);
     },
 
     getTableHeader() {
-      return this.tableHeader;
+      return this.columns;
     },
 
     activeColumn(item, index) {
@@ -119,7 +110,7 @@ export default {
     },
 
     headerWidthChange(newW, oldW, col, event) {
-      this.$set(this.tableHeader[col.columnKey].__config__, 'width', newW);
+      this.$set(this.columns[col.columnKey].__config__, 'width', newW);
     },
 
     getHeaderClasses(index) {
@@ -141,11 +132,11 @@ export default {
     },
 
     handleCopy(item) {
-      this.tableHeader.push(item);
+      this.columns.push(item);
     },
 
     handleDel(index) {
-      this.tableHeader.splice(index, 1);
+      this.columns.splice(index, 1);
     },
 
     handleMouseDown(e, column) {
@@ -184,16 +175,16 @@ export default {
       const left = direction === 'left';
       const min = left ? end : start - 1;
       const max = left ? start + 1 : end;
-      for (let i = 0; i < this.tableHeader.length; i++) {
+      for (let i = 0; i < this.columns.length; i++) {
         if (i === end) {
-          tempData.push(this.tableHeader[start]);
+          tempData.push(this.columns[start]);
         } else if (i > min && i < max) {
-          tempData.push(this.tableHeader[ left ? i - 1 : i + 1 ]);
+          tempData.push(this.columns[ left ? i - 1 : i + 1 ]);
         } else {
-          tempData.push(this.tableHeader[i]);
+          tempData.push(this.columns[i]);
         }
       }
-      this.tableHeader = tempData;
+      this.columns = tempData;
     }
   }
 };

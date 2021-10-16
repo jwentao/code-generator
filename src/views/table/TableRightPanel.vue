@@ -33,10 +33,23 @@
       </el-form-item>
     </el-form>
     <el-form v-show="currentTab === 'table'" size="small" label-width="90px">
-      <el-form-item label="边框">
+      <el-form-item label="最大高度">
+        <el-input v-model="tableConf['max-height']" :disabled="!!tableConf.height" placeholder="最大高度" />
+      </el-form-item>
+      <el-form-item label="高度">
+        <el-input v-model="tableConf.height" placeholder="高度" />
+      </el-form-item>
+      <el-form-item label="斑马纹">
         <el-select v-model="tableConf.stripe">
           <el-option :value="false" label="否" />
           <el-option :value="true" label="是" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="尺寸">
+        <el-select v-model="tableConf.size">
+          <el-option value="medium" label="medium" />
+          <el-option value="small" label="small" />
+          <el-option value="mini" label="mini" />
         </el-select>
       </el-form-item>
     </el-form>

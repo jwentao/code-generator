@@ -92,7 +92,8 @@
         <el-row>
           <DragTable
             ref="DragTable"
-            v-bind="tableConf"
+            :table-conf="tableConf"
+            :columns="columns"
             @activeItem="activeTableItem"
           />
         </el-row>
@@ -159,9 +160,8 @@ import drawingDefault from '@/components/generator/drawingDefault';
 import logo from '@/assets/logo.png';
 import CodeTypeDialog from '../index/CodeTypeDialog';
 import DraggableItem from '../index/DraggableItem';
-import {
-  getDrawingList, saveDrawingList, getIdGlobal, saveIdGlobal, getFormConf
-} from '@/utils/db';
+import { getIdGlobal, saveIdGlobal } from '@/utils/db';
+import { getTableLocalConfig, saveTableLocalConfig } from '@/utils/tableDB';
 import loadBeautifier from '@/utils/loadBeautifier';
 import DragTable from '@/views/table/DragTable';
 
@@ -169,9 +169,8 @@ let beautifier;
 // const emptyActiveData = { style: {}, autosize: {}};
 let oldActiveId;
 let tempActiveData;
-const drawingListInDB = getDrawingList();
-const formConfInDB = getFormConf();
 const idGlobal = getIdGlobal();
+const configDataInDB = getTableLocalConfig();
 
 export default {
   components: {
@@ -191,6 +190,7 @@ export default {
       idGlobal,
       formConf,
       tableConf,
+      columns: [],
       inputComponents,
       selectComponents,
       layoutComponents,
@@ -207,7 +207,7 @@ export default {
       showFileName: false,
       activeData: drawingDefault[0],
       activeTableData: {},
-      saveDrawingListDebounce: debounce(340, saveDrawingList),
+      saveConfigDataDebounce: debounce(340, saveTableLocalConfig),
       saveIdGlobalDebounce: debounce(340, saveIdGlobal),
       leftComponents: [
         {
@@ -245,10 +245,9 @@ export default {
       },
       immediate: true
     },
-    drawingList: {
+    configData: {
       handler(val) {
-        this.saveDrawingListDebounce(val);
-        if (val.length === 0) this.idGlobal = 100;
+        this.saveConfigDataDebounce(val);
       },
       deep: true
     },
@@ -260,15 +259,18 @@ export default {
     }
   },
   mounted() {
-    if (Array.isArray(drawingListInDB) && drawingListInDB.length > 0) {
-      this.drawingList = drawingListInDB;
-    } else {
-      this.drawingList = drawingDefault;
+    try {
+      if (configDataInDB) {
+        this.configData = configDataInDB;
+      } else {
+        this.setDefaultConfig();
+      }
+      this.setConfigData();
+    } catch (e) {
+      this.setDefaultConfig();
+      this.setConfigData();
     }
     this.activeFormItem(this.drawingList[0]);
-    if (formConfInDB) {
-      this.formConf = formConfInDB;
-    }
     loadBeautifier(btf => {
       beautifier = btf;
     });
@@ -288,6 +290,24 @@ export default {
     });
   },
   methods: {
+    setDefaultConfig() {
+      this.configData = {
+        form: {
+          fields: drawingDefault,
+          __config__: formConf
+        },
+        table: {
+          columns: [],
+          __config__: tableConf
+        }
+      };
+    },
+    setConfigData() {
+      this.drawingList = this.configData.form.fields;
+      this.formConf = this.configData.form.__config__;
+      this.columns = this.configData.table.columns;
+      this.tableConf = this.configData.table.__config__;
+    },
     activeFormItem(element) {
       this.showPanel = 'form';
       this.activeData = element;

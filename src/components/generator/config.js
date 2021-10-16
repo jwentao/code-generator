@@ -16,7 +16,9 @@ export const formConf = {
 export const tableConf = {
   data: 'tableData',
   'max-height': undefined,
-  stripe: false
+  border: true,
+  stripe: undefined,
+  size: undefined
 };
 
 // 输入型组件 【左面板】
