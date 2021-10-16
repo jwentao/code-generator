@@ -362,15 +362,15 @@ export default {
       return item;
     },
     AssembleConfigData() {
-      this.configData = {
-        form: {
-          fields: deepClone(this.drawingList),
-          ...this.formConf
-        },
-        table: {
-          columns: this.$refs.DragTable.getTableHeader()
-        }
-      };
+      // this.configData = {
+      //   form: {
+      //     fields: deepClone(this.drawingList),
+      //     ...this.formConf
+      //   },
+      //   table: {
+      //     columns: this.$refs.DragTable.getTableHeader()
+      //   }
+      // };
     },
     generate(data) {
       const func = this[`exec${titleCase(this.operationType)}`];

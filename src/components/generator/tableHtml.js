@@ -85,9 +85,13 @@ function buildTableTemplate(config) {
      />`
     );
   });
-  return `<el-table>
+  const { __config__ } = config;
+  return `<el-table
+            :data="${__config__.data}"
+            :border="${__config__.border}"
+        >
           ${items.join('\n')}
-      </el-table>>`;
+      </el-table>`;
 }
 
 // span不为24的用el-col包裹
@@ -402,7 +406,11 @@ function buildElUploadChild(scheme) {
  */
 export function makeUpHtml(config, type) {
   const htmlList = [];
-  const { form: formConfig, table: tableConfig } = config;
+  const { form, table: tableConfig } = config;
+  const formConfig = {
+    fields: form.fields,
+    ...form.__config__
+  };
   confGlobal = formConfig;
   // 判断布局是否都沾满了24个栅格，以备后续简化代码结构
   someSpanIsNot24 = formConfig.fields.some(item => item.__config__.span !== 24);
@@ -417,9 +425,8 @@ export function makeUpHtml(config, type) {
   if (type === 'dialog') {
     temp = dialogWrapper(temp);
   }
-  const table = buildTableTemplate(tableConfig);
-  temp += table;
+  const tableStr = buildTableTemplate(tableConfig);
+  temp += tableStr;
   confGlobal = null;
-  console.log(temp);
   return temp;
 }

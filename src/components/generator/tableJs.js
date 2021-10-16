@@ -19,7 +19,11 @@ const inheritAttrs = {
  * @param {String} type 生成类型，文件或弹窗等
  */
 export function makeUpJs(config, type) {
-  const { form: formConfig } = deepClone(config);
+  const { form, table } = deepClone(config);
+  const formConfig = {
+    fields: form.fields,
+    ...form.__config__
+  };
   confGlobal = formConfig;
   const dataList = [];
   const ruleList = [];
@@ -33,7 +37,7 @@ export function makeUpJs(config, type) {
     buildAttributes(el, dataList, ruleList, optionsList, methodList, propsList, uploadVarList, created);
   });
 
-  dataList.push(`tableData: []`);
+  const tableData = `${table.__config__.data}: [],`;
 
   const script = buildexport(
     formConfig,
@@ -43,6 +47,7 @@ export function makeUpJs(config, type) {
     optionsList.join('\n'),
     uploadVarList.join('\n'),
     propsList.join('\n'),
+    tableData,
     methodList.join('\n'),
     created.join('\n')
   );
@@ -244,7 +249,7 @@ function buildOptionMethod(methodName, model, methodList, scheme) {
 }
 
 // js整体拼接
-function buildexport(conf, type, data, rules, selectOptions, uploadVar, props, methods, created) {
+function buildexport(conf, type, data, rules, selectOptions, uploadVar, props, tableData, methods, created) {
   const str = `${exportDefault}{
   ${inheritAttrs[type]}
   components: {},
@@ -259,6 +264,7 @@ function buildexport(conf, type, data, rules, selectOptions, uploadVar, props, m
       },
       ${uploadVar}
       ${selectOptions}
+      ${tableData}
       ${props}
     }
   },
