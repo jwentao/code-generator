@@ -142,7 +142,7 @@ import { debounce } from 'throttle-debounce';
 import { saveAs } from 'file-saver';
 import ClipboardJS from 'clipboard';
 // import render from '@/components/render/render';
-import FormDrawer from '../index/FormDrawer';
+import FormDrawer from './FormDrawer';
 import JsonDrawer from '../index/JsonDrawer';
 import RightPanel from '../index/RightPanel';
 import TableRightPanel from './TableRightPanel';
@@ -374,6 +374,7 @@ export default {
     },
     generate(data) {
       const func = this[`exec${titleCase(this.operationType)}`];
+      console.log(func);
       this.generateConf = data;
       func && func(data);
     },
@@ -474,9 +475,8 @@ export default {
       }
     },
     refreshJson(data) {
-      this.drawingList = deepClone(data.fields);
-      delete data.fields;
-      this.formConf = data;
+      this.configData = data;
+      this.setConfigData();
     }
   }
 };
