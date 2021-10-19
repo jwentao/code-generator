@@ -23,11 +23,11 @@
             @mousedown="handleMouseDown($event, column)"
             @mousemove="handleMouseMove($event, column)"
           >
-            <div class="op-wrap">
-              <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
-              <span class="op-del" @click.stop="handleDel(index)"><i class="el-icon-delete" /></span>
-            </div>
             {{ item.__config__.label }}
+          </div>
+          <div class="op-wrap">
+            <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
+            <span class="op-del" @click.stop="handleDel(index)"><i class="el-icon-delete" /></span>
           </div>
         </div>
       </template>
