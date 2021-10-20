@@ -74,6 +74,9 @@ export default {
     };
   },
   watch: {
+    columns(val) {
+      this.generateMockData(val);
+    }
   },
   mounted() {
   },
@@ -104,7 +107,7 @@ export default {
       }
       const temp = {};
       header.forEach(item => {
-        temp[item.__config__.prop] = item.__config__.prop;
+        temp[item.__config__.prop] = `${item.__config__.prop}-data`;
       });
       this.tableData = [temp];
     },
