@@ -63,6 +63,28 @@ const layouts = {
         </el-row>
       </el-col>
     );
+  },
+  inlineFormItem(h, element, index, parent) {
+    const { activeItem } = this.$listeners;
+    const config = element.__config__;
+    let className = this.activeId === config.formId ? 'drawing-item active-from-item' : 'drawing-item';
+    if (this.formConf.unFocusedComponentBorder) className += ' unfocus-bordered';
+    let labelWidth = config.labelWidth ? `${config.labelWidth}px` : null;
+    if (config.showLabel === false) labelWidth = '0';
+    return (
+      <el-form-item
+        class={className}
+        nativeOnClick={event => { activeItem(element); event.stopPropagation(); }}
+        label-width={labelWidth}
+        label={config.showLabel ? config.label : ''} required={config.required}>
+        <div>
+          <render key={config.renderKey} conf={element} onInput={ event => {
+            this.$set(config, 'defaultValue', event);
+          }} />
+          {components.itemBtns.apply(this, arguments)}
+        </div>
+      </el-form-item>
+    );
   }
 };
 
@@ -95,8 +117,7 @@ export default {
     'formConf'
   ],
   render(h) {
-    const layout = layouts[this.element.__config__.layout];
-
+    const layout = this.formConf.inline ? layouts.inlineFormItem : layouts[this.element.__config__.layout];
     if (layout) {
       return layout.call(this, h, this.element, this.index, this.drawingList);
     }

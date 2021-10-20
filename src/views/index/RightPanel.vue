@@ -632,6 +632,9 @@
           <el-form-item label="显示未选中组件边框">
             <el-switch v-model="formConf.unFocusedComponentBorder" />
           </el-form-item>
+          <el-form-item label="行内表单">
+            <el-switch v-model="formConf.inline" />
+          </el-form-item>
         </el-form>
       </el-scrollbar>
     </div>

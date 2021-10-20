@@ -166,16 +166,20 @@ $lighterBlue: #409EFF;
     background-color: $selectedColor;
   }
   .active-from-item {
-    & > .el-form-item{
+    .el-form-item{
       background: $selectedColor;
       border-radius: 6px;
     }
-    & > .drawing-item-copy, & > .drawing-item-delete{
+    .drawing-item-copy, .drawing-item-delete{
       display: initial;
     }
-    & > .component-name{
+    .component-name{
       color: $lighterBlue;
     }
+  }
+  .active-from-item.el-form-item {
+    background: $selectedColor;
+    border-radius: 6px;
   }
   .el-form-item{
     margin-bottom: 15px;
@@ -230,11 +234,11 @@ $lighterBlue: #409EFF;
       background: $selectedColor;
       border-radius: 6px;
     }
-    & > .drawing-item-copy, & > .drawing-item-delete{
+    .drawing-item-copy, .drawing-item-delete{
       display: initial;
     }
   }
-  & > .drawing-item-copy, & > .drawing-item-delete{
+  .drawing-item-copy, .drawing-item-delete{
     display: none;
     position: absolute;
     top: -10px;
@@ -248,7 +252,7 @@ $lighterBlue: #409EFF;
     cursor: pointer;
     z-index: 1;
   }
-  & > .drawing-item-copy{
+  .drawing-item-copy{
     right: 56px;
     border-color: $lighterBlue;
     color: $lighterBlue;
@@ -258,7 +262,7 @@ $lighterBlue: #409EFF;
       color: #fff;
     }
   }
-  & > .drawing-item-delete{
+  .drawing-item-delete{
     right: 24px;
     border-color: #F56C6C;
     color: #F56C6C;

@@ -40,11 +40,11 @@ function buildFormTemplate(scheme, child, type) {
     labelPosition = `label-position="${scheme.labelPosition}"`;
   }
   const disabled = scheme.disabled ? `:disabled="${scheme.disabled}"` : '';
-  let str = `<el-form ref="${scheme.formRef}" :model="${scheme.formModel}" :rules="${scheme.formRules}" size="${scheme.size}" ${disabled} label-width="${scheme.labelWidth}px" ${labelPosition}>
+  let str = `<el-form ref="${scheme.formRef}" :inline="${scheme.inline}" :model="${scheme.formModel}" :rules="${scheme.formRules}" size="${scheme.size}" ${disabled} label-width="${scheme.labelWidth}px" ${labelPosition}>
       ${child}
       ${buildFromBtns(scheme, type)}
     </el-form>`;
-  if (someSpanIsNot24) {
+  if (someSpanIsNot24 && !scheme.inline) {
     str = `<el-row :gutter="${scheme.gutter}">
         ${str}
       </el-row>`;
@@ -70,7 +70,6 @@ function buildFromBtns(scheme, type) {
 
 function buildTableTemplate(config) {
   const items = [];
-  console.log(config);
   config.columns.forEach(item => {
     const { __config__ } = item;
     const attrs = [];
@@ -136,6 +135,24 @@ const layouts = {
     </el-row>`;
     str = colWrapper(scheme, str);
     return str;
+  },
+  inlineFormItem(scheme) {
+    const config = scheme.__config__;
+    let labelWidth = '';
+    let label = `label="${config.label}"`;
+    if (config.labelWidth && config.labelWidth !== confGlobal.labelWidth) {
+      labelWidth = `label-width="${config.labelWidth}px"`;
+    }
+    if (config.showLabel === false) {
+      labelWidth = 'label-width="0"';
+      label = '';
+    }
+    const required = !ruleTrigger[config.tag] && config.required ? 'required' : '';
+    const tagDom = tags[config.tag] ? tags[config.tag](scheme) : null;
+    // str = colWrapper(scheme, str);
+    return `<el-form-item ${labelWidth} ${label} prop="${scheme.__vModel__}" ${required}>
+        ${tagDom}
+      </el-form-item>`;
   }
 };
 
@@ -416,7 +433,7 @@ export function makeUpHtml(config, type) {
   someSpanIsNot24 = formConfig.fields.some(item => item.__config__.span !== 24);
   // 遍历渲染每个组件成html
   formConfig.fields.forEach(el => {
-    htmlList.push(layouts[el.__config__.layout](el));
+    htmlList.push(layouts[formConfig.inline ? 'inlineFormItem' : el.__config__.layout](el));
   });
   const htmlStr = htmlList.join('\n');
   // 将组件代码放进form标签

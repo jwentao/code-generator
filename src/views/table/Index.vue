@@ -67,6 +67,7 @@
             :size="formConf.size"
             :label-position="formConf.labelPosition"
             :disabled="formConf.disabled"
+            :inline="formConf.inline"
             :label-width="formConf.labelWidth + 'px'"
           >
             <draggable class="drawing-board" :list="drawingList" :animation="340" group="componentsGroup">
@@ -374,7 +375,6 @@ export default {
     },
     generate(data) {
       const func = this[`exec${titleCase(this.operationType)}`];
-      console.log(func);
       this.generateConf = data;
       func && func(data);
     },
