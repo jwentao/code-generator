@@ -149,7 +149,7 @@ import RightPanel from '../index/RightPanel';
 import TableRightPanel from './TableRightPanel';
 import {
   inputComponents, selectComponents, layoutComponents, formConf, tableConf
-} from '@/components/generator/config';
+} from '@/components/generator/tableConfig';
 import { beautifierConf, titleCase, deepClone
 } from '@/utils/index';
 import {
@@ -218,11 +218,11 @@ export default {
         {
           title: '选择型组件',
           list: selectComponents
-        },
-        {
-          title: '布局型组件',
-          list: layoutComponents
         }
+        // {
+        //   title: '布局型组件',
+        //   list: layoutComponents
+        // }
       ]
     };
   },
