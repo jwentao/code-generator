@@ -55,8 +55,6 @@ export function makeUpJs(config, type) {
   return script;
 }
 
-export function makeUpTableJs() {}
-
 // 构建组件属性
 function buildAttributes(scheme, dataList, ruleList, optionsList, methodList, propsList, uploadVarList, created) {
   const config = scheme.__config__;
