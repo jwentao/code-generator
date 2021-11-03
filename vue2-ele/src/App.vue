@@ -1,32 +1,57 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    mirco
+    <div class="box-wrap" @mousemove="handleMousemove" @mouseup="handleMouseup">
+      <div
+        v-for="(item, index) in arrs"
+        :key="item.name"
+        class="box-item"
+      >{{ index }}</div>
     </div>
-    <router-view/>
   </div>
 </template>
+
+<script lang=ts>
+export default {
+  data: () => ({
+    arrs: [{
+      name: 123
+    }]
+  }),
+  methods: {
+    handleMousemove () :void {
+      // console.log(this.$store.state.isLeftDrag)
+    },
+    handleMouseup () :void {
+      console.log('mirco mouse up')
+      if (this.$store.state.isLeftDrag) {
+        this.arrs.push({
+          name: Math.random()
+        })
+      }
+    }
+  }
+}
+</script>
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  background-color: aquamarine;
+  height: 333px;
 }
 
-#nav {
-  padding: 30px;
+.box-wrap {
+  min-height: 111px;
+  display: flex;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.box-item {
+  height: 33px;
+  width: 33px;
+  padding: 3px;
+  background-color: #2c3e50;
 }
 </style>
