@@ -1,18 +1,48 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="top-container"></div>
+    <div class="main-container">
+      <div class="container-left">
+        <LeftPanel></LeftPanel>
+      </div>
+      <div class="container-center"></div>
+      <div class="container-right"></div>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import LeftPanel from '@/components/LeftPanel';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    LeftPanel
+  }
+};
+</script>
+
+<style lang="scss">
+$topHeight: 50px;
+$leftWidth: 220px;
+
+.home {
+  height: 100%;
+
+  .top-container {
+    height: $topHeight;
+    border-bottom: 1px solid $borderL1;
+  }
+
+  .main-container {
+    height: calc(100vh - #{$topHeight});
+    display: flex;
+  }
+
+  .container-left {
+    width: $leftWidth;
+    flex: 0 0 $leftWidth;
+    border-right: 1px solid $borderL1;
   }
 }
-</script>
+</style>
