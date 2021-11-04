@@ -2,9 +2,9 @@
   <div class="left-panel">
     <div class="component-block">
       <div
-        class="component-item"
         v-for="(item, index) in layoutItems"
         :key="index"
+        class="component-item"
       >
         {{ item.label }}
       </div>
@@ -18,13 +18,13 @@ export default {
   name: 'LeftPanel',
   mixins: [],
   props: {},
-  created () {
-    console.log(layoutItems);
-  },
   data: () => ({
     layoutItems
   }),
   watch: {},
+  created () {
+    console.log(layoutItems);
+  },
   methods: {}
 };
 </script>
