@@ -5,38 +5,44 @@ import draggable from 'vuedraggable';
 const containers = {
   'empty'(h, config) {
     const { activeItem } = this.$listeners;
-    const { activeId } = this.$attrs;
+    const { activeid } = this.$attrs;
     console.log(this.$attrs);
     let className = 'common-container-wrap';
-    console.log(activeId, config.id);
-    if (activeId === config.id) className += ' active-container-wrap';
+    console.log(activeid, config.id);
+    if (activeid === config.id) className += ' active-container-wrap';
     return (
       <div class={className} onClick={ e => { activeItem(config); e.stopPropagation(); }}>
         <draggable
-          group={{ name: 'containerComponent' }}
+          group='containerComponent'
           list={config.children}
           class='drag-wrap'>
-          {
-            config.id
-          }
-          {
-            config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
-          }
+          <div>
+            {
+              config.id
+            }
+            {
+              config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
+            }
+          </div>
         </draggable>
       </div>
     );
   },
-  'form': (h) => {
+  'form': (h, config) => {
     return (
       <div class='common-container-wrap'>
         <el-form></el-form>
       </div>
     );
   },
-  'table': (h) => {
+  'table': (h, config) => {
     return (
       <div class='common-container-wrap'>
-        <el-table></el-table>
+        <el-table
+          data={config.__vModel__}
+          border={config.__config__.border}
+        >
+        </el-table>
       </div>
     );
   }

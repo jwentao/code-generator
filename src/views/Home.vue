@@ -15,7 +15,7 @@
             v-for="(item, index) in curConfig"
             :key="index"
             :config="item"
-            :activeId="activeId"
+            :activeid="activeId"
             @activeItem="activeItem"
           />
         </draggable>

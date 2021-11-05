@@ -15,7 +15,11 @@ export const containerItems = [ // 容器
     label: '表格',
     type: 'container',
     key: 'table',
-    children: []
+    children: [],
+    __vModel__: 'tableData',
+    __config__: {
+      border: false
+    }
   }
 ];
 

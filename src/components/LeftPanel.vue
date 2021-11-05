@@ -3,10 +3,10 @@
     <div class="component-block">
       容器
       <draggable
-        v-model="containerItems"
         :group="{name: 'containerComponent', pull: 'clone', put: false}"
         :sort="false"
         class="drag-wrap"
+        :list="containerItems"
         :clone="cloneComponent"
       >
         <div
@@ -38,23 +38,12 @@ export default {
     containerItems
   }),
   watch: {},
-  created() {
-    console.log(containerItems);
-  },
   methods: {
     cloneComponent(val) {
       return {
         ...deepClone(val),
         id: generateId()
       };
-    },
-    onStart() {
-      this.drag = true;
-    },
-    // 拖拽结束事件
-    onEnd() {
-      this.drag = false;
-      console.log(this.myArr, this.arr2);
     }
   }
 };
