@@ -1,10 +1,21 @@
-export const layoutItems = [
+export const containerItems = [ // 容器
   {
-    label: '行容器'
+    label: '空容器',
+    type: 'container',
+    key: 'empty',
+    children: []
   },
   {
     label: '表单',
-    type: 'form'
+    type: 'container',
+    key: 'form',
+    children: []
+  },
+  {
+    label: '表格',
+    type: 'container',
+    key: 'table',
+    children: []
   }
 ];
 

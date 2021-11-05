@@ -1,27 +1,31 @@
 <template>
   <div class="left-panel">
     <div class="component-block">
+      容器
       <draggable
-        v-model="layoutItems"
-        :group="{name: 'layoutComponent', pull: 'clone', put: false}"
+        v-model="containerItems"
+        :group="{name: 'containerComponent', pull: 'clone', put: false}"
         :sort="false"
+        class="drag-wrap"
         :clone="cloneComponent"
       >
         <div
-          v-for="(item, index) in layoutItems"
+          v-for="(item, index) in containerItems"
           :key="index"
           class="component-item"
         >
-          {{ item.label }}
+          <div class="component-inner">
+            {{ item.label }}
+          </div>
         </div>
       </draggable>
     </div>
   </div>
 </template>
 <script>
-import { layoutItems } from './config';
+import { containerItems } from './config';
 import draggable from 'vuedraggable';
-import { deepClone } from "@/utils";
+import { deepClone, generateId } from '@/utils';
 
 export default {
   name: 'LeftPanel',
@@ -31,23 +35,25 @@ export default {
   mixins: [],
   props: {},
   data: () => ({
-    layoutItems
+    containerItems
   }),
   watch: {},
-  created () {
-    console.log(layoutItems);
+  created() {
+    console.log(containerItems);
   },
   methods: {
     cloneComponent(val) {
-      console.log(val);
-      return deepClone(val);
+      return {
+        ...deepClone(val),
+        id: generateId()
+      };
     },
-    onStart(){
-      this.drag=true;
+    onStart() {
+      this.drag = true;
     },
-    //拖拽结束事件
+    // 拖拽结束事件
     onEnd() {
-      this.drag=false;
+      this.drag = false;
       console.log(this.myArr, this.arr2);
     }
   }
@@ -55,8 +61,30 @@ export default {
 </script>
 <style lang='scss' scoped>
 .left-panel {
+  padding: 5px;
+  font-size: 14px;
+  color: $textL1;
+
+  .drag-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
   .component-item {
     cursor: move;
+    flex: 0 0 50%;
+    width: 50%;
+    text-align: center;
+    padding: 2px;
+
+    .component-inner {
+      background-color: $borderL4;
+      height: 30px;
+      line-height: 30px;
+
+      &:hover {
+        background-color: $brandColor4;
+      }
+    }
   }
 }
 </style>

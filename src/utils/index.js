@@ -141,3 +141,5 @@ export function deepClone(obj) {
 
   return result;
 }
+
+export const generateId = () => Number(`${Date.now()}${Math.floor(Math.random().toString(10).substr(2, 4))}`);

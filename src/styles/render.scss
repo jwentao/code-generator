@@ -1,0 +1,15 @@
+.common-container-wrap {
+  border: 1px dashed $borderL4;
+  min-height: 60px;
+  border-radius: 5px;
+  padding: 2px;
+  cursor: move;
+}
+
+.active-container-wrap {
+  border-color: $brandColor2;
+}
+
+.drag-wrap {
+  min-height: 60px;
+}

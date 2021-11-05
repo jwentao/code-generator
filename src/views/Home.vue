@@ -7,7 +7,7 @@
       </div>
       <div class="container-center">
         <draggable
-          :group="{name: 'layoutComponent'}"
+          :group="{name: 'containerComponent'}"
           class="layout-board"
           :list="curConfig"
         >
@@ -15,7 +15,8 @@
             v-for="(item, index) in curConfig"
             :key="index"
             :config="item"
-            @change="log"
+            :activeId="activeId"
+            @activeItem="activeItem"
           />
         </draggable>
       </div>
@@ -37,11 +38,10 @@ export default {
     draggable
   },
   data: () => ({
+    activeId: null,
+    curConfig: []
   }),
   computed: {
-    curConfig() {
-      return this.$store.state.curConfig;
-    }
   },
   watch: {
     curConfig: {
@@ -52,8 +52,9 @@ export default {
     }
   },
   methods: {
-    log(){
-      console.log('on-start');
+    activeItem(config) {
+      console.log(config.id);
+      this.activeId = config.id;
     }
   }
 };
@@ -61,7 +62,7 @@ export default {
 
 <style lang="scss">
 $topHeight: 50px;
-$leftWidth: 220px;
+$leftWidth: 280px;
 $rightWidth: 220px;
 
 .home {
@@ -90,11 +91,12 @@ $rightWidth: 220px;
   .container-right {
     width: $rightWidth;
     flex: 0 0 $rightWidth;
+    border-left: 1px solid $borderL1;
   }
 
   .layout-board {
     height: 100%;
-    background-color: $brandColor3;
+    padding: 12px;
   }
 }
 </style>
