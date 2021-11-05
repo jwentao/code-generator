@@ -50,7 +50,7 @@ const containers = {
 
 const render = function(h, config) {
   if (config.type === 'container') return containers[config.key].call(this, h, config);
-  return (<div></div>);
+  return (<div/>);
 };
 
 export default {
