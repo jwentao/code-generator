@@ -39,9 +39,22 @@ export const formItems = [
   }
 ];
 
+export const columnDefault = {
+  type: 'prop', // prop | customer
+  prop: 'propName',
+  __config__: {
+    width: 100,
+    'min-width': 100,
+    align: 'left',
+    fixed: undefined
+  },
+  children: [] // when type === customer
+};
+
 // demo
 export const columnsItem = [
   {
+    key: 'table-select',
     label: 'select',
     __config__: baseItems.select.__config__
   }

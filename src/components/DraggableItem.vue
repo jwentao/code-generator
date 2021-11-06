@@ -1,6 +1,7 @@
 <script>
 /* eslint-disable no-unused-vars */
 import draggable from 'vuedraggable';
+import DraggableTable from '@/components/DraggableTable';
 
 const containers = {
   'empty'(h, config) {
@@ -38,11 +39,7 @@ const containers = {
   'table': (h, config) => {
     return (
       <div class='common-container-wrap'>
-        <el-table
-          data={config.__vModel__}
-          border={config.__config__.border}
-        >
-        </el-table>
+        <DraggableTable></DraggableTable>
       </div>
     );
   }
