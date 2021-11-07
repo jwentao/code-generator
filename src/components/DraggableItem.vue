@@ -39,7 +39,9 @@ const containers = {
   'table': (h, config) => {
     return (
       <div class='common-container-wrap'>
-        <DraggableTable></DraggableTable>
+        <DraggableTable
+          columns={config.children}
+        ></DraggableTable>
       </div>
     );
   }

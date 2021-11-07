@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import { containerItems } from './config';
+import { containerItems, columnDefault } from './config';
 import draggable from 'vuedraggable';
 import { deepClone, generateId } from '@/utils';
 
@@ -40,8 +40,16 @@ export default {
   watch: {},
   methods: {
     cloneComponent(val) {
+      console.log(val, columnDefault);
+      const copyComponent = deepClone(val);
+      const { type, key } = val;
+      if (type === 'container') {
+        if (key === 'table') {
+          copyComponent.children.push(deepClone(columnDefault));
+        }
+      }
       return {
-        ...deepClone(val),
+        ...copyComponent,
         id: generateId()
       };
     }
