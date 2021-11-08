@@ -38,15 +38,16 @@ const containers = {
     );
   },
   'table': (h, config) => {
+    const className = `common-container-wrap drag_${config.id}`;
     return (
-      <div class='common-container-wrap'>
+      <div class={className}>
         <div class='drag-btn'>
           {
             config.id
           }
         </div>
         <DraggableTable
-          columns={config.children}
+          config={config}
         ></DraggableTable>
       </div>
     );

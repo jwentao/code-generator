@@ -1,7 +1,7 @@
 <template>
   <el-table
     class="drag-table"
-    v-bind="tableConf"
+    :class="getTableClass"
     :data="tableData"
     border
     v-on="$listeners"
@@ -13,7 +13,7 @@
       v-bind="item.__config__"
       :column-key="index.toString()"
     >
-      <template slot="header" slot-scope="{ column }">
+      <template slot="header">
         <div
           class="table-header"
           :class="getHeaderClasses(index)"
@@ -21,8 +21,6 @@
         >
           <div
             class="inner-wrap"
-            @mousedown="handleMouseDown($event, column)"
-            @mousemove="handleMouseMove($event, column)"
           >
             {{ item.__config__.prop }}
           </div>
@@ -39,6 +37,7 @@
   </el-table>
 </template>
 <script>
+import Sortable from 'sortablejs';
 
 const DEFAULT_COLUMNS_CONFIG = {
   align: 'left',
@@ -53,7 +52,7 @@ export default {
   },
   mixins: [],
   props: {
-    tableConf: {
+    config: {
       type: Object,
       default: () => ({})
     }
@@ -88,8 +87,15 @@ export default {
     };
   },
   watch: {
+    config: {
+      immediate: true,
+      handler(val) {
+        console.log(val);
+      }
+    }
   },
   mounted() {
+    this.initDrag();
   },
   methods: {
     addTableColumn(origin) {
@@ -103,8 +109,19 @@ export default {
       this.columns.push(column);
     },
 
-    getTableHeader() {
-      return this.columns;
+    initDrag() {
+      const tHeader = document.querySelector(`.drag_${this.config.id} .el-table__header-wrapper tr`);
+      this.sortable = Sortable.create(tHeader, {
+        animation: 180,
+        /** 延迟 */
+        // delay: 1,
+        filter: '.disabled',
+        onEnd: (evt) => {
+          const oldItem = this.columns[evt.oldIndex];
+          this.columns.splice(evt.oldIndex, 1);
+          this.columns.splice(evt.newIndex, 0, oldItem);
+        }
+      });
     },
 
     activeColumn(item, index) {
@@ -125,6 +142,11 @@ export default {
 
     headerWidthChange(newW, oldW, col, event) {
       this.$set(this.columns[col.columnKey].__config__, 'width', newW);
+    },
+
+    getTableClass() {
+      return `header-active`;
+      // return `drag_${this.config.id}`;
     },
 
     getHeaderClasses(index) {
@@ -151,54 +173,6 @@ export default {
 
     handleDel(index) {
       this.columns.splice(index, 1);
-    },
-
-    handleMouseDown(e, column) {
-      this.dragState.dragging = true;
-      this.dragState.start = parseInt(column.columnKey);
-      document.addEventListener('mouseup', this.handleMouseUp);
-    },
-
-    handleMouseUp() {
-      this.dragColumn(this.dragState);
-      this.dragState = {
-        start: -9,
-        end: -9,
-        dragging: false,
-        direction: undefined
-      };
-      document.removeEventListener('mouseup', this.handleMouseUp);
-    },
-
-    handleMouseMove(e, column) {
-      if (this.dragState.dragging) {
-        const index = parseInt(column.columnKey);
-        if (index - this.dragState.start !== 0) {
-          this.dragState.direction = index - this.dragState.start < 0 ? 'left' : 'right';
-        } else {
-          this.dragState.direction = undefined;
-        }
-        this.dragState.end = parseInt(column.columnKey);
-      } else {
-        return false;
-      }
-    },
-
-    dragColumn({ start, end, direction }) {
-      const tempData = [];
-      const left = direction === 'left';
-      const min = left ? end : start - 1;
-      const max = left ? start + 1 : end;
-      for (let i = 0; i < this.columns.length; i++) {
-        if (i === end) {
-          tempData.push(this.columns[start]);
-        } else if (i > min && i < max) {
-          tempData.push(this.columns[ left ? i - 1 : i + 1 ]);
-        } else {
-          tempData.push(this.columns[i]);
-        }
-      }
-      this.columns = tempData;
     }
   }
 };
