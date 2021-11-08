@@ -10,6 +10,7 @@
           :group="{name: 'containerComponent'}"
           class="layout-board"
           :list="curConfig"
+          handle=".drag-btn"
         >
           <DraggableItem
             v-for="(item, index) in curConfig"

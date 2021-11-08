@@ -7,20 +7,21 @@ const containers = {
   'empty'(h, config) {
     const { activeItem } = this.$listeners;
     const { activeid } = this.$attrs;
-    console.log(this.$attrs);
     let className = 'common-container-wrap';
-    console.log(activeid, config.id);
     if (activeid === config.id) className += ' active-container-wrap';
     return (
       <div class={className} onClick={ e => { activeItem(config); e.stopPropagation(); }}>
+        <div class='drag-btn'>
+          {
+            config.id
+          }
+        </div>
         <draggable
           group='containerComponent'
           list={config.children}
+          handle='.drag-btn'
           class='drag-wrap'>
           <div>
-            {
-              config.id
-            }
             {
               config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
             }
@@ -39,6 +40,11 @@ const containers = {
   'table': (h, config) => {
     return (
       <div class='common-container-wrap'>
+        <div class='drag-btn'>
+          {
+            config.id
+          }
+        </div>
         <DraggableTable
           columns={config.children}
         ></DraggableTable>
