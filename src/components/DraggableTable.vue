@@ -3,6 +3,7 @@
     class="drag-table"
     v-bind="tableConf"
     :data="tableData"
+    border
     v-on="$listeners"
     @header-dragend="headerWidthChange"
   >
@@ -23,7 +24,7 @@
             @mousedown="handleMouseDown($event, column)"
             @mousemove="handleMouseMove($event, column)"
           >
-            {{ item.__config__.label }}
+            {{ item.__config__.prop }}
           </div>
           <div class="op-wrap">
             <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
@@ -55,22 +56,35 @@ export default {
     tableConf: {
       type: Object,
       default: () => ({})
-    },
-    columns: {
-      type: Array,
-      default: () => []
     }
   },
   data() {
     return {
-      tableData: [],
+      tableData: [{}],
       dragState: {
         start: -9, // start index
         end: -9, // end index
         dragging: false,
         direction: undefined
       },
-      activeIndex: -1
+      activeIndex: -1,
+      columns: [ // todo 外部传递columns
+        {
+          __config__: {
+            prop: 'propname1'
+          }
+        },
+        {
+          __config__: {
+            prop: 'propname3'
+          }
+        },
+        {
+          __config__: {
+            prop: 'propname2'
+          }
+        }
+      ]
     };
   },
   watch: {
