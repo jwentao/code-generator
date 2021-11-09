@@ -48,7 +48,7 @@ const containers = {
         </div>
         <DraggableTable
           config={config}
-        ></DraggableTable>
+        />
       </div>
     );
   }
