@@ -52,9 +52,16 @@ export default {
       }
     }
   },
+  created() {
+    this.initEvents();
+  },
   methods: {
+    initEvents() {
+      this.$on('active', ({ id }) => {
+        this.activeId = id;
+      });
+    },
     activeItem(config) {
-      console.log(config.id);
       this.activeId = config.id;
     }
   }

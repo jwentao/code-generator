@@ -1,0 +1,95 @@
+<template>
+  <div
+    class="blockWrap"
+    :class="getClasses()"
+    @mouseout.stop="mouseover = false;"
+    @mouseover.stop="mouseover = true;"
+    @click.stop="clickWrap"
+  >
+    <div v-show="showWrap" class="op-wrap">
+      <div class="op-item drag-btn">
+        <Move />
+      </div>
+    </div>
+    <slot />
+  </div>
+</template>
+<script>
+import Move from '@/icon/Move';
+import emitter from '@/mixins/emitter';
+
+export default {
+  name: 'BlockWrap',
+  components: {
+    Move
+  },
+  mixins: [
+    emitter
+  ],
+  props: {
+    activeid: {
+      default: null,
+      type: [String, Number, null]
+    },
+    config: {
+      default: () => ({}),
+      type: Object
+    }
+  },
+  data: () => ({
+    mouseover: false
+  }),
+  computed: {
+    showWrap() {
+      return this.config.id === this.activeid;
+    }
+  },
+  watch: {},
+  methods: {
+    clickWrap() {
+      this.dispatch('Home', 'active', this.config);
+    },
+
+    getClasses() {
+      let className = `drag_${this.config.id}`;
+      if (this.showWrap) {
+        className += ' wrap_active';
+      } else if (this.mouseover) {
+        className += ' wrap_hover';
+      }
+      return className;
+    }
+  }
+};
+</script>
+<style lang='scss' scoped>
+$height: 20px;
+
+.blockWrap {
+  position: relative;
+  border: 1px dashed $borderL4;
+  padding-top: 20px; // todo 容器嵌套容器，不好选中，暂时用padding处理
+
+  .op-wrap {
+    position: absolute;
+    background-color: $brandColor2;
+    right: 0;
+    top: -$height;
+    height: $height;
+    display: flex;
+
+    .op-item, .op-item > svg {
+      width: $height;
+      height: $height;
+    }
+  }
+}
+
+.wrap_hover {
+    border: 1px dashed $brandColor2;
+}
+
+.wrap_active {
+  border: 1px solid $brandColor2;
+}
+</style>

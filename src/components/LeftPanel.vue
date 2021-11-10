@@ -5,7 +5,7 @@
       <draggable
         :group="{name: 'containerComponent', pull: 'clone', put: false}"
         :sort="false"
-        class="drag-wrap"
+        class="left-drag-wrap"
         :list="containerItems"
         :clone="cloneComponent"
       >
@@ -40,7 +40,6 @@ export default {
   watch: {},
   methods: {
     cloneComponent(val) {
-      console.log(val, columnDefault);
       const copyComponent = deepClone(val);
       const { type, key } = val;
       if (type === 'container') {
@@ -62,7 +61,7 @@ export default {
   font-size: 14px;
   color: $textL1;
 
-  .drag-wrap {
+  .left-drag-wrap {
     display: flex;
     flex-wrap: wrap;
   }

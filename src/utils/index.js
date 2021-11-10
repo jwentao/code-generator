@@ -143,7 +143,7 @@ export function deepClone(obj) {
   return result;
 }
 
-export const generateId = () => Number(`${Date.now()}${Math.floor(Math.random().toString(10).substr(2, 4))}`);
+export const generateId = () => Number(`${Date.now()}${Math.random().toString(10).substr(2, 4)}`);
 
 function getConsole() {
   if (typeof window !== 'undefined') {

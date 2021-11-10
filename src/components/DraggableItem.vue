@@ -2,54 +2,56 @@
 /* eslint-disable no-unused-vars */
 import draggable from 'vuedraggable';
 import DraggableTable from '@/components/DraggableTable';
+import BlockWrap from '@/components/BlockWrap';
 
 const containers = {
   'empty'(h, config) {
-    const { activeItem } = this.$listeners;
     const { activeid } = this.$attrs;
-    let className = 'common-container-wrap';
-    if (activeid === config.id) className += ' active-container-wrap';
     return (
-      <div class={className} onClick={ e => { activeItem(config); e.stopPropagation(); }}>
-        <div class='drag-btn'>
-          {
-            config.id
-          }
-        </div>
-        <draggable
-          group='containerComponent'
-          list={config.children}
-          handle='.drag-btn'
-          class='drag-wrap'>
-          <div>
-            {
-              config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
-            }
-          </div>
-        </draggable>
+      <div>
+        <BlockWrap
+          activeid={activeid}
+          config={config}
+        >
+          <draggable
+            group='containerComponent'
+            list={config.children}
+            handle='.drag-btn'
+            class='drag-wrap'>
+            <div>
+              {
+                config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
+              }
+            </div>
+          </draggable>
+        </BlockWrap>
       </div>
     );
   },
-  'form': (h, config) => {
+  'form'(h, config) {
+    const { activeid } = this.$attrs;
     return (
-      <div class='common-container-wrap'>
-        <el-form></el-form>
+      <div>
+        <BlockWrap
+          activeid={activeid}
+          config={config}
+        >
+          <el-form></el-form>
+        </BlockWrap>
       </div>
     );
   },
-  'table': (h, config) => {
-    const className = `common-container-wrap drag_${config.id}`;
+  'table'(h, config) {
+    const { activeid } = this.$attrs;
     return (
-      <div class={className}>
-        <div class='drag-btn'>
-          {
-            config.id
-          }
-        </div>
+      <BlockWrap
+        activeid={activeid}
+        config={config}
+      >
         <DraggableTable
           config={config}
         />
-      </div>
+      </BlockWrap>
     );
   }
 };
