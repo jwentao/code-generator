@@ -7,7 +7,7 @@
       </div>
       <div class="container-center">
         <draggable
-          :group="{name: 'containerComponent'}"
+          :group="{name: DRAG_GROUP.containerComponent}"
           class="layout-board"
           :list="curConfig"
           handle=".drag-btn"
@@ -30,6 +30,7 @@
 import LeftPanel from '@/components/LeftPanel';
 import DraggableItem from '@/components/DraggableItem';
 import draggable from 'vuedraggable';
+import { DRAG_GROUP } from '@/constant';
 
 export default {
   name: 'Home',
@@ -39,6 +40,8 @@ export default {
     draggable
   },
   data: () => ({
+    DRAG_GROUP,
+
     activeId: null,
     curConfig: []
   }),

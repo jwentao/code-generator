@@ -23,19 +23,42 @@ export const containerItems = [ // 容器
   }
 ];
 
-const baseItems = {
-  select: {
-    __config__: { // 可以直接写入element components的
-
+const baseItemMap = {
+  input: {
+    tag: 'el-input',
+    tagIcon: 'input',
+    document: 'https://element.eleme.cn/#/zh-CN/component/input',
+    label: '单行文本',
+    __vModel__: 'input',
+    // 组件的自定义配置
+    __config__: { // 这里放可以直接写入的属性
+      placeholder: '请输入',
+      style: { width: '100%' },
+      clearable: true,
+      'prefix-icon': '',
+      'suffix-icon': '',
+      maxlength: null,
+      'show-word-limit': false,
+      readonly: false,
+      disabled: false
+    },
+    // 组件的插槽属性
+    __slot__: {
+      prepend: '',
+      append: ''
     }
   }
 };
 
+export const baseItems = [
+  baseItemMap.input
+];
+
 // demo
 export const formItems = [
   {
-    label: 'select',
-    __config__: baseItems.select.__config__
+    label: 'select'
+    // __config__: baseItems.select.__config__
   }
 ];
 
@@ -55,7 +78,7 @@ export const columnDefault = {
 export const columnsItem = [
   {
     key: 'table-select',
-    label: 'select',
-    __config__: baseItems.select.__config__
+    label: 'select'
+    // __config__: baseItems.select.__config__
   }
 ];

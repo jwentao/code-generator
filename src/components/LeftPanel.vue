@@ -3,7 +3,7 @@
     <div class="component-block">
       容器
       <draggable
-        :group="{name: 'containerComponent', pull: 'clone', put: false}"
+        :group="{name: DRAG_GROUP.containerComponent, pull: 'clone', put: false}"
         :sort="false"
         class="left-drag-wrap"
         :list="containerItems"
@@ -20,12 +20,33 @@
         </div>
       </draggable>
     </div>
+    <div class="component-block">
+      基础组件
+      <draggable
+        :group="{name: DRAG_GROUP.baseComponent, pull: 'clone', put: false}"
+        :sort="false"
+        class="left-drag-wrap"
+        :list="baseItems"
+        :clone="cloneComponent"
+      >
+        <div
+          v-for="(item, index) in baseItems"
+          :key="index"
+          class="component-item"
+        >
+          <div class="component-inner">
+            {{ item.label }}
+          </div>
+        </div>
+      </draggable>
+    </div>
   </div>
 </template>
 <script>
-import { containerItems, columnDefault } from './config';
+import { containerItems, columnDefault, baseItems } from './config';
 import draggable from 'vuedraggable';
 import { deepClone, generateId } from '@/utils';
+import { DRAG_GROUP } from '@/constant';
 
 export default {
   name: 'LeftPanel',
@@ -35,11 +56,15 @@ export default {
   mixins: [],
   props: {},
   data: () => ({
-    containerItems
+    DRAG_GROUP,
+
+    containerItems,
+    baseItems
   }),
   watch: {},
   methods: {
     cloneComponent(val) {
+      console.log(val);
       const copyComponent = deepClone(val);
       const { type, key } = val;
       if (type === 'container') {

@@ -3,6 +3,7 @@
 import draggable from 'vuedraggable';
 import DraggableTable from '@/components/DraggableTable';
 import BlockWrap from '@/components/BlockWrap';
+import { DRAG_GROUP } from '@/constant';
 
 const containers = {
   'empty'(h, config) {
@@ -14,7 +15,7 @@ const containers = {
           config={config}
         >
           <draggable
-            group='containerComponent'
+            group={{ name: DRAG_GROUP.containerComponent, put: [DRAG_GROUP.containerComponent, DRAG_GROUP.baseComponent] }}
             list={config.children}
             handle='.drag-btn'
             class='drag-wrap'>
@@ -58,6 +59,7 @@ const containers = {
 
 const render = function(h, config) {
   if (config.type === 'container') return containers[config.key].call(this, h, config);
+  console.log('no component render');
   return (<div/>);
 };
 
