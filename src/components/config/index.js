@@ -1,52 +1,58 @@
 export const containerItems = [ // 容器
   {
-    label: '空容器',
-    type: 'container',
-    key: 'empty',
-    children: []
-  },
-  {
-    label: '表单',
-    type: 'container',
-    key: 'form',
-    children: []
-  },
-  {
-    label: '表格',
-    type: 'container',
-    key: 'table',
-    children: [],
-    __vModel__: 'tableData',
     __config__: {
-      border: false
-    }
+      label: '空容器',
+      type: 'container',
+      tag: 'empty'
+    },
+    children: []
+  },
+  {
+    __config__: {
+      label: '表单',
+      type: 'container',
+      tag: 'el-form'
+    },
+    children: []
+  },
+  {
+    __config__: {
+      label: '表格',
+      type: 'container',
+      tag: 'el-table'
+    },
+    children: [],
+    __vModel__: 'tableData'
   }
 ];
 
 const baseItemMap = {
   input: {
-    tag: 'el-input',
-    tagIcon: 'input',
-    document: 'https://element.eleme.cn/#/zh-CN/component/input',
-    label: '单行文本',
-    __vModel__: 'input',
     // 组件的自定义配置
-    __config__: { // 这里放可以直接写入的属性
-      placeholder: '请输入',
-      style: { width: '100%' },
-      clearable: true,
-      'prefix-icon': '',
-      'suffix-icon': '',
-      maxlength: null,
-      'show-word-limit': false,
-      readonly: false,
-      disabled: false
+    __config__: {
+      type: 'base',
+      label: '单行文本',
+      changeTag: true,
+      tag: 'el-input',
+      tagIcon: 'input',
+      defaultValue: undefined,
+      document: 'https://element.eleme.cn/#/zh-CN/component/input'
     },
     // 组件的插槽属性
     __slot__: {
       prepend: '',
       append: ''
-    }
+    },
+    // 其余的为可直接写在组件标签上的属性
+    placeholder: '请输入',
+    style: { width: '100%' },
+    clearable: true,
+    'prefix-icon': '',
+    'suffix-icon': '',
+    maxlength: null,
+    'show-word-limit': false,
+    readonly: false,
+    disabled: false
   }
 };
 

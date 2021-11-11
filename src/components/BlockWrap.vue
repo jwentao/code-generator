@@ -41,7 +41,7 @@ export default {
   }),
   computed: {
     showWrap() {
-      return this.config.id === this.activeid;
+      return this.config.__config__.id === this.activeid;
     }
   },
   watch: {},
@@ -51,7 +51,7 @@ export default {
     },
 
     getClasses() {
-      let className = `drag_${this.config.id}`;
+      let className = `drag_${this.config.__config__.id}`;
       if (this.showWrap) {
         className += ' wrap_active';
       } else if (this.mouseover) {
@@ -62,13 +62,13 @@ export default {
   }
 };
 </script>
+
 <style lang='scss' scoped>
 $height: 20px;
 
 .blockWrap {
   position: relative;
   border: 1px dashed $borderL4;
-  padding-top: 20px; // todo 容器嵌套容器，不好选中，暂时用padding处理
 
   .op-wrap {
     position: absolute;

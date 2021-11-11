@@ -4,12 +4,13 @@ import draggable from 'vuedraggable';
 import DraggableTable from '@/components/DraggableTable';
 import BlockWrap from '@/components/BlockWrap';
 import { DRAG_GROUP } from '@/constant';
+import baseRender from '@/components/render/render';
 
 const containers = {
   'empty'(h, config) {
     const { activeid } = this.$attrs;
     return (
-      <div>
+      <div class='empty-container'>
         <BlockWrap
           activeid={activeid}
           config={config}
@@ -18,7 +19,7 @@ const containers = {
             group={{ name: DRAG_GROUP.containerComponent, put: [DRAG_GROUP.containerComponent, DRAG_GROUP.baseComponent] }}
             list={config.children}
             handle='.drag-btn'
-            class='drag-wrap'>
+            class='container-wrap'>
             <div>
               {
                 config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
@@ -29,26 +30,26 @@ const containers = {
       </div>
     );
   },
-  'form'(h, config) {
+  'el-form'(h, config) {
     const { activeid } = this.$attrs;
     return (
       <div>
         <BlockWrap
           activeid={activeid}
           config={config}
-        >
+          class='container-wrap'>
           <el-form></el-form>
         </BlockWrap>
       </div>
     );
   },
-  'table'(h, config) {
+  'el-table'(h, config) {
     const { activeid } = this.$attrs;
     return (
       <BlockWrap
         activeid={activeid}
         config={config}
-      >
+        class='container-wrap'>
         <DraggableTable
           config={config}
         />
@@ -57,9 +58,24 @@ const containers = {
   }
 };
 
+const bases = function(h, config) {
+  const { activeid } = this.$attrs;
+  console.log(this.$attrs);
+  return (
+    <BlockWrap
+      activeid={activeid}
+      config={config}
+    >
+      <baseRender key={config.id} conf={config} onInput={ event => {
+        this.$set(config.__config__, 'defaultValue', event);
+      }} />
+    </BlockWrap>
+  );
+};
+
 const render = function(h, config) {
-  if (config.type === 'container') return containers[config.key].call(this, h, config);
-  console.log('no component render');
+  if (config.__config__.type === 'container') return containers[config.__config__.tag].call(this, h, config);
+  if (config.__config__.type === 'base') return bases.call(this, h, config);
   return (<div/>);
 };
 

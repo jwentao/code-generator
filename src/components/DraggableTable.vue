@@ -96,7 +96,7 @@ export default {
     },
 
     initDrag() {
-      const tHeader = document.querySelector(`.drag_${this.config.id} .el-table__header-wrapper tr`);
+      const tHeader = document.querySelector(`.drag_${this.config.__config__.id} .el-table__header-wrapper tr`);
       this.sortable = Sortable.create(tHeader, {
         animation: 180,
         /** 延迟 */

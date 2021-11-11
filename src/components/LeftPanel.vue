@@ -15,7 +15,7 @@
           class="component-item"
         >
           <div class="component-inner">
-            {{ item.label }}
+            {{ item.__config__.label }}
           </div>
         </div>
       </draggable>
@@ -35,7 +35,7 @@
           class="component-item"
         >
           <div class="component-inner">
-            {{ item.label }}
+            {{ item.__config__.label }}
           </div>
         </div>
       </draggable>
@@ -66,16 +66,17 @@ export default {
     cloneComponent(val) {
       console.log(val);
       const copyComponent = deepClone(val);
-      const { type, key } = val;
+      const { type, tag } = val.__config__;
       if (type === 'container') {
-        if (key === 'table') {
+        if (tag === 'el-table') {
           copyComponent.children.push(deepClone(columnDefault));
         }
       }
-      return {
-        ...copyComponent,
-        id: generateId()
-      };
+      if (type === 'base') {
+        copyComponent.__vModel__ = 'model';
+      }
+      copyComponent.__config__.id = generateId();
+      return copyComponent;
     }
   }
 };

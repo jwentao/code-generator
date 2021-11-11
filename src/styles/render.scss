@@ -10,10 +10,16 @@
   border-color: $brandColor2;
 }
 
-.drag-wrap {
+.container-wrap {
   min-height: 60px;
 }
 
 .drag-btn {
   cursor: move;
+}
+
+.empty-container {
+  .empty-container {
+    margin-top: 20px;
+  }
 }

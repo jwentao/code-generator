@@ -7,7 +7,7 @@
       </div>
       <div class="container-center">
         <draggable
-          :group="{name: DRAG_GROUP.containerComponent}"
+          :group="{ name: DRAG_GROUP.containerComponent, put: [DRAG_GROUP.containerComponent, DRAG_GROUP.baseComponent] }"
           class="layout-board"
           :list="curConfig"
           handle=".drag-btn"
@@ -21,13 +21,18 @@
           />
         </draggable>
       </div>
-      <div class="container-right" />
+      <div class="container-right">
+<!--        <RightPanel-->
+<!--          :active-config="activeConfig"-->
+<!--        />-->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import LeftPanel from '@/components/LeftPanel';
+// import RightPanel from '@/components/RightPanel';
 import DraggableItem from '@/components/DraggableItem';
 import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
@@ -36,6 +41,7 @@ export default {
   name: 'Home',
   components: {
     LeftPanel,
+    // RightPanel,
     DraggableItem,
     draggable
   },
@@ -43,6 +49,7 @@ export default {
     DRAG_GROUP,
 
     activeId: null,
+    activeConfig: {},
     curConfig: []
   }),
   computed: {
@@ -60,8 +67,9 @@ export default {
   },
   methods: {
     initEvents() {
-      this.$on('active', ({ id }) => {
-        this.activeId = id;
+      this.$on('active', (config) => {
+        this.activeId = config.__config__.id;
+        this.activeConfig = config;
       });
     },
     activeItem(config) {
