@@ -60,7 +60,6 @@ const containers = {
 
 const bases = function(h, config) {
   const { activeid } = this.$attrs;
-  console.log(this.$attrs);
   return (
     <BlockWrap
       activeid={activeid}

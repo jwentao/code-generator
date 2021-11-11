@@ -22,9 +22,9 @@
         </draggable>
       </div>
       <div class="container-right">
-<!--        <RightPanel-->
-<!--          :active-config="activeConfig"-->
-<!--        />-->
+        <RightPanel
+          :active-data="activeData"
+        />
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
 
 <script>
 import LeftPanel from '@/components/LeftPanel';
-// import RightPanel from '@/components/RightPanel';
+import RightPanel from '@/components/RightPanel';
 import DraggableItem from '@/components/DraggableItem';
 import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
@@ -41,7 +41,7 @@ export default {
   name: 'Home',
   components: {
     LeftPanel,
-    // RightPanel,
+    RightPanel,
     DraggableItem,
     draggable
   },
@@ -49,7 +49,7 @@ export default {
     DRAG_GROUP,
 
     activeId: null,
-    activeConfig: {},
+    activeData: {},
     curConfig: []
   }),
   computed: {
@@ -69,7 +69,7 @@ export default {
     initEvents() {
       this.$on('active', (config) => {
         this.activeId = config.__config__.id;
-        this.activeConfig = config;
+        this.activeData = config;
       });
     },
     activeItem(config) {
@@ -82,7 +82,7 @@ export default {
 <style lang="scss">
 $topHeight: 50px;
 $leftWidth: 280px;
-$rightWidth: 220px;
+$rightWidth: 350px;
 
 .home {
   height: 100%;
@@ -111,6 +111,7 @@ $rightWidth: 220px;
     width: $rightWidth;
     flex: 0 0 $rightWidth;
     border-left: 1px solid $borderL1;
+    padding: 12px;
   }
 
   .layout-board {
