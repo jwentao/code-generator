@@ -1,4 +1,5 @@
-export const containerItems = [ // 容器
+// 容器
+export const containerItems = [
   {
     __config__: {
       label: '空容器',
@@ -19,13 +20,19 @@ export const containerItems = [ // 容器
     __config__: {
       label: '表格',
       type: 'container',
-      tag: 'el-table'
+      tag: 'el-table',
+      ref: 'table',
+      tableData: 'tableData'
     },
     children: [],
-    __vModel__: 'tableData'
+    __vModel__: 'tableData',
+    stripe: false,
+    border: true,
+    size: 'medium'
   }
 ];
 
+// 基础组件map
 const baseItemMap = {
   input: {
     // 组件的自定义配置
@@ -56,11 +63,12 @@ const baseItemMap = {
   }
 };
 
+// 普通组件
 export const baseItems = [
   baseItemMap.input
 ];
 
-// demo
+// demo 可用于form-item
 export const formItems = [
   {
     label: 'select'
@@ -68,6 +76,7 @@ export const formItems = [
   }
 ];
 
+// table column默认配置
 export const columnDefault = {
   type: 'prop', // prop | customer
   prop: 'propName',
@@ -80,7 +89,7 @@ export const columnDefault = {
   children: [] // when type === customer
 };
 
-// demo
+//
 export const columnsItem = [
   {
     key: 'table-select',

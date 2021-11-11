@@ -3,7 +3,9 @@
     class="drag-table"
     :class="getTableClass"
     :data="tableData"
-    border
+    :border="config.border"
+    :stripe="config.stripe"
+    :size="config.size"
     v-on="$listeners"
     @header-dragend="headerWidthChange"
   >

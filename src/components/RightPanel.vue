@@ -1,4 +1,6 @@
 <script>
+import TablePanel from '@/components/panels/TablePanel';
+
 const panelRender = {
   vModel(h) {
     return (
@@ -47,12 +49,24 @@ export default {
     }
   },
   render(h) {
+    if (!this.activeData || !this.activeData.__config__) {
+      return (<div/>);
+    }
+    let child;
+    const { type, tag } = this.activeData.__config__;
+    if (type === 'container') {
+      if (tag === 'el-table') {
+        child = <TablePanel activeData={this.activeData} />;
+      }
+    } else {
+      child = ((this.activeData.__config__ && renderMap[this.activeData.__config__.tag]) || []).map(item => item.call(this, h));
+    }
     return (
       <div>
-        { this.activeData.__config__.label }
+        { this.activeData.__config__ && this.activeData.__config__.label }
         <el-form label-width='90px' size='small'>
           {
-            ((this.activeData.__config__ && renderMap[this.activeData.__config__.tag]) || []).map(item => item.call(this, h))
+            child
           }
         </el-form>
       </div>
