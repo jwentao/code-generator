@@ -10,7 +10,7 @@ export const containerItems = [
   },
   {
     __config__: {
-      label: '表单',
+      label: '表单(todo)',
       type: 'container',
       tag: 'el-form'
     },
@@ -60,12 +60,38 @@ const baseItemMap = {
     'show-word-limit': false,
     readonly: false,
     disabled: false
+  },
+
+  select: {
+    __config__: {
+      type: 'base',
+      label: '下拉选择',
+      tag: 'el-select',
+      tagIcon: 'select',
+      document: 'https://element.eleme.cn/#/zh-CN/component/select'
+    },
+    __slot__: {
+      options: [{
+        label: '选项一',
+        value: 1
+      }, {
+        label: '选项二',
+        value: 2
+      }]
+    },
+    placeholder: '请选择',
+    style: { width: '100%' },
+    clearable: true,
+    disabled: false,
+    filterable: false,
+    multiple: false
   }
 };
 
 // 普通组件
 export const baseItems = [
-  baseItemMap.input
+  baseItemMap.input,
+  baseItemMap.select
 ];
 
 // demo 可用于form-item

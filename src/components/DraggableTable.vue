@@ -34,7 +34,9 @@
         </div>
       </template>
       <template slot-scope="{row}">
-        {{ row[item.__config__.prop] }}
+        <div v-if="item.__config__.type === 'prop'">
+          {{ row[item.prop] }}
+        </div>
       </template>
     </el-table-column>
   </el-table>
@@ -80,7 +82,8 @@ export default {
     columns: {
       deep: true,
       handler(val) {
-        this.renderKey = generateId();
+        this.generateMockData();
+        this.refreshColumn();
       }
     }
   },
@@ -116,19 +119,25 @@ export default {
     },
 
     activeColumn(item, index) {
-      this.renderKey = generateId();
-      this.dispatch('Home', 'active', item);
+      if (this.activeid !== item.__config__.id) {
+        this.refreshColumn();
+        this.dispatch('Home', 'active', item);
+      }
     },
 
-    generateMockData(header) {
-      if (!header || !header.length) {
+    generateMockData() {
+      if (!this.columns || !this.columns.length) {
         this.tableData = [];
       }
       const temp = {};
-      header.forEach(item => {
-        temp[item.__config__.prop] = item.__config__.prop;
+      this.columns.forEach(item => {
+        temp[item.prop] = item.prop;
       });
       this.tableData = [temp];
+    },
+
+    refreshColumn() { // label等配置修改不会触发列重新渲染，手动刷新下
+      this.renderKey = generateId();
     },
 
     headerWidthChange(newW, oldW, col, event) {
@@ -170,6 +179,10 @@ $lighterBlue: #409EFF;
     }
 
     .cell {
+      padding: 0!important;
+    }
+
+    .el-table__cell {
       padding: 0;
     }
   }

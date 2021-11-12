@@ -17,7 +17,6 @@
             :key="index"
             :config="item"
             :activeid="activeId"
-            @activeItem="activeItem"
           />
         </draggable>
       </div>
@@ -70,17 +69,19 @@ export default {
   created() {
     this.initEvents();
     this.curConfig = getConfig();
+    if (this.curConfig.length) {
+      this.activeItem(this.curConfig[0]);
+    }
   },
   methods: {
     initEvents() {
       this.$on('active', (config) => {
-        console.log('active', config.__config__.id);
-        this.activeId = config.__config__.id;
-        this.activeData = config;
+        this.activeItem(config);
       });
     },
     activeItem(config) {
-      this.activeId = config.id;
+      this.activeId = config.__config__.id;
+      this.activeData = config;
     }
   }
 };
@@ -112,6 +113,7 @@ $rightWidth: 350px;
 
   .container-center {
     flex: 1;
+    overflow: hidden;
   }
 
   .container-right {
