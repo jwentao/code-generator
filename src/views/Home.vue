@@ -36,6 +36,10 @@ import RightPanel from '@/components/RightPanel';
 import DraggableItem from '@/components/DraggableItem';
 import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
+import { saveConfig, getConfig } from '@/api';
+import { debounce } from 'throttle-debounce';
+
+const saveConfigDebounce = debounce(300, saveConfig);
 
 export default {
   name: 'Home',
@@ -59,11 +63,13 @@ export default {
       deep: true,
       handler(val) {
         console.log(val);
+        saveConfigDebounce(val);
       }
     }
   },
   created() {
     this.initEvents();
+    this.curConfig = getConfig();
   },
   methods: {
     initEvents() {
