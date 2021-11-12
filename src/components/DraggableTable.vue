@@ -12,7 +12,7 @@
   >
     <el-table-column
       v-for="(item, index) in columns"
-      :key="item.__config__.id"
+      :key="item.__config__.id + renderKey"
       v-bind="item"
       :column-key="index.toString()"
     >
@@ -25,7 +25,7 @@
           <div
             class="inner-wrap"
           >
-            {{ item.prop }}
+            {{ item.label }}
           </div>
           <div class="op-wrap">
             <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
@@ -70,12 +70,19 @@ export default {
     return {
       tableData: [{}],
       refreshKey: true,
+      renderKey: 0,
       columns: []
     };
   },
   computed: {
   },
   watch: {
+    columns: {
+      deep: true,
+      handler(val) {
+        this.renderKey = generateId();
+      }
+    }
   },
   mounted() {
     this.initDrag();
@@ -109,7 +116,7 @@ export default {
     },
 
     activeColumn(item, index) {
-      console.log('active click');
+      this.renderKey = generateId();
       this.dispatch('Home', 'active', item);
     },
 
@@ -133,7 +140,7 @@ export default {
       // return `drag_${this.config.id}`;
     },
 
-    getHeaderClasses(id) { // todo fix 执行但未写入
+    getHeaderClasses(id) {
       const result = [];
       if (id === this.activeid) {
         result.push('header-active');

@@ -78,15 +78,17 @@ export const formItems = [
 
 // table column默认配置
 export const columnDefault = {
-  prop: 'propName',
   __config__: {
     label: '表-列',
+    tag: 'el-table-column',
     type: 'prop' // prop | customer
   },
+  prop: 'propName',
+  label: 'label',
   width: 100,
   'min-width': 100,
   align: 'left',
-  fixed: undefined,
+  fixed: false,
   children: [] // when type === customer
 };
 
