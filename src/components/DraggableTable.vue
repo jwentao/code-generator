@@ -1,5 +1,6 @@
 <template>
   <el-table
+    v-if="refreshKey"
     class="drag-table"
     :class="getTableClass"
     :data="tableData"
@@ -11,15 +12,15 @@
   >
     <el-table-column
       v-for="(item, index) in columns"
-      :key="item.renderKey"
-      v-bind="item.__config__"
+      :key="item.__config__.id"
+      v-bind="item"
       :column-key="index.toString()"
     >
       <template slot="header">
         <div
           class="table-header"
-          :class="getHeaderClasses(index)"
-          @click="activeColumn(item, index)"
+          :class="getHeaderClasses(item.__config__.id)"
+          @click.stop="activeColumn(item, index)"
         >
           <div
             class="inner-wrap"
@@ -40,7 +41,8 @@
 </template>
 <script>
 import Sortable from 'sortablejs';
-import { generateId } from '@/utils';
+import { generateId, deepClone } from '@/utils';
+import emitter from '@/mixins/emitter';
 
 const DEFAULT_COLUMNS_CONFIG = {
   align: 'left',
@@ -53,8 +55,12 @@ export default {
   name: 'DragTable',
   components: {
   },
-  mixins: [],
+  mixins: [emitter],
   props: {
+    activeid: {
+      type: [String, Number, null],
+      default: null
+    },
     config: {
       type: Object,
       default: () => ({})
@@ -63,13 +69,7 @@ export default {
   data() {
     return {
       tableData: [{}],
-      dragState: {
-        start: -9, // start index
-        end: -9, // end index
-        dragging: false,
-        direction: undefined
-      },
-      activeIndex: -1,
+      refreshKey: true,
       columns: []
     };
   },
@@ -79,11 +79,7 @@ export default {
   },
   mounted() {
     this.initDrag();
-    this.columns = this.config.children.map(item => ({
-      ...item,
-      renderKey: generateId()
-    }));
-    console.log(this.columns);
+    this.columns = this.config.children;
   },
   methods: {
     addTableColumn(origin) {
@@ -113,8 +109,8 @@ export default {
     },
 
     activeColumn(item, index) {
-      this.activeIndex = index;
-      this.$emit('activeItem', item);
+      console.log('active click');
+      this.dispatch('Home', 'active', item);
     },
 
     generateMockData(header) {
@@ -129,7 +125,7 @@ export default {
     },
 
     headerWidthChange(newW, oldW, col, event) {
-      this.$set(this.columns[col.columnKey].__config__, 'width', newW);
+      this.$set(this.columns[col.columnKey], 'width', newW);
     },
 
     getTableClass() {
@@ -137,29 +133,18 @@ export default {
       // return `drag_${this.config.id}`;
     },
 
-    getHeaderClasses(index) {
+    getHeaderClasses(id) { // todo fix 执行但未写入
       const result = [];
-      if (index === this.dragState.start) {
-        result.push('holder');
-      }
-      if (index === this.dragState.end) {
-        if (this.dragState.direction === 'left') {
-          result.push('target-left');
-        } else if (this.dragState.direction === 'right') {
-          result.push('target-right');
-        }
-      }
-      if (index === this.activeIndex) {
+      if (id === this.activeid) {
         result.push('header-active');
       }
       return result.join(' ');
     },
 
     handleCopy(item) {
-      this.columns.push({
-        ...item,
-        renderKey: generateId()
-      });
+      const itemCopy = deepClone(item);
+      itemCopy.__config__.id = generateId();
+      this.columns.push(itemCopy);
     },
 
     handleDel(index) {

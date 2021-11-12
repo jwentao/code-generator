@@ -2,6 +2,7 @@
 import TablePanel from '@/components/panels/TablePanel';
 
 const panelRender = {
+  // v-model
   vModel(h) {
     return (
       <el-form-item label='字段名'>
@@ -12,6 +13,7 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // placeholder
   placeholder(h) {
     return (
       <el-form-item label='占位符'>

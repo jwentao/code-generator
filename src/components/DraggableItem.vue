@@ -51,6 +51,7 @@ const containers = {
         config={config}
         class='container-wrap'>
         <DraggableTable
+          activeid={activeid}
           config={config}
         />
       </BlockWrap>

@@ -64,12 +64,17 @@ export default {
   watch: {},
   methods: {
     cloneComponent(val) {
-      console.log(val);
       const copyComponent = deepClone(val);
       const { type, tag } = val.__config__;
       if (type === 'container') {
         if (tag === 'el-table') {
-          copyComponent.children.push(deepClone(columnDefault));
+          copyComponent.children.push(deepClone({
+            ...columnDefault,
+            __config__: {
+              ...columnDefault.__config__,
+              id: generateId()
+            }
+          }));
         }
       }
       if (type === 'base') {

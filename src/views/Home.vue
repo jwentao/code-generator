@@ -74,6 +74,7 @@ export default {
   methods: {
     initEvents() {
       this.$on('active', (config) => {
+        console.log('active', config.__config__.id);
         this.activeId = config.__config__.id;
         this.activeData = config;
       });
