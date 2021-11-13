@@ -2,10 +2,10 @@
   <div class="home">
     <div class="top-container" />
     <div class="main-container">
-      <div class="container-left">
+      <el-scrollbar class="container-left">
         <LeftPanel />
-      </div>
-      <div class="container-center">
+      </el-scrollbar>
+      <el-scrollbar class="container-center">
         <draggable
           :group="{ name: DRAG_GROUP.containerComponent, put: [DRAG_GROUP.containerComponent, DRAG_GROUP.baseComponent] }"
           class="layout-board"
@@ -19,12 +19,12 @@
             :activeid="activeId"
           />
         </draggable>
-      </div>
-      <div class="container-right">
+      </el-scrollbar>
+      <el-scrollbar class="container-right">
         <RightPanel
           :active-data="activeData"
         />
-      </div>
+      </el-scrollbar>
     </div>
   </div>
 </template>
@@ -109,11 +109,13 @@ $rightWidth: 350px;
     width: $leftWidth;
     flex: 0 0 $leftWidth;
     border-right: 1px solid $borderL1;
+    height: 100%;
   }
 
   .container-center {
     flex: 1;
     overflow: hidden;
+    height: 100%;
   }
 
   .container-right {
@@ -121,6 +123,7 @@ $rightWidth: 350px;
     flex: 0 0 $rightWidth;
     border-left: 1px solid $borderL1;
     padding: 12px;
+    height: 100%;
   }
 
   .layout-board {
