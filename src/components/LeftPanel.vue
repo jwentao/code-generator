@@ -47,13 +47,14 @@ import { containerItems, columnDefault, baseItems } from './config';
 import draggable from 'vuedraggable';
 import { deepClone, generateId } from '@/utils';
 import { DRAG_GROUP } from '@/constant';
+import emitter from '@/mixins/emitter';
 
 export default {
   name: 'LeftPanel',
   components: {
     draggable
   },
-  mixins: [],
+  mixins: [emitter],
   props: {},
   data: () => ({
     DRAG_GROUP,
@@ -81,6 +82,7 @@ export default {
         copyComponent.__vModel__ = 'model';
       }
       copyComponent.__config__.id = generateId();
+      this.dispatch('Home', 'active', copyComponent);
       return copyComponent;
     }
   }
