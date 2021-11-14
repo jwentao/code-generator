@@ -7,7 +7,7 @@
       </el-scrollbar>
       <el-scrollbar class="container-center">
         <draggable
-          :group="{ name: DRAG_GROUP.containerComponent, put: [DRAG_GROUP.containerComponent, DRAG_GROUP.baseComponent] }"
+          :group="{ name: DRAG_GROUP.CONTAINER_COMPONENT, put: [DRAG_GROUP.CONTAINER_COMPONENT, DRAG_GROUP.BASE_COMPONENT] }"
           class="layout-board"
           :list="curConfig"
           handle=".drag-btn"

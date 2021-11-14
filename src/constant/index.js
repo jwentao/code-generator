@@ -1,4 +1,5 @@
 export const DRAG_GROUP = {
-  containerComponent: 'containerComponent',
-  baseComponent: 'baseComponent'
+  CONTAINER_COMPONENT: 'containerComponent',
+  BASE_COMPONENT: 'baseComponent',
+  FORM_COMPONENT: 'formComponent'
 };

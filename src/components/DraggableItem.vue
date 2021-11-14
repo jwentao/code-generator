@@ -5,6 +5,8 @@ import DraggableTable from '@/components/DraggableTable';
 import BlockWrap from '@/components/BlockWrap';
 import { DRAG_GROUP } from '@/constant';
 import baseRender from '@/components/render/render';
+import { formExtraConfig } from '@/components/config';
+import { deepClone } from '@/utils';
 
 const containers = {
   'empty'(h, config) {
@@ -16,9 +18,10 @@ const containers = {
           config={config}
         >
           <draggable
-            group={{ name: DRAG_GROUP.containerComponent, put: [DRAG_GROUP.containerComponent, DRAG_GROUP.baseComponent] }}
+            group={{ name: DRAG_GROUP.CONTAINER_COMPONENT, put: [DRAG_GROUP.CONTAINER_COMPONENT, DRAG_GROUP.BASE_COMPONENT] }}
             list={config.children}
             handle='.drag-btn'
+            onAdd={ this.handleFormAdd(config) }
             class='container-wrap'>
             <div>
               {
@@ -38,7 +41,13 @@ const containers = {
           activeid={activeid}
           config={config}
           class='container-wrap'>
-          <el-form></el-form>
+          <el-form>
+            <draggable
+              group={{ name: DRAG_GROUP.FORM_COMPONENT }}
+              onAdd={ this.handleFormAdd }
+              list={config.children}
+            ></draggable>
+          </el-form>
         </BlockWrap>
       </div>
     );
@@ -92,7 +101,18 @@ export default {
   },
   data: () => ({}),
   watch: {},
-  methods: {},
+  methods: {
+    handleFormAdd(config) {
+      return (el) => {
+        console.log(config, el);
+        console.log(this.config.children[el.newDraggableIndex]);
+        console.log(this.config.children, el.newDraggableIndex);
+        console.log(this.config.children[el.newDraggableIndex].__config__);
+        this.config.children[el.newDraggableIndex].__config__ = Object.assign(this.config.children[el.newDraggableIndex].__config__, deepClone(formExtraConfig));
+        console.log(this.config);
+      };
+    }
+  },
   render(h) {
     return render.call(this, h, this.config);
   }

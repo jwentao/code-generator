@@ -94,11 +94,24 @@ export const baseItems = [
   baseItemMap.select
 ];
 
+export const formExtraConfig = {
+  showLabel: true,
+  labelWidth: null,
+  required: true,
+  regList: []
+};
+
 // demo 可用于form-item
 export const formItems = [
   {
-    label: 'select'
-    // __config__: baseItems.select.__config__
+    ...baseItemMap.input,
+    __config__: {
+      ...baseItemMap.input.__config__,
+      showLabel: true,
+      labelWidth: null,
+      required: true,
+      regList: []
+    }
   }
 ];
 
