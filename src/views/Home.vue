@@ -115,7 +115,12 @@ $rightWidth: 350px;
   .container-center {
     flex: 1;
     overflow: hidden;
-    height: 100%;
+
+    .layout-board {
+      min-height: calc(100vh - 65px);
+      padding: 24px 12px 12px;
+      box-sizing: border-box;
+    }
   }
 
   .container-right {
@@ -124,11 +129,6 @@ $rightWidth: 350px;
     border-left: 1px solid $borderL1;
     padding: 12px;
     height: 100%;
-  }
-
-  .layout-board {
-    height: 100%;
-    padding: 12px;
   }
 }
 </style>
