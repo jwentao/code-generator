@@ -278,6 +278,16 @@ const panelRender = {
           onInput={this.__onValueInput('showLabel', this.activeData.__config__)}/>
       </el-form-item>
     );
+  },
+  // 行内
+  inline(h) {
+    return (
+      <el-form-item label='行内'>
+        <el-switch
+          value={this.activeData.inline}
+          onInput={this.__onValueInput('inline')}/>
+      </el-form-item>
+    );
   }
 };
 
@@ -285,7 +295,7 @@ const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue],
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size],
-  'el-form': [panelRender.labelWidth(), panelRender.size],
+  'el-form': [panelRender.labelWidth(), panelRender.size, panelRender.inline],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
 

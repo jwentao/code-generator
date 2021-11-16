@@ -38,6 +38,7 @@ const containers = {
         showBorder={this.showBorder}
         class='container-wrap'>
         <el-form
+          inline={config.inline}
           size={config.size}
           disabled={config.disabled}
           label-position={config.labelPosition}

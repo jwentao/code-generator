@@ -18,6 +18,7 @@ export const containerItems = [
     labelPosition: 'right',
     labelWidth: 100,
     disabled: false,
+    inline: false,
     children: []
   },
   {
