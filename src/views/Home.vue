@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <div class="top-container" />
+    <div class="top-container">
+      显示边界<el-switch v-model="showBorder" />
+    </div>
     <div class="main-container">
       <el-scrollbar class="container-left">
         <LeftPanel />
@@ -11,12 +13,14 @@
           class="layout-board"
           :list="curConfig"
           handle=".drag-btn"
+          @add="handleWrapAdd"
         >
           <DraggableItem
             v-for="(item, index) in curConfig"
             :key="index"
             :config="item"
-            :activeid="activeId"
+            :active-id="activeId"
+            :show-border="showBorder"
           />
         </draggable>
       </el-scrollbar>
@@ -37,6 +41,7 @@ import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
 import { saveConfig, getConfig } from '@/api';
 import { debounce } from 'throttle-debounce';
+import { clearFormExtraConfig } from '@/utils';
 
 const saveConfigDebounce = debounce(300, saveConfig);
 
@@ -50,6 +55,8 @@ export default {
   },
   data: () => ({
     DRAG_GROUP,
+
+    showBorder: true,
 
     activeId: null,
     activeData: {},
@@ -82,6 +89,11 @@ export default {
     activeItem(config) {
       this.activeId = config.__config__.id;
       this.activeData = config;
+      console.log('active', config);
+    },
+    handleWrapAdd(el) {
+      clearFormExtraConfig(this.curConfig[el.newDraggableIndex]);
+      this.activeItem(this.curConfig[el.newDraggableIndex]);
     }
   }
 };
@@ -97,6 +109,7 @@ $rightWidth: 350px;
 
   .top-container {
     height: $topHeight;
+    line-height: $topHeight;
     border-bottom: 1px solid $borderL1;
   }
 

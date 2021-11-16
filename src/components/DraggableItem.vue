@@ -6,61 +6,72 @@ import BlockWrap from '@/components/BlockWrap';
 import { DRAG_GROUP } from '@/constant';
 import baseRender from '@/components/render/render';
 import { formExtraConfig } from '@/components/config';
-import { deepClone } from '@/utils';
+import { clearFormExtraConfig, deepClone } from '@/utils';
+import emitter from '@/mixins/emitter';
 
 const containers = {
   'empty'(h, config) {
-    const { activeid } = this.$attrs;
     return (
-      <div class='empty-container'>
-        <BlockWrap
-          activeid={activeid}
-          config={config}
-        >
-          <draggable
-            group={{ name: DRAG_GROUP.CONTAINER_COMPONENT, put: [DRAG_GROUP.CONTAINER_COMPONENT, DRAG_GROUP.BASE_COMPONENT] }}
-            list={config.children}
-            handle='.drag-btn'
-            onAdd={ this.handleFormAdd(config) }
-            class='container-wrap'>
-            <div>
-              {
-                config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
-              }
-            </div>
-          </draggable>
-        </BlockWrap>
-      </div>
+      <BlockWrap
+        activeId={this.activeId}
+        config={config}
+        showBorder={this.showBorder}
+      >
+        <draggable
+          group={{ name: DRAG_GROUP.CONTAINER_COMPONENT, put: [DRAG_GROUP.CONTAINER_COMPONENT, DRAG_GROUP.BASE_COMPONENT] }}
+          list={config.children}
+          handle='.drag-btn'
+          onAdd={ this.handleEmptyAdd(config) }
+          class='container-wrap'>
+          {
+            config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
+          }
+        </draggable>
+      </BlockWrap>
     );
   },
   'el-form'(h, config) {
-    const { activeid } = this.$attrs;
     return (
-      <div>
-        <BlockWrap
-          activeid={activeid}
-          config={config}
-          class='container-wrap'>
-          <el-form>
-            <draggable
-              group={{ name: DRAG_GROUP.FORM_COMPONENT }}
-              onAdd={ this.handleFormAdd }
-              list={config.children}
-            ></draggable>
-          </el-form>
-        </BlockWrap>
-      </div>
+      <BlockWrap
+        activeId={this.activeId}
+        config={config}
+        showBorder={this.showBorder}
+        class='container-wrap'>
+        <el-form
+          size={config.size}
+          disabled={config.disabled}
+          label-position={config.labelPosition}
+          label-width={`${config.labelWidth}px`}>
+          <draggable
+            group={{ name: DRAG_GROUP.BASE_COMPONENT }}
+            onAdd={ this.handleFormAdd(config) }
+            list={config.children}
+            handle='.drag-btn'
+          >
+            {
+              config.children && config.children.map(itemConfig => (
+                <el-form-item
+                  label={itemConfig.__config__.showLabel ? itemConfig.__config__.label : ''}
+                  label-width={itemConfig.__config__.labelWidth && `${itemConfig.__config__.labelWidth}px`}
+                >
+                  { render.call(this, h, itemConfig) }
+                </el-form-item>
+              ))
+            }
+          </draggable>
+        </el-form>
+      </BlockWrap>
     );
   },
   'el-table'(h, config) {
-    const { activeid } = this.$attrs;
     return (
       <BlockWrap
-        activeid={activeid}
+        activeId={this.activeId}
         config={config}
+        showBorder={this.showBorder}
         class='container-wrap'>
         <DraggableTable
-          activeid={activeid}
+          activeId={this.activeId}
           config={config}
         />
       </BlockWrap>
@@ -69,11 +80,11 @@ const containers = {
 };
 
 const bases = function(h, config) {
-  const { activeid } = this.$attrs;
   return (
     <BlockWrap
-      activeid={activeid}
+      activeId={this.activeId}
       config={config}
+      show-border={this.showBorder}
     >
       <baseRender key={config.id} conf={config} onInput={ event => {
         this.$set(config.__config__, 'defaultValue', event);
@@ -92,11 +103,19 @@ export default {
   name: 'DraggableItem',
   components: {
   },
-  mixins: [],
+  mixins: [emitter],
   props: {
     config: {
       type: Object,
       default: () => ({})
+    },
+    showBorder: {
+      type: Boolean,
+      default: false
+    },
+    activeId: {
+      type: Number,
+      default: 0
     }
   },
   data: () => ({}),
@@ -104,12 +123,14 @@ export default {
   methods: {
     handleFormAdd(config) {
       return (el) => {
-        console.log(config, el);
-        console.log(this.config.children[el.newDraggableIndex]);
-        console.log(this.config.children, el.newDraggableIndex);
-        console.log(this.config.children[el.newDraggableIndex].__config__);
-        this.config.children[el.newDraggableIndex].__config__ = Object.assign(this.config.children[el.newDraggableIndex].__config__, deepClone(formExtraConfig));
-        console.log(this.config);
+        config.children[el.newDraggableIndex].__config__ = Object.assign(config.children[el.newDraggableIndex].__config__, deepClone(formExtraConfig));
+        this.dispatch('Home', 'active', config.children[el.newDraggableIndex]);
+      };
+    },
+    handleEmptyAdd(config) {
+      return (el) => {
+        clearFormExtraConfig(config.children[el.newDraggableIndex]);
+        this.dispatch('Home', 'active', config.children[el.newDraggableIndex]);
       };
     }
   },

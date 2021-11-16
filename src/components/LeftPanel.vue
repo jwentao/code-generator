@@ -40,30 +40,10 @@
         </div>
       </draggable>
     </div>
-    <div class="component-block">
-      表单组件
-      <draggable
-        :group="{name: DRAG_GROUP.FORM_COMPONENT, pull: 'clone', put: false}"
-        :sort="false"
-        class="left-drag-wrap"
-        :list="baseItems"
-        :clone="cloneComponent"
-      >
-        <div
-          v-for="(item, index) in formItems"
-          :key="index"
-          class="component-item"
-        >
-          <div class="component-inner">
-            {{ item.__config__.label }}
-          </div>
-        </div>
-      </draggable>
-    </div>
   </div>
 </template>
 <script>
-import { containerItems, columnDefault, baseItems, formItems } from './config';
+import { containerItems, columnDefault, baseItems } from './config';
 import draggable from 'vuedraggable';
 import { deepClone, generateId } from '@/utils';
 import { DRAG_GROUP } from '@/constant';
@@ -80,13 +60,11 @@ export default {
     DRAG_GROUP,
 
     containerItems,
-    baseItems,
-    formItems
+    baseItems
   }),
   watch: {},
   methods: {
-    cloneComponent(val, target) {
-      console.log(target);
+    cloneComponent(val) {
       const copyComponent = deepClone(val);
       const { type, tag } = val.__config__;
       if (type === 'container') {
@@ -104,7 +82,7 @@ export default {
         copyComponent.__vModel__ = 'model';
       }
       copyComponent.__config__.id = generateId();
-      this.dispatch('Home', 'active', copyComponent);
+      // this.dispatch('Home', 'active', copyComponent);
       return copyComponent;
     }
   }

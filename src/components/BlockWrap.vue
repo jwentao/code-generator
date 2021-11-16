@@ -27,13 +27,17 @@ export default {
     emitter
   ],
   props: {
-    activeid: {
+    activeId: {
       default: null,
       type: [String, Number, null]
     },
     config: {
       default: () => ({}),
       type: Object
+    },
+    showBorder: {
+      default: false,
+      type: Boolean
     }
   },
   data: () => ({
@@ -41,7 +45,7 @@ export default {
   }),
   computed: {
     showWrap() {
-      return this.config.__config__.id === this.activeid;
+      return this.config.__config__.id === this.activeId;
     }
   },
   watch: {},
@@ -57,6 +61,9 @@ export default {
       } else if (this.mouseover) {
         className += ' wrap_hover';
       }
+      if (this.showBorder) {
+        className += ' component-wrap';
+      }
       return className;
     }
   }
@@ -68,7 +75,6 @@ $height: 20px;
 
 .blockWrap {
   position: relative;
-  border: 1px dashed $borderL4;
 
   .op-wrap {
     position: absolute;

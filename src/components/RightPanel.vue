@@ -29,17 +29,6 @@ const panelRender = {
       </el-form-item>
     );
   },
-  // label
-  label(h) {
-    return (
-      <el-form-item label='标签名'>
-        <el-input
-          value={this.activeData.label}
-          onInput={this.__onValueInput('label')}
-          placeholder='请输入标签名（label)' />
-      </el-form-item>
-    );
-  },
   // placeholder
   placeholder(h) {
     return (
@@ -241,6 +230,54 @@ const panelRender = {
         <el-divider />
       </div>
     );
+  },
+  formLabel(h) {
+    return (
+      <el-form-item label='标签名'>
+        <el-input
+          value={this.activeData.__config__.label}
+          onInput={this.__onValueInput('label', this.activeData.__config__)}
+          placeholder='标签名' />
+      </el-form-item>
+    );
+  },
+  // label宽度,form和基础组件共用
+  labelWidth(key) {
+    return function(h) {
+      const target = key ? this.activeData[key] : this.activeData;
+      return (
+        <el-form-item label='label宽度'>
+          <el-input
+            value={target.labelWidth}
+            onInput={this.__onValueInput('labelWidth', target)}
+            placeholder='label宽度' />
+        </el-form-item>
+      );
+    };
+  },
+  // label
+  label(key) {
+    return function(h) {
+      const target = key ? this.activeData[key] : this.activeData;
+      return (
+        <el-form-item label='标签名'>
+          <el-input
+            value={target.label}
+            onInput={this.__onValueInput('label', target)}
+            placeholder='请输入标签名（label)'/>
+        </el-form-item>
+      );
+    };
+  },
+  // 显示标签
+  showLabel(h) {
+    return (
+      <el-form-item label='显示标签'>
+        <el-switch
+          value={this.activeData.__config__.showLabel}
+          onInput={this.__onValueInput('showLabel', this.activeData.__config__)}/>
+      </el-form-item>
+    );
   }
 };
 
@@ -248,8 +285,11 @@ const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue],
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size],
-  'el-table-column': [panelRender.prop, panelRender.label, panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
+  'el-form': [panelRender.labelWidth(), panelRender.size],
+  'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
+
+const formExtraRender = [panelRender.label('__config__'), panelRender.labelWidth('__config__'), panelRender.showLabel];
 
 export default {
   name: 'RightPanel',
@@ -267,13 +307,14 @@ export default {
   methods: {
     __onValueInput(key, target) {
       return (val) => {
+        console.log(val);
         target = target || this.activeData;
         target[key] = isNumberStr(val) ? +val : val;
+        // this.$set(target, key, isNumberStr(val) ? +val : val);
       };
     },
 
     __onDefaultValueInput(str) {
-      console.log(str);
       if (Array.isArray(this.activeData.__config__.defaultValue)) {
         // 数组
         this.$set(
@@ -311,12 +352,19 @@ export default {
     if (!this.activeData || !this.activeData.__config__) {
       return (<div/>);
     }
+    let extra = <div/>;
+    if (this.activeData.__config__.parent) {
+      extra = formExtraRender.map(item => item.call(this, h));
+    }
     return (
       <div>
-        { this.activeData.__config__ && this.activeData.__config__.label }
         <el-form label-width='90px' size='small'>
           {
             ((this.activeData.__config__ && renderMap[this.activeData.__config__.tag]) || []).map(item => item.call(this, h))
+          }
+          <el-divider/>
+          {
+            extra
           }
         </el-form>
       </div>

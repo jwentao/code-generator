@@ -14,6 +14,10 @@ export const containerItems = [
       type: 'container',
       tag: 'el-form'
     },
+    size: 'medium',
+    labelPosition: 'right',
+    labelWidth: 100,
+    disabled: false,
     children: []
   },
   {
@@ -95,8 +99,9 @@ export const baseItems = [
 ];
 
 export const formExtraConfig = {
+  parent: 'el-form', // 区分是form的子组件
   showLabel: true,
-  labelWidth: null,
+  labelWidth: 100,
   required: true,
   regList: []
 };
@@ -106,11 +111,7 @@ export const formItems = [
   {
     ...baseItemMap.input,
     __config__: {
-      ...baseItemMap.input.__config__,
-      showLabel: true,
-      labelWidth: null,
-      required: true,
-      regList: []
+      ...baseItemMap.input.__config__
     }
   }
 ];

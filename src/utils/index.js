@@ -1,6 +1,14 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
+import { formExtraConfig } from '@/components/config';
+
+export function clearFormExtraConfig(config) {
+  Object.keys(formExtraConfig).forEach(key => {
+    delete config.__config__[key];
+  });
+}
+
 /**
  * num 小于0，左缩进num*2个空格； 大于0，右缩进num*2个空格。
  * @param {string} str 代码
