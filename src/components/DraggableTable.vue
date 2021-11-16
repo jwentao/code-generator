@@ -1,48 +1,45 @@
 <template>
-  <div>
-    <el-table
-      v-if="refreshKey"
-      class="drag-table"
-      :class="getTableClass"
-      :data="tableData"
-      :border="config.border"
-      :stripe="config.stripe"
-      :size="config.size"
-      v-on="$listeners"
-      @header-dragend="headerWidthChange"
+  <el-table
+    v-if="refreshKey"
+    class="drag-table"
+    :class="getTableClass"
+    :data="tableData"
+    :border="config.border"
+    :stripe="config.stripe"
+    :size="config.size"
+    v-on="$listeners"
+    @header-dragend="headerWidthChange"
+  >
+    <el-table-column
+      v-for="(item, index) in columns"
+      :key="item.__config__.id + renderKey"
+      v-bind="item"
+      :column-key="index.toString()"
     >
-      <el-table-column
-        v-for="(item, index) in columns"
-        :key="item.__config__.id + renderKey"
-        v-bind="item"
-        :column-key="index.toString()"
-      >
-        <template slot="header">
+      <template slot="header">
+        <div
+          class="table-header"
+          :class="getHeaderClasses(item.__config__.id)"
+          @click.stop="activeColumn(item, index)"
+        >
           <div
-            class="table-header"
-            :class="getHeaderClasses(item.__config__.id)"
-            @click.stop="activeColumn(item, index)"
+            class="inner-wrap"
           >
-            <div
-              class="inner-wrap"
-            >
-              {{ item.label }}123
-            </div>
-            <div class="op-wrap">
-              <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
-              <span class="op-del" @click.stop="handleDel(index)"><i class="el-icon-delete" /></span>
-            </div>
+            {{ item.label }}123
           </div>
-        </template>
-        <template slot-scope="{row}">
-          <div v-if="item.__config__.type === 'prop'">
-            {{ row[item.prop] }}
+          <div class="op-wrap">
+            <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
+            <span class="op-del" @click.stop="handleDel(index)"><i class="el-icon-delete" /></span>
           </div>
-        </template>
-      </el-table-column>
-    </el-table>
-    {{ columns }}
-  </div>
+        </div>
+      </template>
+      <template slot-scope="{row}">
+        <div v-if="item.__config__.type === 'prop'">
+          {{ row[item.prop] }}
+        </div>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 <script>
 import Sortable from 'sortablejs';
