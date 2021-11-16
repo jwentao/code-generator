@@ -107,6 +107,7 @@ export const formExtraConfig = {
 };
 
 // demo 可用于form-item
+// 暂无用处，使用拖拽到目标位置后动态添加__config__
 export const formItems = [
   {
     ...baseItemMap.input,

@@ -47,6 +47,7 @@ const containers = {
             onAdd={ this.handleFormAdd(config) }
             list={config.children}
             handle='.drag-btn'
+            class='container-wrap'
           >
             {
               config.children && config.children.map(itemConfig => (
@@ -123,7 +124,11 @@ export default {
   methods: {
     handleFormAdd(config) {
       return (el) => {
-        config.children[el.newDraggableIndex].__config__ = Object.assign(config.children[el.newDraggableIndex].__config__, deepClone(formExtraConfig));
+        // config.children[el.newDraggableIndex].__config__ = Object.assign(config.children[el.newDraggableIndex].__config__, deepClone(formExtraConfig));
+        this.$set(config.children[el.newDraggableIndex], '__config__', {
+          ...config.children[el.newDraggableIndex].__config__,
+          ...deepClone(formExtraConfig)
+        });
         this.dispatch('Home', 'active', config.children[el.newDraggableIndex]);
       };
     },
