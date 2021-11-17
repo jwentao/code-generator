@@ -25,7 +25,7 @@
           <div
             class="inner-wrap"
           >
-            {{ item.label }}123
+            {{ item.label }}
           </div>
           <div class="op-wrap">
             <span class="op-copy" @click.stop="handleCopy(item)"><i class="el-icon-copy-document" /></span>
@@ -139,7 +139,6 @@ export default {
 
     refreshColumn() { // label等配置修改不会触发列重新渲染，手动刷新下
       this.renderKey = generateId();
-      console.log('do renderKey');
     },
 
     headerWidthChange(newW, oldW, col, event) {
@@ -162,10 +161,14 @@ export default {
     handleCopy(item) {
       const itemCopy = deepClone(item);
       itemCopy.__config__.id = generateId();
+      this.dispatch('Home', 'active', itemCopy);
       this.columns.push(itemCopy);
     },
 
     handleDel(index) {
+      if (this.activeId === this.columns[index].__config__.id) {
+        this.dispatch('Home', 'active', { __config__: { id: null }});
+      }
       this.columns.splice(index, 1);
     }
   }

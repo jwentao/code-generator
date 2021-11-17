@@ -1,6 +1,7 @@
 <script>
 import draggable from 'vuedraggable';
-import { isNumberStr } from '@/utils';
+import { deepClone, generateId, isNumberStr } from '@/utils';
+import { columnDefault } from '@/components/config';
 
 const sizeList = [{ label: '中等', value: 'medium' }, { label: '小', value: 'small' }, { label: '迷你', value: 'mini' }];
 const alignList = [{ label: '左', value: 'left' }, { label: '中', value: 'center' }, { label: '右', value: 'right' }];
@@ -288,13 +289,32 @@ const panelRender = {
           onInput={this.__onValueInput('inline')}/>
       </el-form-item>
     );
+  },
+  // 增加列
+  addColumn(h) {
+    return (
+      <el-form-item label=''>
+        <el-button
+          size='small'
+          type='primary'
+          onClick={() => {
+            this.activeData.children.push(deepClone({
+              ...columnDefault,
+              __config__: {
+                ...columnDefault.__config__,
+                id: generateId()
+              }
+            }));
+          }}>增加一列</el-button>
+      </el-form-item>
+    );
   }
 };
 
 const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue],
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.filterable, panelRender.multiple, panelRender.options],
-  'el-table': [panelRender.border, panelRender.stripe, panelRender.size],
+  'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.addColumn],
   'el-form': [panelRender.labelWidth(), panelRender.size, panelRender.inline],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
