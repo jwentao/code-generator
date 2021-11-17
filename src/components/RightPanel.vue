@@ -7,6 +7,7 @@ import IconsDialog from '@/components/IconsDialog';
 const sizeList = [{ label: '中等', value: 'medium' }, { label: '小', value: 'small' }, { label: '迷你', value: 'mini' }];
 const alignList = [{ label: '左', value: 'left' }, { label: '中', value: 'center' }, { label: '右', value: 'right' }];
 const fixedList = [{ label: '左', value: 'left' }, { label: '右', value: 'right' }, { label: '不固定', value: false }];
+const optionTypeList = [{ label: '默认', value: 'default' }, { label: '按钮', value: 'button' }];
 
 const panelRender = {
   // v-model
@@ -240,6 +241,22 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 选项样式
+  optionType(h) {
+    return (
+      <el-form-item label='选项样式'>
+        <el-radio-group
+          value={this.activeData.__config__.optionType}
+          onInput={this.__onValueInput('optionType', this.activeData.__config__)}>
+          { optionTypeList.map(item => (
+            <el-radio-button label={ item.value }>
+              { item.label }
+            </el-radio-button>
+          )) }
+        </el-radio-group>
+      </el-form-item>
+    );
+  },
   // 固定位置
   fixed(h) {
     return (
@@ -426,6 +443,7 @@ const panelRender = {
 const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
+  'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.size, panelRender.options, panelRender.optionType, panelRender.border, panelRender.disabled],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.addColumn],
   'el-form': [panelRender.labelWidth(), panelRender.size, panelRender.inline],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]

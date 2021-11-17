@@ -94,6 +94,7 @@ const baseItemMap = {
 
   'radio-group': {
     __config__: {
+      type: 'base',
       showName: '单选框组',
       labelWidth: null,
       showLabel: true,
