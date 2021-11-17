@@ -14,9 +14,12 @@ export const containerItems = [
       type: 'container',
       tag: 'el-form'
     },
+    formRef: 'elForm',
+    formModel: 'formData',
     size: 'medium',
     labelPosition: 'right',
     labelWidth: 100,
+    formRules: 'rules',
     disabled: false,
     inline: false,
     children: []

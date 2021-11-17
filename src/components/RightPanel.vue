@@ -6,6 +6,7 @@ import IconsDialog from '@/components/IconsDialog';
 
 const sizeList = [{ label: '中等', value: 'medium' }, { label: '小', value: 'small' }, { label: '迷你', value: 'mini' }];
 const alignList = [{ label: '左', value: 'left' }, { label: '中', value: 'center' }, { label: '右', value: 'right' }];
+const positionList = [{ label: '左对齐', value: 'left' }, { label: '顶部对齐', value: 'top' }, { label: '右对齐', value: 'right' }];
 const fixedList = [{ label: '左', value: 'left' }, { label: '右', value: 'right' }, { label: '不固定', value: false }];
 const optionTypeList = [{ label: '默认', value: 'default' }, { label: '按钮', value: 'button' }];
 
@@ -351,26 +352,16 @@ const panelRender = {
       </div>
     );
   },
-  formLabel(h) {
-    return (
-      <el-form-item label='标签名'>
-        <el-input
-          value={this.activeData.__config__.label}
-          onInput={this.__onValueInput('label', this.activeData.__config__)}
-          placeholder='标签名' />
-      </el-form-item>
-    );
-  },
   // label宽度,form和基础组件共用
   labelWidth(key) {
     return function(h) {
       const target = key ? this.activeData[key] : this.activeData;
       return (
-        <el-form-item label='label宽度'>
+        <el-form-item label='标签宽度'>
           <el-input
             value={target.labelWidth}
             onInput={this.__onValueInput('labelWidth', target)}
-            placeholder='label宽度' />
+            placeholder='标签宽度' />
         </el-form-item>
       );
     };
@@ -419,6 +410,55 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 表单ref
+  formRef(h) {
+    return (
+      <el-form-item label='表单ref'>
+        <el-input
+          value={this.activeData.formRef}
+          onInput={this.__onValueInput('formRef')}
+          placeholder='表单ref' />
+      </el-form-item>
+    );
+  },
+  // 表单model
+  formModel(h) {
+    return (
+      <el-form-item label='表单model'>
+        <el-input
+          value={this.activeData.formModel}
+          onInput={this.__onValueInput('formModel')}
+          placeholder='绑定至model' />
+      </el-form-item>
+    );
+  },
+  // 表单规则
+  formRules(h) {
+    return (
+      <el-form-item label='表单规则'>
+        <el-input
+          value={this.activeData.formRules}
+          onInput={this.__onValueInput('formRules')}
+          placeholder='绑定至rules' />
+      </el-form-item>
+    );
+  },
+  // 标签对齐
+  labelPosition(h) {
+    return (
+      <el-form-item label='标签对齐'>
+        <el-radio-group
+          value={this.activeData.labelPosition}
+          onInput={this.__onValueInput('labelPosition')}>
+          { positionList.map(item => (
+            <el-radio-button label={ item.value }>
+              { item.label }
+            </el-radio-button>
+          )) }
+        </el-radio-group>
+      </el-form-item>
+    );
+  },
   // 增加列
   addColumn(h) {
     return (
@@ -445,7 +485,7 @@ const renderMap = {
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.size, panelRender.options, panelRender.optionType, panelRender.border, panelRender.disabled],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.addColumn],
-  'el-form': [panelRender.labelWidth(), panelRender.size, panelRender.inline],
+  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size, panelRender.inline, panelRender.disabled],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
 
