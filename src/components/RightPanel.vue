@@ -2,6 +2,7 @@
 import draggable from 'vuedraggable';
 import { deepClone, generateId, isNumberStr } from '@/utils';
 import { columnDefault } from '@/components/config';
+import IconsDialog from '@/components/IconsDialog';
 
 const sizeList = [{ label: '中等', value: 'medium' }, { label: '小', value: 'small' }, { label: '迷你', value: 'mini' }];
 const alignList = [{ label: '左', value: 'left' }, { label: '中', value: 'center' }, { label: '右', value: 'right' }];
@@ -70,6 +71,107 @@ const panelRender = {
         <el-switch
           value={this.activeData.clearable}
           onInput={this.__onValueInput('clearable')}/>
+      </el-form-item>
+    );
+  },
+  // 是否禁用
+  disabled(h) {
+    return (
+      <el-form-item label='是否禁用'>
+        <el-switch
+          value={this.activeData.disabled}
+          onInput={this.__onValueInput('disabled')}/>
+      </el-form-item>
+    );
+  },
+  // 前缀
+  prepend(h) {
+    return (
+      <el-form-item label='前缀'>
+        <el-input
+          value={this.activeData.__slot__.prepend}
+          onInput={this.__onValueInput('prepend', this.activeData.__slot__)}
+          placeholder='请输入前缀' />
+      </el-form-item>
+    );
+  },
+  // 后缀
+  append(h) {
+    return (
+      <el-form-item label='后缀'>
+        <el-input
+          value={this.activeData.__slot__.append}
+          onInput={this.__onValueInput('append', this.activeData.__slot__)}
+          placeholder='请输入后缀' />
+      </el-form-item>
+    );
+  },
+  // 前图标
+  'prefix-icon'(h) {
+    return (
+      <el-form-item label='前图标'>
+        <el-input
+          value={this.activeData['prefix-icon']}
+          onInput={this.__onValueInput('prefix-icon')}
+          placeholder='请输入前图标'>
+          <el-button slot='append' icon='el-icon-thumb' onClick={() => {
+            this.__openIconsDialog('prefix-icon');
+          }}>
+          选择
+          </el-button>
+        </el-input>
+      </el-form-item>
+    );
+  },
+  // 后图标
+  'suffix-icon'(h) {
+    return (
+      <el-form-item label='后图标'>
+        <el-input
+          value={this.activeData['suffix-icon']}
+          onInput={this.__onValueInput('suffix-icon')}
+          placeholder='请输入后图标'>
+          <el-button slot='append' icon='el-icon-thumb' onClick={() => {
+            this.__openIconsDialog('suffix-icon');
+          }}>
+          选择
+          </el-button>
+        </el-input>
+      </el-form-item>
+    );
+  },
+  // 是否只读
+  readonly(h) {
+    return (
+      <el-form-item label='是否只读'>
+        <el-switch
+          value={this.activeData.readonly}
+          onInput={this.__onValueInput('readonly')}/>
+      </el-form-item>
+    );
+  },
+  // 输入最大长度
+  maxlength(h) {
+    return (
+      <el-form-item label='最多输入'>
+        <el-input
+          value={this.activeData.maxlength}
+          onInput={this.__onValueInput('maxlength')}
+          placeholder='输入后可限制最大长度'>
+          <template slot='append'>
+            个字符
+          </template>
+        </el-input>
+      </el-form-item>
+    );
+  },
+  // 输入统计
+  'show-word-limit'(h) {
+    return (
+      <el-form-item label='输入统计'>
+        <el-switch
+          value={this.activeData['show-word-limit']}
+          onInput={this.__onValueInput('show-word-limit')}/>
       </el-form-item>
     );
   },
@@ -312,8 +414,8 @@ const panelRender = {
 };
 
 const renderMap = {
-  'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue],
-  'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.filterable, panelRender.multiple, panelRender.options],
+  'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
+  'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.addColumn],
   'el-form': [panelRender.labelWidth(), panelRender.size, panelRender.inline],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
@@ -332,7 +434,9 @@ export default {
       })
     }
   },
-  data: () => ({}),
+  data: () => ({
+    iconsVisible: false
+  }),
   watch: {},
   methods: {
     __onValueInput(key, target) {
@@ -376,6 +480,15 @@ export default {
         return `${val}`;
       }
       return val;
+    },
+
+    __openIconsDialog(model) {
+      this.iconsVisible = true;
+      this.currentIconModel = model;
+    },
+
+    __setIcon(val) {
+      this.activeData[this.currentIconModel] = val;
     }
   },
   render(h) {
@@ -397,6 +510,11 @@ export default {
             extra
           }
         </el-form>
+        <IconsDialog
+          visible={this.iconsVisible}
+          current={this.activeData[this.currentIconModel]}
+          on={{ 'update:visible': (val) => { this.iconsVisible = val; }, select: this.__setIcon }}
+        />
       </div>
     );
   }
