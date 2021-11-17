@@ -15,7 +15,7 @@
           class="component-item"
         >
           <div class="component-inner">
-            {{ item.__config__.label }}
+            {{ item.__config__.showName }}
           </div>
         </div>
       </draggable>
@@ -35,7 +35,7 @@
           class="component-item"
         >
           <div class="component-inner">
-            {{ item.__config__.label }}
+            {{ item.__config__.showName }}
           </div>
         </div>
       </draggable>

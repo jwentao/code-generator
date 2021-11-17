@@ -2,7 +2,7 @@
 export const containerItems = [
   {
     __config__: {
-      label: '空容器',
+      showName: '空容器',
       type: 'container',
       tag: 'empty'
     },
@@ -10,7 +10,7 @@ export const containerItems = [
   },
   {
     __config__: {
-      label: '表单(todo)',
+      showName: '表单(todo)',
       type: 'container',
       tag: 'el-form'
     },
@@ -23,7 +23,7 @@ export const containerItems = [
   },
   {
     __config__: {
-      label: '表格',
+      showName: '表格',
       type: 'container',
       tag: 'el-table',
       ref: 'table',
@@ -43,7 +43,7 @@ const baseItemMap = {
     // 组件的自定义配置
     __config__: {
       type: 'base',
-      label: '单行文本',
+      showName: '单行文本',
       changeTag: true,
       tag: 'el-input',
       tagIcon: 'input',
@@ -70,7 +70,7 @@ const baseItemMap = {
   select: {
     __config__: {
       type: 'base',
-      label: '下拉选择',
+      showName: '下拉选择',
       tag: 'el-select',
       tagIcon: 'select',
       document: 'https://element.eleme.cn/#/zh-CN/component/select'
@@ -90,13 +90,41 @@ const baseItemMap = {
     disabled: false,
     filterable: false,
     multiple: false
+  },
+
+  'radio-group': {
+    __config__: {
+      showName: '单选框组',
+      labelWidth: null,
+      showLabel: true,
+      tag: 'el-radio-group',
+      tagIcon: 'radio',
+      defaultValue: undefined,
+      optionType: 'default',
+      regList: [],
+      required: true,
+      border: false,
+      document: 'https://element.eleme.cn/#/zh-CN/component/radio'
+    },
+    __slot__: {
+      options: [{
+        label: '选项一',
+        value: 1
+      }, {
+        label: '选项二',
+        value: 2
+      }]
+    },
+    size: 'medium',
+    disabled: false
   }
 };
 
 // 普通组件
 export const baseItems = [
   baseItemMap.input,
-  baseItemMap.select
+  baseItemMap.select,
+  baseItemMap['radio-group']
 ];
 
 export const formExtraConfig = {
@@ -121,7 +149,7 @@ export const formItems = [
 // table column默认配置
 export const columnDefault = {
   __config__: {
-    label: '表-列',
+    showName: '表-列',
     tag: 'el-table-column',
     type: 'prop' // prop | customer
   },

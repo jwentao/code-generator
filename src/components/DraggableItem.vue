@@ -42,6 +42,7 @@ const containers = {
           size={config.size}
           disabled={config.disabled}
           label-position={config.labelPosition}
+          rules={{}}
           label-width={`${config.labelWidth}px`}>
           <draggable
             group={{ name: DRAG_GROUP.BASE_COMPONENT }}
@@ -54,7 +55,8 @@ const containers = {
               config.children && config.children.map(itemConfig => (
                 <el-form-item
                   label={itemConfig.__config__.showLabel ? itemConfig.__config__.label : ''}
-                  label-width={itemConfig.__config__.labelWidth && `${itemConfig.__config__.labelWidth}px`}
+                  label-width={itemConfig.__config__.showLabel ? (itemConfig.__config__.labelWidth && `${itemConfig.__config__.labelWidth}px`) : '0'}
+                  required={itemConfig.__config__.required}
                 >
                   { render.call(this, h, itemConfig) }
                 </el-form-item>
@@ -128,7 +130,8 @@ export default {
         // config.children[el.newDraggableIndex].__config__ = Object.assign(config.children[el.newDraggableIndex].__config__, deepClone(formExtraConfig));
         this.$set(config.children[el.newDraggableIndex], '__config__', {
           ...config.children[el.newDraggableIndex].__config__,
-          ...deepClone(formExtraConfig)
+          ...deepClone(formExtraConfig),
+          label: config.children[el.newDraggableIndex].__config__.showName
         });
         this.dispatch('Home', 'active', config.children[el.newDraggableIndex]);
       };

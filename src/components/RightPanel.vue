@@ -382,6 +382,16 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 是否必填
+  required(h) {
+    return (
+      <el-form-item label='是否必填'>
+        <el-switch
+          value={this.activeData.__config__.required}
+          onInput={this.__onValueInput('required', this.activeData.__config__)}/>
+      </el-form-item>
+    );
+  },
   // 行内
   inline(h) {
     return (
@@ -421,7 +431,7 @@ const renderMap = {
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
 
-const formExtraRender = [panelRender.label('__config__'), panelRender.labelWidth('__config__'), panelRender.showLabel];
+const formExtraRender = [panelRender.label('__config__'), panelRender.labelWidth('__config__'), panelRender.showLabel, panelRender.required];
 
 export default {
   name: 'RightPanel',
@@ -501,6 +511,7 @@ export default {
     }
     return (
       <div>
+        { this.activeData.__config__.showName }
         <el-form label-width='90px' size='small'>
           {
             ((this.activeData.__config__ && renderMap[this.activeData.__config__.tag]) || []).map(item => item.call(this, h))

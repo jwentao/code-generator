@@ -26,6 +26,7 @@
       </el-scrollbar>
       <el-scrollbar class="container-right">
         <RightPanel
+          class="right-inner"
           :active-data="activeData"
         />
       </el-scrollbar>
@@ -140,8 +141,11 @@ $rightWidth: 350px;
     width: $rightWidth;
     flex: 0 0 $rightWidth;
     border-left: 1px solid $borderL1;
-    padding: 12px;
     height: 100%;
+
+    .right-inner {
+      padding: 12px;
+    }
   }
 }
 </style>
