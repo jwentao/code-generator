@@ -2,6 +2,7 @@
   <div class="home">
     <div class="top-container">
       显示边界<el-switch v-model="showBorder" />
+      <el-button type="primary" size="small" @click="generateCode">生成代码(测试)</el-button>
     </div>
     <div class="main-container">
       <el-scrollbar class="container-left">
@@ -43,6 +44,8 @@ import { DRAG_GROUP } from '@/constant';
 import { saveConfig, getConfig } from '@/api';
 import { debounce } from 'throttle-debounce';
 import { clearFormExtraConfig } from '@/utils';
+import { makeUpTemplate } from '@/generator/template';
+import { makeupScript } from '@/generator/script';
 
 const saveConfigDebounce = debounce(300, saveConfig);
 
@@ -95,6 +98,12 @@ export default {
     handleWrapAdd(el) {
       clearFormExtraConfig(this.curConfig[el.newDraggableIndex]);
       this.activeItem(this.curConfig[el.newDraggableIndex]);
+    },
+    generateCode() {
+      const template = makeUpTemplate(this.curConfig);
+      const script = makeupScript(this.curConfig);
+      console.log(template);
+      console.log(script);
     }
   }
 };

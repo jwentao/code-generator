@@ -40,7 +40,12 @@ const originList = iconList.map(name => `el-icon-${name}`);
 
 export default {
   inheritAttrs: false,
-  props: ['current'],
+  props: {
+    current: {
+      type: String,
+      default: undefined
+    }
+  },
   data() {
     return {
       iconList: originList,

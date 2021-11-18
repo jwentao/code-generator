@@ -105,7 +105,6 @@ const baseItemMap = {
       tagIcon: 'radio',
       defaultValue: undefined,
       optionType: 'default',
-      regList: [],
       required: true,
       border: false,
       document: 'https://element.eleme.cn/#/zh-CN/component/radio'
