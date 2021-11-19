@@ -301,7 +301,7 @@ const tags = {
       labelPosition = `label-position="${el.labelPosition}"`;
     }
     const disabled = el.disabled ? `:disabled="${el.disabled}"` : '';
-    return `<el-form ref="${el.formRef}" :model="${el.formModel}" :rules="${el.formRules}" size="${el.size}" ${disabled} label-width="${el.labelWidth}px" ${labelPosition}>
+    return `<el-form ref="${el.formRef}" :model="${el.formModel}" :rules="${el.formRules}" size="${el.size}" :inline=${el.inline} ${disabled} label-width="${el.labelWidth}px" ${labelPosition}>
       ${formItemCompile(el)}
       ${buildFromBtn(el, 'file')}
     </el-form>`;
