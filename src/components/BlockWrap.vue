@@ -7,6 +7,12 @@
     @click.stop="clickWrap"
   >
     <div v-show="showWrap" class="op-wrap">
+      <div class="icon-copy" @click.stop="handleCopy">
+        <i class="el-icon-copy-document" />
+      </div>
+      <div class="icon-del" @click.stop="handleDel">
+        <i class="el-icon-delete" />
+      </div>
       <div class="op-item drag-btn">
         <Move />
       </div>
@@ -50,6 +56,13 @@ export default {
   },
   watch: {},
   methods: {
+    handleCopy() {
+      this.dispatch('Home', 'copy', this.config);
+    },
+
+    handleDel() {
+      this.dispatch('Home', 'delete', this.config);
+    },
     clickWrap() {
       this.dispatch('Home', 'active', this.config);
     },
@@ -83,10 +96,25 @@ $height: 20px;
     top: -$height;
     height: $height;
     display: flex;
+    z-index: 99;
+    padding-left: 4px;
 
     .op-item, .op-item > svg {
       width: $height;
       height: $height;
+    }
+
+    .icon-copy, .icon-del {
+      cursor: pointer;
+    }
+
+    .icon-copy {
+      margin-right: 4px;
+      color: #FFFFFF;
+    }
+
+    .icon-del {
+      color: $danger1;
     }
   }
 }

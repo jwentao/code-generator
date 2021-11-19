@@ -51,7 +51,7 @@ import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
 import { saveConfig, getConfig } from '@/api';
 import { debounce } from 'throttle-debounce';
-import { clearFormExtraConfig, beautifierConf } from '@/utils';
+import { clearFormExtraConfig, beautifierConf, deepClone, generateId } from '@/utils';
 import { makeUpTemplate, vueTemplate, vueScript, vueStyle } from '@/generator/template';
 import { makeupScript } from '@/generator/script';
 import loadBeautifier from '@/utils/loadBeautifier';
@@ -59,6 +59,31 @@ import loadBeautifier from '@/utils/loadBeautifier';
 const saveConfigDebounce = debounce(300, saveConfig);
 
 let beautifier;
+
+function updateId(item) {
+  item.__config__.id = generateId();
+  if (Array.isArray(item.children)) {
+    item.children.forEach(child => {
+      updateId(child);
+    });
+  }
+}
+
+function findParentAndIdx(parent, target) {
+  for (let i = 0; i < parent.length; i++) {
+    const item = parent[i];
+    if (item === target) {
+      return [parent, i];
+    }
+    if (Array.isArray(item.children)) {
+      const [resParent, resIdx] = findParentAndIdx(item.children, target);
+      if (resParent) {
+        return [resParent, resIdx];
+      }
+    }
+  }
+  return [null];
+}
 
 export default {
   name: 'Home',
@@ -108,8 +133,14 @@ export default {
 
   methods: {
     initEvents() {
-      this.$on('active', (config) => {
+      this.$on('active', config => {
         this.activeItem(config);
+      });
+      this.$on('delete', config => {
+        this.removeItem(config);
+      });
+      this.$on('copy', config => {
+        this.copyItem(config);
       });
     },
     activeItem(config) {
@@ -117,6 +148,20 @@ export default {
       this.activeData = config;
       console.log('active', config);
     },
+
+    removeItem(config) {
+      const [parent, idx] = findParentAndIdx(this.curConfig, config);
+      parent.splice(idx, 1);
+    },
+
+    copyItem(config) {
+      const [parent, idx] = findParentAndIdx(this.curConfig, config);
+      const copyItem = deepClone(parent[idx]);
+      copyItem.__config__.id = generateId();
+      updateId(copyItem);
+      parent.splice(idx, 0, copyItem);
+    },
+
     handleWrapAdd(el) {
       clearFormExtraConfig(this.curConfig[el.newDraggableIndex]);
       this.activeItem(this.curConfig[el.newDraggableIndex]);
