@@ -1,4 +1,5 @@
 import ruleTrigger from './ruleTrigger';
+import { deepClone, titleCase } from '@/utils';
 export function vueTemplate(str) {
   return `<template>
     <div>
@@ -19,12 +20,11 @@ export function vueStyle(cssStr) {
   </style>`;
 }
 
-function attrBuilder(el, parent) {
+function attrBuilder(el) {
   let vModel = el.__vModel__;
-  if (parent) { // todo vModel区分form、table、与独立组件
-    if (parent.__config__.tag === 'el-form') {
-      vModel = `${parent.formModel}.${vModel}`;
-    }
+  const parent = el.__config__.parent;
+  if (parent && parent.__config__.tag === 'el-form') {
+    vModel = `${parent.formModel}.${vModel}`;
   }
   return {
     tag: el.__config__.tag,
@@ -298,7 +298,7 @@ const tags = {
     const disabled = el.disabled ? `:disabled="${el.disabled}"` : '';
     return `<el-form ref="${el.formRef}" :model="${el.formModel}" :rules="${el.formRules}" size="${el.size}" ${disabled} label-width="${el.labelWidth}px" ${labelPosition}>
       ${formItemCompile(el)}
-      ${buildFromBtns(el, 'file')}
+      ${buildFromBtn(el, 'file')}
     </el-form>`;
   },
   'el-table': el => {
@@ -306,12 +306,12 @@ const tags = {
   }
 };
 
-function buildFromBtns(scheme, type) {
+function buildFromBtn(scheme, type) {
   let str = '';
   if (scheme.formBtn && type === 'file') {
     str = `<el-form-item size="large">
-          <el-button type="primary" @click="submitForm">提交</el-button>
-          <el-button @click="resetForm">重置</el-button>
+          <el-button type="primary" @click="submitForm${titleCase(scheme.formRef)}">提交</el-button>
+          <el-button @click="resetForm${titleCase(scheme.formRef)}">重置</el-button>
         </el-form-item>`;
   }
   return str;
@@ -333,6 +333,7 @@ function formItemCompile(el) {
   if (el && Array.isArray(el.children) && el.children.length) {
     const htmlList = [];
     el.children.forEach(scheme => {
+      scheme.__config__.parent = el;
       const config = scheme.__config__;
       let labelWidth = '';
       let label = `label="${config.label}"`;
@@ -360,5 +361,5 @@ function formItemCompile(el) {
  * @param {String} type 生成类型，文件或弹窗等
  */
 export function makeUpTemplate(allConfig, type) {
-  return compile(allConfig);
+  return compile(deepClone(allConfig));
 }

@@ -189,25 +189,25 @@ function callInCreated(methodName, created) {
 function mixinMethod(scheme, methodList, type = 'file') {
   const minxins = {
     file: scheme.formBtn ? {
-      submitForm: `submitForm${scheme.formRef}() {
+      submitForm: `submitForm${titleCase(scheme.formRef)}() {
         this.$refs['${scheme.formRef}'].validate(valid => {
           if(!valid) return
           // TODO 提交表单
         })
       },`,
-      resetForm: `resetForm${scheme.formRef}() {
+      resetForm: `resetForm${titleCase(scheme.formRef)}() {
         this.$refs['${scheme.formRef}'].resetFields()
       },`
     } : null,
     dialog: {
-      onOpen: `on${scheme.formRef}Open() {},`,
-      onClose: `on${scheme.formRef}Close() {
+      onOpen: `on${titleCase(scheme.formRef)}Open() {},`,
+      onClose: `on${titleCase(scheme.formRef)}Close() {
         this.$refs['${scheme.formRef}'].resetFields()
       },`,
-      close: `close${scheme.formRef}() {
+      close: `close${titleCase(scheme.formRef)}() {
         this.$emit('update:visible', false)
       },`,
-      handleConfirm: `handle${scheme.formRef}Confirm() {
+      handleConfirm: `handle${titleCase(scheme.formRef)}Confirm() {
         this.$refs['${scheme.formRef}'].validate(valid => {
           if(!valid) return
           this.close()
