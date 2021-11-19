@@ -13,7 +13,7 @@ export function vueScript(str) {
   </script>`;
 }
 
-export function cssStyle(cssStr) {
+export function vueStyle(cssStr) {
   return `<style>
     ${cssStr}
   </style>`;

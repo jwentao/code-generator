@@ -44,7 +44,7 @@ import { DRAG_GROUP } from '@/constant';
 import { saveConfig, getConfig } from '@/api';
 import { debounce } from 'throttle-debounce';
 import { clearFormExtraConfig } from '@/utils';
-import { makeUpTemplate } from '@/generator/template';
+import { makeUpTemplate, vueTemplate, vueScript, vueStyle } from '@/generator/template';
 import { makeupScript } from '@/generator/script';
 
 const saveConfigDebounce = debounce(300, saveConfig);
@@ -100,8 +100,10 @@ export default {
       this.activeItem(this.curConfig[el.newDraggableIndex]);
     },
     generateCode() {
-      const template = makeUpTemplate(this.curConfig);
-      const script = makeupScript(this.curConfig);
+      // todo 检测变量重复 throw error
+      const template = vueTemplate(makeUpTemplate(this.curConfig));
+      const script = vueScript(makeupScript(this.curConfig));
+      const style = vueStyle('');
       console.log(template);
       console.log(script);
     }
