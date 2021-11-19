@@ -1,12 +1,32 @@
 <template>
   <div>
-    <el-form ref="elForm" :model="formData" :rules="rules123" size="medium" label-width="100px">
+    <el-form ref="elForm1" :model="formData1" :rules="rules1" size="medium" label-width="100px">
       <el-form-item label="单行文本" prop="model1">
-        <el-input v-model="model1" placeholder="请输入" clearable :style="{width: '100%'}" />
+        <el-input v-model="formData1.model1" placeholder="请输入" clearable :style="{width: '100%'}" />
       </el-form-item>
       <el-form-item size="large">
-        <el-button type="primary" @click="submitForm">提交</el-button>
-        <el-button @click="resetForm">重置</el-button>
+        <el-button type="primary" @click="submitFormElForm1">提交</el-button>
+        <el-button @click="resetFormElForm1">重置</el-button>
+      </el-form-item>
+    </el-form>
+    <el-form ref="elForm2" :model="formData" :rules="rules" size="medium" label-width="100px">
+      <el-form-item label="下拉选择" prop="model1">
+        <el-select v-model="formData.model1" placeholder="请选择" clearable :style="{width: '100%'}">
+          <el-option
+            v-for="(item, index) in model1Options"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+            :disabled="item.disabled"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单行文本" prop="model2">
+        <el-input v-model="formData.model2" placeholder="请输入" clearable :style="{width: '100%'}" />
+      </el-form-item>
+      <el-form-item size="large">
+        <el-button type="primary" @click="submitFormElForm2">提交</el-button>
+        <el-button @click="resetFormElForm2">重置</el-button>
       </el-form-item>
     </el-form>
     <div>
@@ -35,10 +55,10 @@ export default {
   props: [],
   data() {
     return {
-      formData: {
+      formData1: {
         model1: '12312'
       },
-      rules123: {
+      rules1: {
         model1: [{
           required: true,
           message: '请输入',
@@ -46,6 +66,22 @@ export default {
         }, {
           pattern: /^1/,
           message: '错误提示123',
+          trigger: 'blur'
+        }]
+      },
+      formData: {
+        model1: undefined,
+        model2: undefined
+      },
+      rules: {
+        model1: [{
+          required: true,
+          message: '请选择',
+          trigger: 'change'
+        }],
+        model2: [{
+          required: true,
+          message: '请输入',
           trigger: 'blur'
         }]
       },
@@ -72,14 +108,23 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    submitFormelForm() {
-      this.$refs['elForm'].validate(valid => {
+    submitFormElForm1() {
+      this.$refs['elForm1'].validate(valid => {
         if (!valid) return;
         // TODO 提交表单
       });
     },
-    resetFormelForm() {
-      this.$refs['elForm'].resetFields();
+    resetFormElForm1() {
+      this.$refs['elForm1'].resetFields();
+    },
+    submitFormElForm2() {
+      this.$refs['elForm2'].validate(valid => {
+        if (!valid) return;
+        // TODO 提交表单
+      });
+    },
+    resetFormElForm2() {
+      this.$refs['elForm2'].resetFields();
     }
   }
 };

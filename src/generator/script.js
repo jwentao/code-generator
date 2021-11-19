@@ -17,18 +17,11 @@ const inheritAttrs = {
 function buildAttributes(scheme, dataList, optionsList, methodList, propsList, uploadVarList, created) {
   const config = scheme.__config__;
   const slot = scheme.__slot__;
-  buildData(scheme, dataList);
+  buildData(scheme, dataList, methodList, created);
 
   // 特殊处理options属性
   if (scheme.options || (slot && slot.options && slot.options.length)) {
-    buildOptions(scheme, optionsList);
-    if (config.dataType === 'dynamic') {
-      const model = `${scheme.__vModel__}Options`;
-      const options = titleCase(model);
-      const methodName = `get${options}`;
-      buildOptionMethod(methodName, model, methodList, scheme);
-      callInCreated(methodName, created);
-    }
+    buildOptions(scheme, optionsList, methodList, created);
   }
 
   // 处理props
@@ -61,24 +54,30 @@ function buildAttributes(scheme, dataList, optionsList, methodList, propsList, u
 }
 
 // 构建data
-function buildData(scheme, dataList) {
-  if (scheme.__config__.tag === 'el-form') {
-    if (scheme.formModel) {
-      const children = [];
-      scheme.children.forEach(child => {
-        buildData(child, children);
-      });
+function buildData(scheme, dataList, methodList, created) {
+  if (scheme.__config__.tag === 'el-form' && isArray(scheme.children)) {
+    const { children } = scheme;
+    const models = [];
+    const rules = [];
+    // const options = [];
+    children.forEach(child => {
+      child.__config__.parent = scheme;
+      if (scheme.formModel) {
+        buildData(child, models);
+      }
+      if (scheme.formRules) {
+        buildRules(child, rules);
+      }
+      buildOptions(child, dataList, methodList, created);
+    });
+    if (models.length) {
       dataList.push(`${scheme.formModel}: {
-        ${children.join('\n')}
+        ${models.join('\n')}
       },`);
     }
-    if (scheme.formRules) {
-      const children = [];
-      scheme.children.forEach(child => {
-        buildRules(child, children);
-      });
+    if (rules.length) {
       dataList.push(`${scheme.formRules}: {
-        ${children.join('\n')}
+        ${rules.join('\n')}
       },`);
     }
   } else {
@@ -116,14 +115,27 @@ function buildRules(scheme, ruleList) {
 }
 
 // 构建options
-function buildOptions(scheme, optionsList) {
+function buildOptions(scheme, optionsList, methodList, created) {
   if (scheme.__vModel__ === undefined) return;
   // el-cascader直接有options属性，其他组件都是定义在slot中，所以有两处判断
   let { options } = scheme;
+  const config = scheme.__config__;
+  let vModel = scheme.__vModel__;
+  if (config.parent && config.parent.__config__.tag === 'el-form') {
+    vModel = `${config.parent.formModel}${titleCase(vModel)}`;
+  }
   if (!options) options = scheme.__slot__.options;
   if (scheme.__config__.dataType === 'dynamic') { options = []; }
-  const str = `${scheme.__vModel__}Options: ${JSON.stringify(options)},`;
+  const str = `${vModel}Options: ${JSON.stringify(options)},`;
   optionsList.push(str);
+
+  if (config.dataType === 'dynamic') {
+    const model = `${vModel}Options`;
+    const options = titleCase(model);
+    const methodName = `get${options}`;
+    buildOptionMethod(methodName, model, methodList, scheme);
+    callInCreated(methodName, created);
+  }
 }
 
 function buildOptionMethod(methodName, model, methodList, scheme) {

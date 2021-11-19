@@ -63,8 +63,13 @@ function buildElInputChild(scheme) {
 function buildElSelectChild(scheme) {
   const children = [];
   const slot = scheme.__slot__;
+  const parent = scheme.__config__.parent;
+  let vModel = scheme.__vModel__;
+  if (parent && parent.__config__ && parent.__config__.tag === 'el-form') {
+    vModel = `${parent.formModel}${titleCase(vModel)}`;
+  }
   if (slot && slot.options && slot.options.length) {
-    children.push(`<el-option v-for="(item, index) in ${scheme.__vModel__}Options" :key="index" :label="item.label" :value="item.value" :disabled="item.disabled"></el-option>`);
+    children.push(`<el-option v-for="(item, index) in ${vModel}Options" :key="index" :label="item.label" :value="item.value" :disabled="item.disabled"></el-option>`);
   }
   return children.join('\n');
 }
