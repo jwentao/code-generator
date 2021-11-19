@@ -1,93 +1,89 @@
 <template>
-  <div class="about">
-    <div class="item">
-      <draggable
-        :group="{ name: 'group', pull: 'clone', put: false }"
-        :list="list"
-        :clone="cloneComponent"
-      >
-        <div v-for="item in list" :key="item.id">
-          {{ item.name }}
-        </div>
-      </draggable>
-    </div>
-    <div class="new-item">
-      <draggable
-        style="min-height: 20px;"
-        group="group"
-        :list="newList"
-      >
-        <div v-for="item in newList" :key="item.id">
-          {{ item.name }}
-          <draggable v-if="item.children" group="group" :list="item.children" style="min-height: 20px;">
-            <div v-for="child in item.children" :key="child.id">
-              <div style="padding-left: 24px;"> {{ child.name }}</div>
-            </div>
-          </draggable>
-        </div>
-      </draggable>
-    </div>
-
+  <div>
+    <el-form ref="elForm" :model="formData" :rules="rules123" size="medium" label-width="100px">
+      <el-form-item label="单行文本" prop="model1">
+        <el-input v-model="model1" placeholder="请输入" clearable :style="{width: '100%'}" />
+      </el-form-item>
+      <el-form-item size="large">
+        <el-button type="primary" @click="submitForm">提交</el-button>
+        <el-button @click="resetForm">重置</el-button>
+      </el-form-item>
+    </el-form>
     <div>
-      <pre>{{ newList }}</pre>
+      <el-radio-group v-model="autio1" size="medium">
+        <el-radio
+          v-for="(item, index) in autio1Options"
+          :key="index"
+          :label="item.value"
+          :disabled="item.disabled"
+        >{{ item.label }}</el-radio>
+      </el-radio-group>
     </div>
+    <el-radio-group v-model="audio2" size="medium">
+      <el-radio-button
+        v-for="(item, index) in audio2Options"
+        :key="index"
+        :label="item.value"
+        :disabled="item.disabled"
+      >{{ item.label }}</el-radio-button>
+    </el-radio-group>
   </div>
 </template>
-
 <script>
-import draggable from 'vuedraggable';
-
 export default {
-  components: {
-    draggable
+  components: {},
+  props: [],
+  data() {
+    return {
+      formData: {
+        model1: '12312'
+      },
+      rules123: {
+        model1: [{
+          required: true,
+          message: '请输入',
+          trigger: 'blur'
+        }, {
+          pattern: /^1/,
+          message: '错误提示123',
+          trigger: 'blur'
+        }]
+      },
+      autio1: undefined,
+      audio2: 2,
+      autio1Options: [{
+        'label': '选项一',
+        'value': 1
+      }, {
+        'label': '选项二',
+        'value': 2
+      }],
+      audio2Options: [{
+        'label': '选项一',
+        'value': 1
+      }, {
+        'label': '选项二',
+        'value': 2
+      }]
+    };
   },
-  data: () => ({
-    list: [
-      {
-        'name': 'John',
-        'id': 1,
-        children: []
-      },
-      {
-        'name': 'Joao',
-        'id': 2
-      },
-      {
-        'name': 'Jean',
-        'id': 3
-      },
-      {
-        'name': 'Gerard',
-        'id': 4
-      }
-    ],
-    newList: []
-  }),
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
   methods: {
-    cloneComponent(val) {
-      console.log(val);
-      return {
-        name: val.name,
-        id: Math.random(),
-        children: []
-      };
+    submitFormelForm() {
+      this.$refs['elForm'].validate(valid => {
+        if (!valid) return;
+        // TODO 提交表单
+      });
+    },
+    resetFormelForm() {
+      this.$refs['elForm'].resetFields();
     }
   }
 };
+
 </script>
-
 <style>
-.about {
-  display: flex;
-}
-
-.item {
-  width: 200px;
-  background-color: cornflowerblue;
-}
-
-.new-item {
-  width: 200px;
-  background-color: red;
-}
 </style>

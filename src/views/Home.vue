@@ -1,10 +1,17 @@
 <template>
   <div class="home">
     <div class="top-container">
-      显示边界<el-switch v-model="showBorder" />
-      <el-button type="primary" size="small" @click="generateCode">生成代码(测试)</el-button>
+      <div class="logo-bar">logo</div>
+      <div class="action-bar">
+        <el-button type="primary" size="small" @click="generateCode">生成代码(测试)</el-button>
+      </div>
+      <div class="config-bar">
+        显示边界<el-switch v-model="showBorder" />
+        预览<el-switch v-model="preview" @change="handlePreviewChange" />
+      </div>
     </div>
-    <div class="main-container">
+    <Display v-show="preview" :code="generatedCode" />
+    <div v-show="!preview" class="main-container">
       <el-scrollbar class="container-left">
         <LeftPanel />
       </el-scrollbar>
@@ -38,6 +45,7 @@
 <script>
 import LeftPanel from '@/components/LeftPanel';
 import RightPanel from '@/components/RightPanel';
+import Display from '@/components/Display';
 import DraggableItem from '@/components/DraggableItem';
 import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
@@ -58,16 +66,20 @@ export default {
     LeftPanel,
     RightPanel,
     DraggableItem,
-    draggable
+    draggable,
+    Display
   },
   data: () => ({
     DRAG_GROUP,
 
     showBorder: true,
+    preview: false,
 
     activeId: null,
     activeData: {},
-    curConfig: []
+    curConfig: [],
+
+    generatedCode: ''
   }),
   computed: {
   },
@@ -116,6 +128,12 @@ export default {
       const style = vueStyle('');
       const vueCode = beautifier.html(template + script + style, beautifierConf.html);
       console.log(vueCode);
+      return vueCode;
+    },
+    handlePreviewChange(val) {
+      if (val) {
+        this.generatedCode = this.generateCode();
+      }
     }
   }
 };
@@ -133,6 +151,16 @@ $rightWidth: 350px;
     height: $topHeight;
     line-height: $topHeight;
     border-bottom: 1px solid $borderL1;
+    display: flex;
+
+    .action-bar {
+      flex: 1;
+      text-align: right;
+    }
+
+    .config-bar {
+      padding: 0 24px;
+    }
   }
 
   .main-container {
