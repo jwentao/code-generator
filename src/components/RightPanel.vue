@@ -410,6 +410,16 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 行内
+  formBtn(h) {
+    return (
+      <el-form-item label='表单按钮'>
+        <el-switch
+          value={this.activeData.formBtn}
+          onInput={this.__onValueInput('formBtn')}/>
+      </el-form-item>
+    );
+  },
   // 表单ref
   formRef(h) {
     return (
@@ -441,6 +451,41 @@ const panelRender = {
           onInput={this.__onValueInput('formRules')}
           placeholder='绑定至rules' />
       </el-form-item>
+    );
+  },
+  reg(h) {
+    if (!Array.isArray(this.activeData.__config__.regList)) {
+      return null;
+    }
+    return (
+      <div>
+        <el-divider>正则校验</el-divider>
+        { this.activeData.__config__.regList.map((item, index) => (
+          <div class='reg-item'>
+            <span class='close-btn' onClick={() => {
+              this.activeData.__config__.regList.splice(index, 1);
+            }}>
+              <i class='el-icon-close' />
+            </span>
+            <el-form-item label='表达式'>
+              <el-input value={item.pattern} onInput={this.__onValueInput('pattern', item)} placeholder='请输入正则' />
+            </el-form-item>
+            <el-form-item label='错误提示' style='margin-bottom:0'>
+              <el-input value={item.message} onInput={this.__onValueInput('message', item)} placeholder='请输入错误提示' />
+            </el-form-item>
+          </div>
+        ))}
+        <div style='margin-left: 20px'>
+          <el-button icon='el-icon-circle-plus-outline' type='text' onClick={() => {
+            this.activeData.__config__.regList.push({
+              pattern: '',
+              message: ''
+            });
+          }}>
+          添加规则
+          </el-button>
+        </div>
+      </div>
     );
   },
   // 标签对齐
@@ -485,11 +530,11 @@ const renderMap = {
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.size, panelRender.options, panelRender.optionType, panelRender.border, panelRender.disabled],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.addColumn],
-  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size, panelRender.inline, panelRender.disabled],
+  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size, panelRender.inline, panelRender.disabled, panelRender.formBtn],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
 
-const formExtraRender = [panelRender.label('__config__'), panelRender.labelWidth('__config__'), panelRender.showLabel, panelRender.required];
+const formExtraRender = [panelRender.label('__config__'), panelRender.labelWidth('__config__'), panelRender.showLabel, panelRender.required, panelRender.reg];
 
 export default {
   name: 'RightPanel',
@@ -613,6 +658,35 @@ export default {
   & .close-btn {
     cursor: pointer;
     color: #f56c6c;
+  }
+}
+
+.reg-item{
+  padding: 12px 6px;
+  background: #f8f8f8;
+  position: relative;
+  border-radius: 4px;
+  .close-btn{
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    z-index: 1;
+    cursor: pointer;
+    font-size: 12px;
+    &:hover{
+      background: rgba(210, 23, 23, 0.5)
+    }
+  }
+  & + .reg-item{
+    margin-top: 18px;
   }
 }
 </style>

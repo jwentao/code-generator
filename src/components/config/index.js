@@ -22,6 +22,7 @@ export const containerItems = [
     formRules: 'rules',
     disabled: false,
     inline: false,
+    formBtn: true,
     children: []
   },
   {

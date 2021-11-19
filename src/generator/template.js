@@ -308,7 +308,7 @@ const tags = {
 
 function buildFromBtns(scheme, type) {
   let str = '';
-  if (scheme.formBtns && type === 'file') {
+  if (scheme.formBtn && type === 'file') {
     str = `<el-form-item size="large">
           <el-button type="primary" @click="submitForm">提交</el-button>
           <el-button @click="resetForm">重置</el-button>

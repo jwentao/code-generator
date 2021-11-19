@@ -187,9 +187,8 @@ function callInCreated(methodName, created) {
 
 // 混入处理函数
 function mixinMethod(scheme, methodList, type = 'file') {
-  console.log('sc');
   const minxins = {
-    file: !scheme.formBtns ? {
+    file: scheme.formBtn ? {
       submitForm: `submitForm${scheme.formRef}() {
         this.$refs['${scheme.formRef}'].validate(valid => {
           if(!valid) return
