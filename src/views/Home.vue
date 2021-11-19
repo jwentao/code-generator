@@ -43,11 +43,14 @@ import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
 import { saveConfig, getConfig } from '@/api';
 import { debounce } from 'throttle-debounce';
-import { clearFormExtraConfig } from '@/utils';
+import { clearFormExtraConfig, beautifierConf } from '@/utils';
 import { makeUpTemplate, vueTemplate, vueScript, vueStyle } from '@/generator/template';
 import { makeupScript } from '@/generator/script';
+import loadBeautifier from '@/utils/loadBeautifier';
 
 const saveConfigDebounce = debounce(300, saveConfig);
+
+let beautifier;
 
 export default {
   name: 'Home',
@@ -84,6 +87,13 @@ export default {
       this.activeItem(this.curConfig[0]);
     }
   },
+
+  mounted() {
+    loadBeautifier(btf => {
+      beautifier = btf;
+    });
+  },
+
   methods: {
     initEvents() {
       this.$on('active', (config) => {
@@ -104,8 +114,8 @@ export default {
       const template = vueTemplate(makeUpTemplate(this.curConfig));
       const script = vueScript(makeupScript(this.curConfig));
       const style = vueStyle('');
-      console.log(template);
-      console.log(script);
+      const vueCode = beautifier.html(template + script + style, beautifierConf.html);
+      console.log(vueCode);
     }
   }
 };

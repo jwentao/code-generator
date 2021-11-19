@@ -70,7 +70,7 @@ function buildData(scheme, dataList) {
       });
       dataList.push(`${scheme.formModel}: {
         ${children.join('\n')}
-      }`);
+      },`);
     }
     if (scheme.formRules) {
       const children = [];
@@ -79,7 +79,7 @@ function buildData(scheme, dataList) {
       });
       dataList.push(`${scheme.formRules}: {
         ${children.join('\n')}
-      }`);
+      },`);
     }
   } else {
     const config = scheme.__config__;
@@ -233,7 +233,7 @@ function buildExport(type, data, selectOptions, uploadVar, props, methods, creat
   props: [],
   data () {
     return {
-      ${data},
+      ${data}
       ${uploadVar}
       ${selectOptions}
       ${props}
