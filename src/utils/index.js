@@ -35,7 +35,7 @@ export function indent(str, num, len = 2) {
 
 // 首字母大小
 export function titleCase(str) {
-  return str.replace(/( |^)[a-z]/g, L => L.toUpperCase());
+  return str && str.replace(/( |^)[a-z]/g, L => L.toUpperCase());
 }
 
 // 下划转驼峰
