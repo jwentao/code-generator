@@ -7,27 +7,35 @@
     @click.stop="clickWrap"
   >
     <div v-show="showWrap" class="op-wrap">
-      <div class="icon-copy" @click.stop="handleCopy">
-        <i class="el-icon-copy-document" />
-      </div>
-      <div class="icon-del" @click.stop="handleDel">
-        <i class="el-icon-delete" />
-      </div>
-      <div class="op-item drag-btn">
-        <Move />
-      </div>
+      <el-tooltip effect="light" content="复制" placement="top-start">
+        <div class="icon-copy" @click.stop="handleCopy">
+          <i class="el-icon-copy-document" />
+        </div>
+      </el-tooltip>
+      <el-tooltip effect="light" content="删除" placement="top-start">
+        <div class="op-item icon-del" @click.stop="handleDel">
+          <Delete />
+        </div>
+      </el-tooltip>
+      <el-tooltip effect="light" content="拖拽移动" placement="top-start">
+        <div class="op-item drag-btn">
+          <Move />
+        </div>
+      </el-tooltip>
     </div>
     <slot />
   </div>
 </template>
 <script>
 import Move from '@/icon/Move';
+import Delete from '@/icon/Delete';
 import emitter from '@/mixins/emitter';
 
 export default {
   name: 'BlockWrap',
   components: {
-    Move
+    Move,
+    Delete
   },
   mixins: [
     emitter
@@ -96,10 +104,17 @@ $height: 20px;
     top: -$height;
     height: $height;
     display: flex;
+    align-items: center;
     z-index: 99;
     padding-left: 4px;
 
-    .op-item, .op-item > svg {
+    .op-item {
+      line-height: $height;
+      width: $height;
+      height: $height;
+    }
+
+    .op-item > svg {
       width: $height;
       height: $height;
     }
@@ -114,7 +129,6 @@ $height: 20px;
     }
 
     .icon-del {
-      color: $danger1;
     }
   }
 }
