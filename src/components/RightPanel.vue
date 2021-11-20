@@ -274,6 +274,17 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 组件宽度
+  componentWidth(h) {
+    return (
+      <el-form-item label='组件宽度'>
+        <el-input
+          value={this.activeData.style.width}
+          onInput={this.__onValueInput('width', this.activeData.style)}
+          placeholder='组件宽度' />
+      </el-form-item>
+    );
+  },
   // 宽度
   width(h) {
     return (
@@ -526,8 +537,8 @@ const panelRender = {
 };
 
 const renderMap = {
-  'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
-  'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
+  'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
+  'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.size, panelRender.options, panelRender.optionType, panelRender.border, panelRender.disabled],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.addColumn],
   'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size, panelRender.inline, panelRender.disabled, panelRender.formBtn],
