@@ -104,7 +104,6 @@ const baseItemMap = {
       type: 'base',
       showName: '单选框组',
       labelWidth: null,
-      showLabel: true,
       tag: 'el-radio-group',
       tagIcon: 'radio',
       defaultValue: undefined,
@@ -124,6 +123,33 @@ const baseItemMap = {
     },
     size: 'medium',
     disabled: false
+  },
+  'checkbox-group': {
+    __config__: {
+      type: 'base',
+      showName: '多选框组',
+      tag: 'el-checkbox-group',
+      tagIcon: 'checkbox',
+      defaultValue: [],
+      optionType: 'default',
+      changeTag: true,
+      border: false,
+      document: 'https://element.eleme.cn/#/zh-CN/component/checkbox'
+    },
+    __slot__: {
+      options: [{
+        label: '选项一',
+        value: 1
+      }, {
+        label: '选项二',
+        value: 2
+      }]
+    },
+    style: {},
+    size: 'medium',
+    min: null,
+    max: null,
+    disabled: false
   }
 };
 
@@ -131,7 +157,8 @@ const baseItemMap = {
 export const baseItems = [
   baseItemMap.input,
   baseItemMap.select,
-  baseItemMap['radio-group']
+  baseItemMap['radio-group'],
+  baseItemMap['checkbox-group']
 ];
 
 export const formExtraConfig = {

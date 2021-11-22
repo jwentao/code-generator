@@ -167,6 +167,34 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 至少应选
+  minLimit(h) {
+    return (
+      <el-form-item label='至少应选'>
+        <el-input-number
+          value={this.activeData.min}
+          min={0}
+          onInput={(val) => {
+            this.activeData.min = val || undefined;
+          }}
+          placeholder='至少应选' />
+      </el-form-item>
+    );
+  },
+  // 至多能选
+  maxLimit(h) {
+    return (
+      <el-form-item label='至多能选'>
+        <el-input-number
+          value={this.activeData.max}
+          min={0}
+          onInput={(val) => {
+            this.activeData.max = val || undefined;
+          }}
+          placeholder='至多能选' />
+      </el-form-item>
+    );
+  },
   // 输入统计
   'show-word-limit'(h) {
     return (
@@ -211,20 +239,25 @@ const panelRender = {
     );
   },
   // 尺寸
-  size(h) {
-    return (
-      <el-form-item label='尺寸'>
-        <el-radio-group
-          value={this.activeData.size}
-          onInput={this.__onValueInput('size')}>
-          { sizeList.map(item => (
-            <el-radio-button label={ item.value }>
-              { item.label }
-            </el-radio-button>
-          )) }
-        </el-radio-group>
-      </el-form-item>
-    );
+  size(key, value) {
+    return function(h) {
+      if (key && value && this.activeData.__config__?.[key] !== value) {
+        return null;
+      }
+      return (
+        <el-form-item label='尺寸'>
+          <el-radio-group
+            value={this.activeData.size}
+            onInput={this.__onValueInput('size')}>
+            { sizeList.map(item => (
+              <el-radio-button label={ item.value }>
+                { item.label }
+              </el-radio-button>
+            )) }
+          </el-radio-group>
+        </el-form-item>
+      );
+    };
   },
   // 对齐方式
   align(h) {
@@ -539,10 +572,11 @@ const panelRender = {
 const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
-  'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.size, panelRender.options, panelRender.optionType, panelRender.border, panelRender.disabled],
+  'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.border, panelRender.disabled],
+  'el-checkbox-group': [panelRender.vModel, panelRender.defaultValue, panelRender.minLimit, panelRender.maxLimit, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.disabled],
   'empty': [panelRender.componentWidth],
-  'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.componentWidth, panelRender.addColumn],
-  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size, panelRender.inline, panelRender.disabled, panelRender.formBtn],
+  'el-table': [panelRender.border, panelRender.stripe, panelRender.size(), panelRender.componentWidth, panelRender.addColumn],
+  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size(), panelRender.inline, panelRender.disabled, panelRender.formBtn],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
 
