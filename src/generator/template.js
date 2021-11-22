@@ -68,7 +68,7 @@ function buildElSelectChild(scheme) {
   if (parent && parent.__config__ && parent.__config__.tag === 'el-form') {
     vModel = `${parent.formModel}${titleCase(vModel)}`;
   }
-  if (slot && slot.options && slot.options.length) {
+  if (slot?.options?.length) {
     children.push(`<el-option v-for="(item, index) in ${vModel}Options" :key="index" :label="item.label" :value="item.value" :disabled="item.disabled"></el-option>`);
   }
   return children.join('\n');
@@ -79,7 +79,7 @@ function buildElRadioGroupChild(scheme) {
   const children = [];
   const slot = scheme.__slot__;
   const config = scheme.__config__;
-  if (slot && slot.options && slot.options.length) {
+  if (slot?.options?.length) {
     const tag = config.optionType === 'button' ? 'el-radio-button' : 'el-radio';
     const border = config.border ? 'border' : '';
     children.push(`<${tag} v-for="(item, index) in ${scheme.__vModel__}Options" :key="index" :label="item.value" :disabled="item.disabled" ${border}>{{item.label}}</${tag}>`);
@@ -291,7 +291,8 @@ const tags = {
 
   // 容器部分
   'empty': el => {
-    return `<div>
+    const style = el.style?.width ? ` :style="{width: \'${el.style.width}\'}"` : '';
+    return `<div${style}>
         ${compile(el.children)}
     </div>`;
   },
@@ -300,14 +301,16 @@ const tags = {
     if (el.labelPosition !== 'right') {
       labelPosition = `label-position="${el.labelPosition}"`;
     }
+    const style = el.style?.width ? ` :style="{width: \'${el.style.width}\'}"` : '';
     const disabled = el.disabled ? `:disabled="${el.disabled}"` : '';
-    return `<el-form ref="${el.formRef}" :model="${el.formModel}" :rules="${el.formRules}" size="${el.size}" :inline=${el.inline} ${disabled} label-width="${el.labelWidth}px" ${labelPosition}>
+    return `<el-form${style} ref="${el.formRef}" :model="${el.formModel}" :rules="${el.formRules}" size="${el.size}" :inline=${el.inline} ${disabled} label-width="${el.labelWidth}px" ${labelPosition}>
       ${formItemCompile(el)}
       ${buildFromBtn(el, 'file')}
     </el-form>`;
   },
   'el-table': el => {
-    return `<el-table></el-table>`;
+    const style = el.style?.width ? ` :style="{width: \'${el.style.width}\'}"` : '';
+    return `<el-table${style}></el-table>`;
   }
 };
 

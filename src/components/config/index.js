@@ -6,6 +6,7 @@ export const containerItems = [
       type: 'container',
       tag: 'empty'
     },
+    style: { width: '100%' },
     children: []
   },
   {
@@ -16,6 +17,7 @@ export const containerItems = [
     },
     formRef: 'elForm',
     formModel: 'formData',
+    style: { width: '100%' },
     size: 'medium',
     labelPosition: 'right',
     labelWidth: 100,
@@ -34,6 +36,7 @@ export const containerItems = [
       tableData: 'tableData'
     },
     children: [],
+    style: { width: '100%' },
     __vModel__: 'tableData',
     stripe: false,
     border: true,

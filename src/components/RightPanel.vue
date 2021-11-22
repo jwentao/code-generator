@@ -540,8 +540,9 @@ const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.size, panelRender.options, panelRender.optionType, panelRender.border, panelRender.disabled],
-  'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.addColumn],
-  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size, panelRender.inline, panelRender.disabled, panelRender.formBtn],
+  'empty': [panelRender.componentWidth],
+  'el-table': [panelRender.border, panelRender.stripe, panelRender.size, panelRender.componentWidth, panelRender.addColumn],
+  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size, panelRender.inline, panelRender.disabled, panelRender.formBtn],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
 
@@ -628,7 +629,7 @@ export default {
         { this.activeData.__config__.showName }
         <el-form label-width='90px' size='small'>
           {
-            ((this.activeData.__config__ && renderMap[this.activeData.__config__.tag]) || []).map(item => item.call(this, h))
+            (renderMap[this.activeData.__config__?.tag] || []).map(item => item.call(this, h))
           }
           <el-divider/>
           {

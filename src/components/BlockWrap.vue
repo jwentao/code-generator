@@ -2,6 +2,7 @@
   <div
     class="blockWrap"
     :class="getClasses()"
+    :style="getStyle()"
     @mouseout.stop="mouseover = false;"
     @mouseover.stop="mouseover = true;"
     @click.stop="clickWrap"
@@ -86,6 +87,22 @@ export default {
         className += ' component-wrap';
       }
       return className;
+    },
+
+    getStyle() {
+      const styles = [];
+      if (this.config.style?.width) {
+        styles.push(`width: ${this.config.style.width}`);
+      } else if (this.config.__config__.type === 'container') {
+        styles.push('width: 100%');
+      }
+
+      if (this.config.__config__.type === 'container') {
+        styles.push('display: block');
+      } else {
+        styles.push('display: inline-block');
+      }
+      return styles.join(';');
     }
   }
 };

@@ -121,7 +121,7 @@ function buildOptions(scheme, optionsList, methodList, created) {
   let { options } = scheme;
   const config = scheme.__config__;
   let vModel = scheme.__vModel__;
-  if (config.parent && config.parent.__config__.tag === 'el-form') {
+  if (config?.parent?.__config__.tag === 'el-form') {
     vModel = `${config.parent.formModel}${titleCase(vModel)}`;
   }
   if (!options) options = scheme.__slot__.options;

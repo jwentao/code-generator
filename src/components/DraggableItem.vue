@@ -24,7 +24,7 @@ const containers = {
           onAdd={ this.handleEmptyAdd(config) }
           class='container-wrap'>
           {
-            config.children && config.children.map(itemConfig => render.call(this, h, itemConfig))
+            config.children?.map(itemConfig => render.call(this, h, itemConfig))
           }
         </draggable>
       </BlockWrap>
