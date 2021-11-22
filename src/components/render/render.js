@@ -87,7 +87,7 @@ export default {
   render(h) {
     const dataObject = makeDataObject();
     const confClone = deepClone(this.conf);
-    delete confClone.style.width; // 宽度转由wrap渲染
+    delete confClone.style?.width; // 宽度转由wrap渲染
     const children = [];
 
     // 如果slots文件夹存在与当前tag同名的文件，则执行文件中的代码

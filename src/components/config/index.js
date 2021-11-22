@@ -11,7 +11,7 @@ export const containerItems = [
   },
   {
     __config__: {
-      showName: '表单(todo)',
+      showName: '表单',
       type: 'container',
       tag: 'el-form'
     },
