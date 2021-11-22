@@ -1,5 +1,4 @@
 # code-generator
 
-## table
-## form
-## base components
+todo
+- 验证变量唯一性(新增变量自增)
