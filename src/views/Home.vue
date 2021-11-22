@@ -6,7 +6,7 @@
         <el-button type="primary" size="small" @click="generateCode">生成代码(测试)</el-button>
       </div>
       <div class="config-bar">
-        显示边界<el-switch v-model="showBorder" />
+        显示边界<Help content="每个组件会增加一边框以及6px的内边距，用来辅助拖拽，不会生成在代码中。" /><el-switch v-model="showBorder" />
         预览<el-switch v-model="preview" @change="handlePreviewChange" />
       </div>
     </div>
@@ -47,6 +47,7 @@ import LeftPanel from '@/components/LeftPanel';
 import RightPanel from '@/components/RightPanel';
 import Display from '@/components/Display';
 import DraggableItem from '@/components/DraggableItem';
+import Help from '@/components/common/Help';
 import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
 import { saveConfig, getConfig } from '@/api';
@@ -91,6 +92,7 @@ export default {
     LeftPanel,
     RightPanel,
     DraggableItem,
+    Help,
     draggable,
     Display
   },
