@@ -97,10 +97,10 @@ export default {
         styles.push('width: 100%');
       }
 
-      if (this.config.__config__.type === 'container') {
-        styles.push('display: block');
-      } else {
-        styles.push('display: inline-block');
+      if (this.config.__config__.wrapStyle) {
+        Object.keys(this.config.__config__.wrapStyle).forEach(key => {
+          styles.push(`${key}:${this.config.__config__.wrapStyle[key]}`);
+        });
       }
       return styles.join(';');
     }

@@ -4,7 +4,10 @@ export const containerItems = [
     __config__: {
       showName: '空容器',
       type: 'container',
-      tag: 'empty'
+      tag: 'empty',
+      wrapStyle: {
+        display: 'block' // 仅用于面板render
+      }
     },
     style: { width: '100%' },
     children: []
@@ -13,7 +16,10 @@ export const containerItems = [
     __config__: {
       showName: '表单',
       type: 'container',
-      tag: 'el-form'
+      tag: 'el-form',
+      wrapStyle: {
+        display: 'block'
+      }
     },
     formRef: 'elForm',
     formModel: 'formData',
@@ -33,7 +39,10 @@ export const containerItems = [
       type: 'container',
       tag: 'el-table',
       ref: 'table',
-      tableData: 'tableData'
+      tableData: 'tableData',
+      wrapStyle: {
+        display: 'block'
+      }
     },
     children: [],
     style: { width: '100%' },
@@ -55,7 +64,10 @@ const baseItemMap = {
       tag: 'el-input',
       tagIcon: 'input',
       defaultValue: undefined,
-      document: 'https://element.eleme.cn/#/zh-CN/component/input'
+      document: 'https://element.eleme.cn/#/zh-CN/component/input',
+      wrapStyle: {
+        display: 'inline-block'
+      }
     },
     // 组件的插槽属性
     __slot__: {
@@ -80,7 +92,10 @@ const baseItemMap = {
       showName: '下拉选择',
       tag: 'el-select',
       tagIcon: 'select',
-      document: 'https://element.eleme.cn/#/zh-CN/component/select'
+      document: 'https://element.eleme.cn/#/zh-CN/component/select',
+      wrapStyle: {
+        display: 'inline-block'
+      }
     },
     __slot__: {
       options: [{
@@ -110,7 +125,10 @@ const baseItemMap = {
       optionType: 'default',
       required: true,
       border: false,
-      document: 'https://element.eleme.cn/#/zh-CN/component/radio'
+      document: 'https://element.eleme.cn/#/zh-CN/component/radio',
+      wrapStyle: {
+        display: 'inline-block'
+      }
     },
     __slot__: {
       options: [{
@@ -134,7 +152,10 @@ const baseItemMap = {
       optionType: 'default',
       changeTag: true,
       border: false,
-      document: 'https://element.eleme.cn/#/zh-CN/component/checkbox'
+      document: 'https://element.eleme.cn/#/zh-CN/component/checkbox',
+      wrapStyle: {
+        display: 'block'
+      }
     },
     __slot__: {
       options: [{
