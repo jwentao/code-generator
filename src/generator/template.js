@@ -329,6 +329,9 @@ function compile(configs) {
   if (Array.isArray(configs) && configs.length) {
     const htmlList = [];
     configs.forEach(config => {
+      if (config.__config__.tag === 'el-input-textarea') { // textarea实际渲染的仍是el-input，这里要特殊处理
+        config.__config__.tag = 'el-input';
+      }
       const { tag } = config.__config__;
       htmlList.push(tags[tag](config));
     });

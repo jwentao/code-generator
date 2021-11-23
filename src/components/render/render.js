@@ -87,7 +87,12 @@ export default {
   render(h) {
     const dataObject = makeDataObject();
     const confClone = deepClone(this.conf);
-    if (confClone.style?.width) {
+
+    if (confClone.__config__.tag === 'el-input-textarea') { // textarea实际渲染的仍是el-input，这里要特殊处理
+      confClone.__config__.tag = 'el-input';
+    }
+
+    if (confClone.style?.width) { // 因为宽度在wrap层体现，所以这里要100%
       confClone.style.width = '100%';
     }
     const children = [];
@@ -101,6 +106,6 @@ export default {
     // 将json表单配置转化为vue render可以识别的 “数据对象（dataObject）”
     buildDataObject.call(this, confClone, dataObject);
 
-    return h(this.conf.__config__.tag, dataObject, children);
+    return h(confClone.__config__.tag, dataObject, children);
   }
 };

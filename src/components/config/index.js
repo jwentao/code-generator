@@ -86,6 +86,31 @@ const baseItemMap = {
     disabled: false
   },
 
+  'input-textarea': {
+    __config__: {
+      type: 'base',
+      showName: '多行文本',
+      tag: 'el-input-textarea', // 实际渲染的是el-input
+      tagIcon: 'textarea',
+      defaultValue: undefined,
+      document: 'https://element.eleme.cn/#/zh-CN/component/input',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    type: 'textarea',
+    placeholder: '请输入',
+    autosize: {
+      minRows: 4,
+      maxRows: 4
+    },
+    style: { width: '100%' },
+    maxlength: null,
+    'show-word-limit': false,
+    readonly: false,
+    disabled: false
+  },
+
   select: {
     __config__: {
       type: 'base',
@@ -198,6 +223,7 @@ const baseItemMap = {
 // 普通组件
 export const baseItems = [
   baseItemMap.input,
+  baseItemMap['input-textarea'],
   baseItemMap.select,
   baseItemMap['radio-group'],
   baseItemMap['checkbox-group'],

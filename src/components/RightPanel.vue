@@ -195,6 +195,30 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 最小行数
+  minRows(h) {
+    return (
+      <el-form-item label='最小行数'>
+        <el-input-number
+          value={this.activeData.autosize.minRows}
+          min={1}
+          onInput={this.__onValueInput('minRows', this.activeData.autosize)}
+          placeholder='最小行数' />
+      </el-form-item>
+    );
+  },
+  // 最大行数
+  maxRows(h) {
+    return (
+      <el-form-item label='最大行数'>
+        <el-input-number
+          value={this.activeData.autosize.maxRows}
+          min={1}
+          onInput={this.__onValueInput('maxRows', this.activeData.autosize)}
+          placeholder='最大行数' />
+      </el-form-item>
+    );
+  },
   // 输入统计
   'show-word-limit'(h) {
     return (
@@ -637,6 +661,7 @@ const panelRender = {
 
 const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
+  'el-input-textarea': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.minRows, panelRender.maxRows, panelRender.maxlength, panelRender['show-word-limit'], panelRender.disabled, panelRender.readonly],
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.border, panelRender.disabled],
   'el-checkbox-group': [panelRender.vModel, panelRender.defaultValue, panelRender.minLimit, panelRender.maxLimit, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.disabled],
