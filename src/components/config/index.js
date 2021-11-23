@@ -171,6 +171,27 @@ const baseItemMap = {
     min: null,
     max: null,
     disabled: false
+  },
+  switch: {
+    __config__: {
+      type: 'base',
+      showName: '开关',
+      tag: 'el-switch',
+      tagIcon: 'switch',
+      defaultValue: false,
+      document: 'https://element.eleme.cn/#/zh-CN/component/switch',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    style: {},
+    disabled: false,
+    'active-text': '',
+    'inactive-text': '',
+    'active-color': null,
+    'inactive-color': null,
+    'active-value': true,
+    'inactive-value': false
   }
 };
 
@@ -179,7 +200,8 @@ export const baseItems = [
   baseItemMap.input,
   baseItemMap.select,
   baseItemMap['radio-group'],
-  baseItemMap['checkbox-group']
+  baseItemMap['checkbox-group'],
+  baseItemMap.switch
 ];
 
 export const formExtraConfig = {

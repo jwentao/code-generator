@@ -228,6 +228,72 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 开启提示
+  'active-text'(h) {
+    return (
+      <el-form-item label='开启提示'>
+        <el-input
+          value={this.activeData['active-text']}
+          onInput={this.__onValueInput('active-text')}
+          placeholder='请输入开启提示' />
+      </el-form-item>
+    );
+  },
+  // 关闭提示
+  'inactive-text'(h) {
+    return (
+      <el-form-item label='关闭提示'>
+        <el-input
+          value={this.activeData['inactive-text']}
+          onInput={this.__onValueInput('inactive-text')}
+          placeholder='请输入关闭提示' />
+      </el-form-item>
+    );
+  },
+  // 开启颜色
+  'active-color'(h) {
+    return (
+      <el-form-item label='开启颜色'>
+        <el-color-picker
+          value={this.activeData['active-color']}
+          onInput={this.__onValueInput('active-color')} />
+      </el-form-item>
+    );
+  },
+  // 关闭颜色
+  'inactive-color'(h) {
+    return (
+      <el-form-item label='关闭颜色'>
+        <el-color-picker
+          value={this.activeData['inactive-color']}
+          onInput={this.__onValueInput('inactive-color')} />
+      </el-form-item>
+    );
+  },
+  // 开启值
+  'active-value'(h) {
+    return (
+      <el-form-item label='开启值'>
+        <el-input
+          value={this.__setDefaultValue(this.activeData['active-value'])}
+          placeholder='请输入开启值'
+          onInput={this.__onSwitchValueInput('active-value')}
+        />
+      </el-form-item>
+    );
+  },
+  // 开启值
+  'inactive-value'(h) {
+    return (
+      <el-form-item label='关闭值'>
+        <el-input
+          value={this.__setDefaultValue(this.activeData['inactive-value'])}
+          placeholder='请输入关闭值'
+          onInput={this.__onSwitchValueInput('inactive-value')}
+        />
+      </el-form-item>
+    );
+  },
   // 斑马纹
   stripe(h) {
     return (
@@ -574,6 +640,7 @@ const renderMap = {
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.border, panelRender.disabled],
   'el-checkbox-group': [panelRender.vModel, panelRender.defaultValue, panelRender.minLimit, panelRender.maxLimit, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.disabled],
+  'el-switch': [panelRender.vModel, panelRender.defaultValue, panelRender['active-text'], panelRender['inactive-text'], panelRender['active-value'], panelRender['inactive-value'], panelRender['active-color'], panelRender['inactive-color'], panelRender.disabled],
   'empty': [panelRender.componentWidth],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size(), panelRender.componentWidth, panelRender.addColumn],
   'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size(), panelRender.inline, panelRender.disabled, panelRender.formBtn],
@@ -639,6 +706,16 @@ export default {
         return `${val}`;
       }
       return val;
+    },
+
+    __onSwitchValueInput(name) {
+      return (val) => {
+        if (['true', 'false'].indexOf(val) > -1) {
+          this.$set(this.activeData, name, JSON.parse(val));
+        } else {
+          this.$set(this.activeData, name, isNumberStr(val) ? +val : val);
+        }
+      };
     },
 
     __openIconsDialog(model) {
