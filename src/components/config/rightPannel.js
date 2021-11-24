@@ -177,6 +177,36 @@ export default {
       </el-form-item>
     );
   },
+  // 允许半选
+  'allow-half'(h) {
+    return (
+      <el-form-item label='允许半选'>
+        <el-switch
+          value={this.activeData['allow-half']}
+          onInput={this.__onValueInput('allow-half')}/>
+      </el-form-item>
+    );
+  },
+  // 辅助文字
+  'show-text'(h) {
+    return (
+      <el-form-item label='辅助文字'>
+        <el-switch
+          value={this.activeData['show-text']}
+          onInput={this.__onValueInput('show-text')}/>
+      </el-form-item>
+    );
+  },
+  // 显示分数
+  'show-score'(h) {
+    return (
+      <el-form-item label='显示分数'>
+        <el-switch
+          value={this.activeData['show-score']}
+          onInput={this.__onValueInput('show-score')}/>
+      </el-form-item>
+    );
+  },
   // 输入最大长度
   maxlength(h) {
     return (

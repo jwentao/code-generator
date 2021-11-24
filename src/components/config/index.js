@@ -260,6 +260,26 @@ const baseItemMap = {
     step: 1,
     'show-stops': false,
     range: false
+  },
+
+  rate: {
+    __config__: {
+      type: 'base',
+      showName: '评分',
+      tag: 'el-rate',
+      tagIcon: 'rate',
+      defaultValue: 0,
+      document: 'https://element.eleme.cn/#/zh-CN/component/rate',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    style: {},
+    max: 5,
+    'allow-half': false,
+    'show-text': false,
+    'show-score': false,
+    disabled: false
   }
 };
 
@@ -272,7 +292,8 @@ export const baseItems = [
   baseItemMap['radio-group'],
   baseItemMap['checkbox-group'],
   baseItemMap.switch,
-  baseItemMap.slider
+  baseItemMap.slider,
+  baseItemMap.rate
 ];
 
 export const formExtraConfig = {
