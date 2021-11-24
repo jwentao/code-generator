@@ -111,6 +111,28 @@ const baseItemMap = {
     disabled: false
   },
 
+  'input-number': {
+    __config__: {
+      type: 'base',
+      showName: '计数器',
+      tag: 'el-input-number',
+      tagIcon: 'number',
+      defaultValue: undefined,
+      document: 'https://element.eleme.cn/#/zh-CN/component/input-number',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    placeholder: '',
+    min: undefined,
+    max: undefined,
+    step: 1,
+    'step-strictly': false,
+    precision: undefined,
+    'controls-position': '',
+    disabled: false
+  },
+
   select: {
     __config__: {
       type: 'base',
@@ -224,6 +246,7 @@ const baseItemMap = {
 export const baseItems = [
   baseItemMap.input,
   baseItemMap['input-textarea'],
+  baseItemMap['input-number'],
   baseItemMap.select,
   baseItemMap['radio-group'],
   baseItemMap['checkbox-group'],

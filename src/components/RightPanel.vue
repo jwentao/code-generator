@@ -9,6 +9,7 @@ const alignList = [{ label: '左', value: 'left' }, { label: '中', value: 'cent
 const positionList = [{ label: '左对齐', value: 'left' }, { label: '顶部对齐', value: 'top' }, { label: '右对齐', value: 'right' }];
 const fixedList = [{ label: '左', value: 'left' }, { label: '右', value: 'right' }, { label: '不固定', value: false }];
 const optionTypeList = [{ label: '默认', value: 'default' }, { label: '按钮', value: 'button' }];
+const numberBtnLocList = [{ label: '默认', value: '' }, { label: '右侧', value: 'right' }];
 
 const panelRender = {
   // v-model
@@ -219,6 +220,77 @@ const panelRender = {
       </el-form-item>
     );
   },
+  // 最小值
+  min(h) {
+    return (
+      <el-form-item label='最小值'>
+        <el-input-number
+          value={this.activeData.min}
+          onInput={this.__onValueInput('min')}
+          placeholder='最小值' />
+      </el-form-item>
+    );
+  },
+  // 最大值
+  max(h) {
+    return (
+      <el-form-item label='最大值'>
+        <el-input-number
+          value={this.activeData.max}
+          onInput={this.__onValueInput('max')}
+          placeholder='最大值' />
+      </el-form-item>
+    );
+  },
+  // 步长
+  step(h) {
+    return (
+      <el-form-item label='步长'>
+        <el-input-number
+          value={this.activeData.step}
+          onInput={this.__onValueInput('step')}
+          placeholder='步长' />
+      </el-form-item>
+    );
+  },
+  // 精度
+  precision(h) {
+    return (
+      <el-form-item label='精度'>
+        <el-input-number
+          value={this.activeData.precision}
+          min={0}
+          onInput={this.__onValueInput('precision')}
+          placeholder='精度' />
+      </el-form-item>
+    );
+  },
+  // 严格步数
+  'step-strictly'(h) {
+    return (
+      <el-form-item label='严格步数'>
+        <el-switch
+          value={this.activeData['step-strictly']}
+          onInput={this.__onValueInput('step-strictly')}/>
+      </el-form-item>
+    );
+  },
+  // 按钮位置
+  'controls-position'(h) {
+    return (
+      <el-form-item label='按钮位置'>
+        <el-radio-group
+          value={this.activeData['controls-position']}
+          onInput={this.__onValueInput('controls-position')}>
+          { numberBtnLocList.map(item => (
+            <el-radio-button label={ item.value }>
+              { item.label }
+            </el-radio-button>
+          )) }
+        </el-radio-group>
+      </el-form-item>
+    );
+  },
   // 输入统计
   'show-word-limit'(h) {
     return (
@@ -331,7 +403,7 @@ const panelRender = {
   // 尺寸
   size(key, value) {
     return function(h) {
-      if (key && value && this.activeData.__config__?.[key] !== value) {
+      if (key && value && this.activeData.__config__?.[key] !== value) { // 根据条件控制隐藏
         return null;
       }
       return (
@@ -662,6 +734,7 @@ const panelRender = {
 const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
   'el-input-textarea': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.minRows, panelRender.maxRows, panelRender.maxlength, panelRender['show-word-limit'], panelRender.disabled, panelRender.readonly],
+  'el-input-number': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.min, panelRender.max, panelRender.step, panelRender.precision, panelRender['controls-position'], panelRender['step-strictly'], panelRender.disabled],
   'el-select': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.clearable, panelRender.disabled, panelRender.filterable, panelRender.multiple, panelRender.options],
   'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.border, panelRender.disabled],
   'el-checkbox-group': [panelRender.vModel, panelRender.defaultValue, panelRender.minLimit, panelRender.maxLimit, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.disabled],
