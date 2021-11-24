@@ -150,6 +150,33 @@ export default {
       </el-form-item>
     );
   },
+  // 显示间断点
+  'show-stops'(h) {
+    return (
+      <el-form-item label='显示间断点'>
+        <el-switch
+          value={this.activeData['show-stops']}
+          onInput={this.__onValueInput('show-stops')}/>
+      </el-form-item>
+    );
+  },
+  // 范围选择
+  range(h) {
+    return (
+      <el-form-item label='范围选择'>
+        <el-switch
+          value={this.activeData.range}
+          onInput={(val) => {
+            this.__onValueInput('range')(val);
+            this.$set(
+              this.activeData.__config__,
+              'defaultValue',
+              val ? [this.activeData.min, this.activeData.max] : this.activeData.min
+            );
+          }}/>
+      </el-form-item>
+    );
+  },
   // 输入最大长度
   maxlength(h) {
     return (

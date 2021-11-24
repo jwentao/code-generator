@@ -11,6 +11,7 @@ const renderMap = {
   'el-radio-group': [panelRender.vModel, panelRender.defaultValue, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.border, panelRender.disabled],
   'el-checkbox-group': [panelRender.vModel, panelRender.defaultValue, panelRender.minLimit, panelRender.maxLimit, panelRender.options, panelRender.optionType, panelRender.size('optionType', 'button'), panelRender.disabled],
   'el-switch': [panelRender.vModel, panelRender.defaultValue, panelRender['active-text'], panelRender['inactive-text'], panelRender['active-value'], panelRender['inactive-value'], panelRender['active-color'], panelRender['inactive-color'], panelRender.disabled],
+  'el-slider': [panelRender.vModel, panelRender.defaultValue, panelRender.min, panelRender.max, panelRender.step, panelRender['show-stops'], panelRender.range, panelRender.disabled],
   'empty': [panelRender.componentWidth],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size(), panelRender.componentWidth, panelRender.addColumn],
   'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size(), panelRender.inline, panelRender.disabled, panelRender.formBtn],

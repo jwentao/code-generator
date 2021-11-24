@@ -219,6 +219,7 @@ const baseItemMap = {
     max: null,
     disabled: false
   },
+
   switch: {
     __config__: {
       type: 'base',
@@ -239,6 +240,26 @@ const baseItemMap = {
     'inactive-color': null,
     'active-value': true,
     'inactive-value': false
+  },
+
+  slider: {
+    __config__: {
+      type: 'base',
+      showName: '滑块',
+      tag: 'el-slider',
+      tagIcon: 'slider',
+      defaultValue: null,
+      document: 'https://element.eleme.cn/#/zh-CN/component/slider',
+      wrapStyle: {
+        display: 'block'
+      }
+    },
+    disabled: false,
+    min: 0,
+    max: 100,
+    step: 1,
+    'show-stops': false,
+    range: false
   }
 };
 
@@ -250,7 +271,8 @@ export const baseItems = [
   baseItemMap.select,
   baseItemMap['radio-group'],
   baseItemMap['checkbox-group'],
-  baseItemMap.switch
+  baseItemMap.switch,
+  baseItemMap.slider
 ];
 
 export const formExtraConfig = {
