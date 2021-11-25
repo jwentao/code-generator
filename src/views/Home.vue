@@ -36,6 +36,7 @@
         <RightPanel
           class="right-inner"
           :active-data="activeData"
+          :all-config="curConfig"
         />
       </el-scrollbar>
     </div>

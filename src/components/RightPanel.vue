@@ -2,6 +2,7 @@
 import { isNumberStr } from '@/utils';
 import IconsDialog from '@/components/IconsDialog';
 import panelRender, { dateTimeFormat } from './config/rightPannel';
+import emitter from '@/mixins/emitter';
 
 const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
@@ -31,13 +32,18 @@ const formExtraRender = [panelRender.label('__config__'), panelRender.labelWidth
 
 export default {
   name: 'RightPanel',
-  mixins: [],
+  mixins: [emitter],
   props: {
     activeData: {
       type: Object,
       default: () => ({
         __config__: {}
       })
+    },
+
+    allConfig: {
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({
@@ -119,8 +125,28 @@ export default {
     }
     let extra = <div/>;
     if (this.activeData.__config__.parent) {
-      extra = formExtraRender.map(item => item.call(this, h));
+      extra = (<div>
+        <el-divider/>
+        { formExtraRender.map(item => item.call(this, h)) }
+      </div>);
     }
+    // const slots = {
+    //   default: props => {
+    //     const { node, data } = props;
+    //     return (
+    //       <span class='node-label'>
+    //         <svg-icon class='node-icon' icon-class={data.__config__ ? data.__config__.tagIcon : data.tagIcon} />
+    //         { node.label }
+    //       </span>
+    //     );
+    //   },
+    //   props: {
+    //     label(data, node) {
+    //       const config = data.__config__;
+    //       return data.componentName || `${config.showName}: ${data.__vModel__}`;
+    //     }
+    //   }
+    // };
     return (
       <div>
         { this.activeData.__config__.showName }
@@ -128,11 +154,27 @@ export default {
           {
             (renderMap[this.activeData.__config__?.key || this.activeData.__config__?.tag] || []).map(item => item.call(this, h))
           }
-          <el-divider/>
           {
             extra
           }
         </el-form>
+        <el-divider>布局树</el-divider>
+        {
+          <el-tree
+            data={this.allConfig}
+            render-content={(h, { data }) => {
+              return (
+                <span class='node-label' onClick={() => {
+                  this.dispatch('Home', 'active', data);
+                }}>
+                  <svg-icon icon-class={data.__config__?.tagIcon || data.tagIcon || ''} />
+                  <span>{ data.__config__.showName }</span>
+                </span>
+              );
+            }}
+          >
+          </el-tree>
+        }
         <IconsDialog
           visible={this.iconsVisible}
           current={this.activeData[this.currentIconModel]}
