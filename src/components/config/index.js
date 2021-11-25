@@ -345,6 +345,51 @@ const baseItemMap = {
     'end-placeholder': '结束时间',
     format: 'HH:mm:ss',
     'value-format': 'HH:mm:ss'
+  },
+  'date-picker': {
+    __config__: {
+      type: 'base',
+      showName: '日期选择',
+      tag: 'el-date-picker',
+      tagIcon: 'date',
+      defaultValue: null,
+      document: 'https://element.eleme.cn/#/zh-CN/component/date-picker',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    placeholder: '请选择',
+    type: 'date',
+    style: { width: '100%' },
+    disabled: false,
+    clearable: true,
+    format: 'yyyy-MM-dd',
+    'value-format': 'yyyy-MM-dd',
+    readonly: false
+  },
+  'date-picker-range': {
+    __config__: {
+      type: 'base',
+      showName: '日期范围',
+      tag: 'el-date-picker',
+      key: 'el-date-picker-range',
+      tagIcon: 'date-range',
+      defaultValue: null,
+      document: 'https://element.eleme.cn/#/zh-CN/component/date-picker',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    style: { width: '100%' },
+    type: 'daterange',
+    'range-separator': '至',
+    'start-placeholder': '开始日期',
+    'end-placeholder': '结束日期',
+    disabled: false,
+    clearable: true,
+    format: 'yyyy-MM-dd',
+    'value-format': 'yyyy-MM-dd',
+    readonly: false
   }
 };
 
@@ -361,7 +406,9 @@ export const baseItems = [
   baseItemMap.rate,
   baseItemMap['color-picker'],
   baseItemMap['time-picker'],
-  baseItemMap['time-picker-range']
+  baseItemMap['time-picker-range'],
+  baseItemMap['date-picker'],
+  baseItemMap['date-picker-range']
 ];
 
 export const formExtraConfig = {

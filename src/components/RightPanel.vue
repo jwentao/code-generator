@@ -14,9 +14,11 @@ const renderMap = {
   'el-slider': [panelRender.vModel, panelRender.defaultValue, panelRender.min, panelRender.max, panelRender.step, panelRender['show-stops'], panelRender.range, panelRender.disabled],
   'el-rate': [panelRender.vModel, panelRender.defaultValue, panelRender.max, panelRender['allow-half'], panelRender['show-text'], panelRender['show-score'], panelRender.disabled],
   'el-color-picker': [panelRender.vModel, panelRender.defaultValue, panelRender['color-format'], panelRender.size(), panelRender.disabled],
-
   'el-time-picker': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.selectableRange, panelRender.timeFormat, panelRender.clearable, panelRender.disabled],
   'el-time-picker-range': [panelRender.vModel, panelRender['start-placeholder'], panelRender['end-placeholder'], panelRender.defaultValue, panelRender.componentWidth, panelRender['range-separator'], panelRender.timeFormat, panelRender.clearable, panelRender.disabled],
+
+  'el-date-picker': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.dateType('date'), panelRender.timeFormat, panelRender.clearable, panelRender.readonly, panelRender.disabled],
+  'el-date-picker-range': [panelRender.vModel, panelRender['start-placeholder'], panelRender['end-placeholder'], panelRender.defaultValue, panelRender.componentWidth, panelRender.dateType('deterange'), panelRender['range-separator'], panelRender.timeFormat, panelRender.clearable, panelRender.readonly, panelRender.disabled],
 
   'empty': [panelRender.componentWidth],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size(), panelRender.componentWidth, panelRender.addColumn],

@@ -8,6 +8,18 @@ const fixedList = [{ label: '左', value: 'left' }, { label: '右', value: 'righ
 const optionTypeList = [{ label: '默认', value: 'default' }, { label: '按钮', value: 'button' }];
 const numberBtnLocList = [{ label: '默认', value: '' }, { label: '右侧', value: 'right' }];
 const colorFormatOptions = [{ label: 'hex', value: 'hex' }, { label: 'rgb', value: 'rgb' }, { label: 'rgba', value: 'rgba' }, { label: 'hsv', value: 'hsv' }, { label: 'hsl', value: 'hsl' }];
+const dateTypeOptions = [
+  { label: '日(date)', value: 'date' },
+  { label: '周(week)', value: 'week' },
+  { label: '月(month)', value: 'month' },
+  { label: '年(year)', value: 'year' },
+  { label: '日期时间(datetime)', value: 'datetime' }
+];
+const dateRangeTypeOptions = [
+  { label: '日期范围(daterange)', value: 'daterange' },
+  { label: '月范围(monthrange)', value: 'monthrange' },
+  { label: '日期时间范围(datetimerange)', value: 'datetimerange' }
+];
 
 export const dateTimeFormat = {
   date: 'yyyy-MM-dd',
@@ -529,6 +541,27 @@ export default {
           placeholder='结束占位符' />
       </el-form-item>
     );
+  },
+  // 时间类型
+  dateType(type = 'date') {
+    return function(h) {
+      const options = type === 'date' ? dateTypeOptions : dateRangeTypeOptions;
+      return (
+        <el-form-item label='时间类型'>
+          <el-select
+            value={this.activeData.type}
+            placeholder='请选择时间类型'
+            onInput={(val) => {
+              this.__onValueInput('type')(val);
+              this.__setTimeValue(dateTimeFormat[val], val);
+            }}>
+            { options.map(item => (
+              <el-option label={ item.label } value={ item.value } />
+            )) }
+          </el-select>
+        </el-form-item>
+      );
+    };
   },
   // 斑马纹
   stripe(h) {
