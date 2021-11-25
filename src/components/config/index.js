@@ -298,6 +298,53 @@ const baseItemMap = {
     'color-format': '',
     disabled: false,
     size: 'medium'
+  },
+
+  'time-picker': {
+    __config__: {
+      type: 'base',
+      showName: '时间选择',
+      tag: 'el-time-picker',
+      tagIcon: 'time',
+      defaultValue: null,
+      document: 'https://element.eleme.cn/#/zh-CN/component/time-picker',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    placeholder: '请选择',
+    style: { width: '100%' },
+    disabled: false,
+    clearable: true,
+    'picker-options': {
+      selectableRange: '00:00:00-23:59:59'
+    },
+    format: 'HH:mm:ss',
+    'value-format': 'HH:mm:ss'
+  },
+
+  'time-picker-range': {
+    __config__: {
+      type: 'base',
+      showName: '时间范围',
+      tag: 'el-time-picker',
+      key: 'el-time-picker-range',
+      tagIcon: 'time-range',
+      defaultValue: null,
+      document: 'https://element.eleme.cn/#/zh-CN/component/time-picker',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    style: { width: '100%' },
+    disabled: false,
+    clearable: true,
+    'is-range': true,
+    'range-separator': '至',
+    'start-placeholder': '开始时间',
+    'end-placeholder': '结束时间',
+    format: 'HH:mm:ss',
+    'value-format': 'HH:mm:ss'
   }
 };
 
@@ -312,7 +359,9 @@ export const baseItems = [
   baseItemMap.switch,
   baseItemMap.slider,
   baseItemMap.rate,
-  baseItemMap['color-picker']
+  baseItemMap['color-picker'],
+  baseItemMap['time-picker'],
+  baseItemMap['time-picker-range']
 ];
 
 export const formExtraConfig = {

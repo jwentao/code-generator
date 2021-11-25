@@ -9,6 +9,17 @@ const optionTypeList = [{ label: '默认', value: 'default' }, { label: '按钮'
 const numberBtnLocList = [{ label: '默认', value: '' }, { label: '右侧', value: 'right' }];
 const colorFormatOptions = [{ label: 'hex', value: 'hex' }, { label: 'rgb', value: 'rgb' }, { label: 'rgba', value: 'rgba' }, { label: 'hsv', value: 'hsv' }, { label: 'hsl', value: 'hsl' }];
 
+export const dateTimeFormat = {
+  date: 'yyyy-MM-dd',
+  week: 'yyyy 第 WW 周',
+  month: 'yyyy-MM',
+  year: 'yyyy',
+  datetime: 'yyyy-MM-dd HH:mm:ss',
+  daterange: 'yyyy-MM-dd',
+  monthrange: 'yyyy-MM',
+  datetimerange: 'yyyy-MM-dd HH:mm:ss'
+};
+
 export default {
   // v-model
   vModel(h) {
@@ -461,6 +472,61 @@ export default {
           placeholder='请输入关闭值'
           onInput={this.__onSwitchValueInput('inactive-value')}
         />
+      </el-form-item>
+    );
+  },
+  // 时间段
+  selectableRange(h) {
+    return (
+      <el-form-item label='时间段'>
+        <el-input
+          value={this.activeData['picker-options'].selectableRange}
+          onInput={this.__onValueInput('selectableRange', this.activeData['picker-options'])}
+          placeholder='请输入时间段' />
+      </el-form-item>
+    );
+  },
+  // 时间格式
+  timeFormat(h) {
+    return (
+      <el-form-item label='时间格式'>
+        <el-input
+          value={this.activeData.format}
+          onInput={this.__setTimeValue}
+          placeholder='请输入时间格式' />
+      </el-form-item>
+    );
+  },
+  // 开始占位符(时间范围组件)
+  'start-placeholder'(h) {
+    return (
+      <el-form-item label='开始占位符'>
+        <el-input
+          value={this.activeData['start-placeholder']}
+          onInput={this.__onValueInput('start-placeholder')}
+          placeholder='开始占位符' />
+      </el-form-item>
+    );
+  },
+  // 时间组件分隔符
+  'range-separator'(h) {
+    return (
+      <el-form-item label='分隔符'>
+        <el-input
+          value={this.activeData['range-separator']}
+          onInput={this.__onValueInput('range-separator')}
+          placeholder='分隔符' />
+      </el-form-item>
+    );
+  },
+  // 开始占位符(时间范围组件)
+  'end-placeholder'(h) {
+    return (
+      <el-form-item label='结束占位符'>
+        <el-input
+          value={this.activeData['end-placeholder']}
+          onInput={this.__onValueInput('end-placeholder')}
+          placeholder='结束占位符' />
       </el-form-item>
     );
   },

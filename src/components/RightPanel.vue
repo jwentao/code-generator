@@ -1,7 +1,7 @@
 <script>
 import { isNumberStr } from '@/utils';
 import IconsDialog from '@/components/IconsDialog';
-import panelRender from './config/rightPannel';
+import panelRender, { dateTimeFormat } from './config/rightPannel';
 
 const renderMap = {
   'el-input': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.prepend, panelRender.append, panelRender['prefix-icon'], panelRender['suffix-icon'], panelRender.maxlength, panelRender['show-word-limit'], panelRender.clearable, panelRender.disabled, panelRender.readonly],
@@ -14,6 +14,10 @@ const renderMap = {
   'el-slider': [panelRender.vModel, panelRender.defaultValue, panelRender.min, panelRender.max, panelRender.step, panelRender['show-stops'], panelRender.range, panelRender.disabled],
   'el-rate': [panelRender.vModel, panelRender.defaultValue, panelRender.max, panelRender['allow-half'], panelRender['show-text'], panelRender['show-score'], panelRender.disabled],
   'el-color-picker': [panelRender.vModel, panelRender.defaultValue, panelRender['color-format'], panelRender.size(), panelRender.disabled],
+
+  'el-time-picker': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.selectableRange, panelRender.timeFormat, panelRender.clearable, panelRender.disabled],
+  'el-time-picker-range': [panelRender.vModel, panelRender['start-placeholder'], panelRender['end-placeholder'], panelRender.defaultValue, panelRender.componentWidth, panelRender['range-separator'], panelRender.timeFormat, panelRender.clearable, panelRender.disabled],
+
   'empty': [panelRender.componentWidth],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size(), panelRender.componentWidth, panelRender.addColumn],
   'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size(), panelRender.inline, panelRender.disabled, panelRender.formBtn],
@@ -98,6 +102,13 @@ export default {
 
     __setIcon(val) {
       this.activeData[this.currentIconModel] = val;
+    },
+
+    __setTimeValue(val, type) {
+      const valueFormat = type === 'week' ? dateTimeFormat.date : val;
+      this.$set(this.activeData.__config__, 'defaultValue', null);
+      this.$set(this.activeData, 'value-format', valueFormat);
+      this.$set(this.activeData, 'format', val);
     }
   },
   render(h) {
@@ -113,7 +124,7 @@ export default {
         { this.activeData.__config__.showName }
         <el-form label-width='90px' size='small'>
           {
-            (renderMap[this.activeData.__config__?.tag] || []).map(item => item.call(this, h))
+            (renderMap[this.activeData.__config__?.key || this.activeData.__config__?.tag] || []).map(item => item.call(this, h))
           }
           <el-divider/>
           {
