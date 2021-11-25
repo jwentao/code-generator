@@ -81,8 +81,7 @@ export default {
   watch: {
     columns: {
       deep: true,
-      handler(val) {
-        console.log(val);
+      handler() {
         this.generateMockData();
         this.refreshColumn();
       }
@@ -93,7 +92,7 @@ export default {
     this.columns = this.config.children;
   },
   methods: {
-    addTableColumn(origin) {
+    addTableColumn(origin) { // 废弃
       const column = {
         __config__: {
           prop: origin.__vModel__,
@@ -137,7 +136,7 @@ export default {
       this.tableData = [temp];
     },
 
-    refreshColumn() { // label等配置修改不会触发列重新渲染，手动刷新下
+    refreshColumn() { // label等配置修改不会触发列重新渲染，手动刷新下(这里没有使用column.__config.__renderKey)
       this.renderKey = generateId();
     },
 
