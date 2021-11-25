@@ -280,6 +280,24 @@ const baseItemMap = {
     'show-text': false,
     'show-score': false,
     disabled: false
+  },
+
+  'color-picker': {
+    __config__: {
+      type: 'base',
+      showName: '颜色选择',
+      tag: 'el-color-picker',
+      tagIcon: 'color',
+      defaultValue: null,
+      document: 'https://element.eleme.cn/#/zh-CN/component/color-picker',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    'show-alpha': false,
+    'color-format': '',
+    disabled: false,
+    size: 'medium'
   }
 };
 
@@ -293,7 +311,8 @@ export const baseItems = [
   baseItemMap['checkbox-group'],
   baseItemMap.switch,
   baseItemMap.slider,
-  baseItemMap.rate
+  baseItemMap.rate,
+  baseItemMap['color-picker']
 ];
 
 export const formExtraConfig = {

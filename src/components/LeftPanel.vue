@@ -73,7 +73,8 @@ export default {
             ...columnDefault,
             __config__: {
               ...columnDefault.__config__,
-              id: generateId()
+              id: generateId(),
+              renderKey: generateId()
             }
           }));
         }
@@ -81,7 +82,8 @@ export default {
       if (type === 'base') {
         copyComponent.__vModel__ = 'model';
       }
-      copyComponent.__config__.id = generateId();
+      copyComponent.__config__.id = generateId(); // 不可变
+      copyComponent.__config__.renderKey = generateId(); // 可变
       // this.dispatch('Home', 'active', copyComponent);
       return copyComponent;
     }

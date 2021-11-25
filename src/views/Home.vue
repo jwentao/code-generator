@@ -61,11 +61,12 @@ const saveConfigDebounce = debounce(300, saveConfig);
 
 let beautifier;
 
-function updateId(item) {
+function updateOnlyValue(item) { // copy嵌套组件时迭代更新id和renderKey
   item.__config__.id = generateId();
+  item.__config__.renderKey = generateId();
   if (Array.isArray(item.children)) {
     item.children.forEach(child => {
-      updateId(child);
+      updateOnlyValue(child);
     });
   }
 }
@@ -159,8 +160,7 @@ export default {
     copyItem(config) {
       const [parent, idx] = findParentAndIdx(this.curConfig, config);
       const copyItem = deepClone(parent[idx]);
-      copyItem.__config__.id = generateId();
-      updateId(copyItem);
+      updateOnlyValue(copyItem);
       parent.splice(idx, 0, copyItem);
     },
 

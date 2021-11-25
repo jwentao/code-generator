@@ -94,7 +94,7 @@ const bases = function(h, config) {
       config={config}
       show-border={this.showBorder}
     >
-      <baseRender key={config.id} conf={config} onInput={ event => {
+      <baseRender key={config.__config__.renderKey} conf={config} onInput={ event => {
         this.$set(config.__config__, 'defaultValue', event);
       }} />
     </BlockWrap>

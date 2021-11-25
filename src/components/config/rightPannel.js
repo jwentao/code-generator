@@ -7,6 +7,7 @@ const positionList = [{ label: '左对齐', value: 'left' }, { label: '顶部对
 const fixedList = [{ label: '左', value: 'left' }, { label: '右', value: 'right' }, { label: '不固定', value: false }];
 const optionTypeList = [{ label: '默认', value: 'default' }, { label: '按钮', value: 'button' }];
 const numberBtnLocList = [{ label: '默认', value: '' }, { label: '右侧', value: 'right' }];
+const colorFormatOptions = [{ label: 'hex', value: 'hex' }, { label: 'rgb', value: 'rgb' }, { label: 'rgba', value: 'rgba' }, { label: 'hsv', value: 'hsv' }, { label: 'hsl', value: 'hsl' }];
 
 export default {
   // v-model
@@ -342,6 +343,25 @@ export default {
             </el-radio-button>
           )) }
         </el-radio-group>
+      </el-form-item>
+    );
+  },
+  // 颜色格式
+  'color-format'(h) {
+    return (
+      <el-form-item label='颜色格式'>
+        <el-select
+          value={this.activeData['color-format']}
+          onInput={(val) => {
+            this.__onValueInput('color-format')(val);
+            this.activeData.__config__.defaultValue = null;
+            this.activeData['show-alpha'] = val.indexOf('a') > -1;
+            this.activeData.__config__.renderKey = +new Date(); // 更新renderKey,重新渲染该组件
+          }}>
+          { colorFormatOptions.map(item => (
+            <el-option label={ item.label } value={ item.value } />
+          )) }
+        </el-select>
       </el-form-item>
     );
   },
