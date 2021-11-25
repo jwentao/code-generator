@@ -58,7 +58,7 @@ export default {
     splitCode() {
       const script = this.getSource(this.code, 'script').replace(/export default/, 'return ');
       const style = this.getSource(this.code, 'style');
-      const template = '<div id="app">' + this.getSource(this.code, 'template') + '</div>';
+      const template = '<div id="display">' + this.getSource(this.code, 'template') + '</div>';
 
       this.js = script;
       this.css = style;
