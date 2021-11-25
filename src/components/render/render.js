@@ -85,10 +85,8 @@ export default {
     }
   },
   render(h) {
-    console.log('render');
     const dataObject = makeDataObject();
     const confClone = deepClone(this.conf);
-    console.log('render', confClone);
 
     if (confClone.__config__.tag === 'el-input-textarea') { // textarea实际渲染的仍是el-input，这里要特殊处理
       confClone.__config__.tag = 'el-input';

@@ -115,7 +115,6 @@ export default {
     curConfig: {
       deep: true,
       handler(val) {
-        console.log(val);
         saveConfigDebounce(val);
       }
     }

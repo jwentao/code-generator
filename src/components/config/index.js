@@ -390,6 +390,33 @@ const baseItemMap = {
     format: 'yyyy-MM-dd',
     'value-format': 'yyyy-MM-dd',
     readonly: false
+  },
+  upload: {
+    __config__: {
+      type: 'base',
+      showName: '上传',
+      tag: 'el-upload',
+      tagIcon: 'upload',
+      defaultValue: null,
+      buttonText: '点击上传',
+      fileSize: 2,
+      sizeUnit: 'MB',
+      showTip: false,
+      document: 'https://element.eleme.cn/#/zh-CN/component/upload',
+      wrapStyle: {
+        display: 'inline-block'
+      }
+    },
+    __slot__: {
+      'list-type': true
+    },
+    action: 'https://jsonplaceholder.typicode.com/posts/',
+    disabled: false,
+    accept: '',
+    name: 'file',
+    'auto-upload': true,
+    'list-type': 'text',
+    multiple: false
   }
 };
 
@@ -408,7 +435,8 @@ export const baseItems = [
   baseItemMap['time-picker'],
   baseItemMap['time-picker-range'],
   baseItemMap['date-picker'],
-  baseItemMap['date-picker-range']
+  baseItemMap['date-picker-range'],
+  baseItemMap.upload
 ];
 
 export const formExtraConfig = {

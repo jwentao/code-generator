@@ -8,6 +8,8 @@ const fixedList = [{ label: '左', value: 'left' }, { label: '右', value: 'righ
 const optionTypeList = [{ label: '默认', value: 'default' }, { label: '按钮', value: 'button' }];
 const numberBtnLocList = [{ label: '默认', value: '' }, { label: '右侧', value: 'right' }];
 const colorFormatOptions = [{ label: 'hex', value: 'hex' }, { label: 'rgb', value: 'rgb' }, { label: 'rgba', value: 'rgba' }, { label: 'hsv', value: 'hsv' }, { label: 'hsl', value: 'hsl' }];
+const unitList = [{ label: 'KB', value: 'KB' }, { label: 'MB', value: 'MB' }, { label: 'GB', value: 'GB' }];
+const fileListTypeList = [{ label: 'text', value: 'text' }, { label: 'picture', value: 'picture' }, { label: 'picture-card', value: 'picture-card' }];
 const dateTypeOptions = [
   { label: '日(date)', value: 'date' },
   { label: '周(week)', value: 'week' },
@@ -19,6 +21,15 @@ const dateRangeTypeOptions = [
   { label: '日期范围(daterange)', value: 'daterange' },
   { label: '月范围(monthrange)', value: 'monthrange' },
   { label: '日期时间范围(datetimerange)', value: 'datetimerange' }
+];
+const fileTypeList = [
+  { label: '图片', value: 'image/*' },
+  { label: '视频', value: 'video/*' },
+  { label: '音频', value: 'audio/*' },
+  { label: 'excel', value: '.xls,.xlsx' },
+  { label: 'word', value: '.doc,.docx' },
+  { label: 'pdf', value: '.pdf' },
+  { label: 'txt', value: '.txt' }
 ];
 
 export const dateTimeFormat = {
@@ -562,6 +573,119 @@ export default {
         </el-form-item>
       );
     };
+  },
+  // 文件字段名
+  fileName(h) {
+    return (
+      <el-form-item label='文件字段名'>
+        <el-input
+          value={this.activeData.name}
+          onInput={this.__onValueInput('name')}
+          placeholder='文件字段名' />
+      </el-form-item>
+    );
+  },
+  // 文件类型
+  fileAccept(h) {
+    return (
+      <el-form-item label='文件类型'>
+        <el-select
+          placeholder='请选择文件类型'
+          value={this.activeData.accept}
+          onInput={this.__onValueInput('accept')}>
+          { fileTypeList.map(item => (
+            <el-option label={ item.label } value={ item.value } />
+          )) }
+        </el-select>
+      </el-form-item>
+    );
+  },
+  // 列表类型
+  fileList(h) {
+    return (
+      <el-form-item label='列表类型'>
+        <el-radio-group
+          value={this.activeData['list-type']}
+          onInput={this.__onValueInput('list-type')}>
+          { fileListTypeList.map(item => (
+            <el-radio-button label={ item.label } >{ item.value }</el-radio-button>
+          )) }
+        </el-radio-group>
+      </el-form-item>
+    );
+  },
+  // 文件类型
+  fileSize(h) {
+    return (
+      <el-form-item label='文件大小'>
+        <el-input
+          value={this.activeData.__config__.fileSize}
+          onInput={this.__onValueInput('fileSize', this.activeData.__config__)}
+          placeholder='请输入文件大小' >
+          <el-select
+            slot='append'
+            value={this.activeData.__config__.sizeUnit}
+            style={{ width: '66px' }}
+            onInput={this.__onValueInput('sizeUnit', this.activeData.__config__)}>
+            { unitList.map(item => (
+              <el-option label={ item.label } value={ item.value } />
+            )) }
+          </el-select>
+        </el-input>
+      </el-form-item>
+    );
+  },
+  // 按钮文字
+  fileButtonText(h) {
+    return (
+      <el-form-item label='按钮文字'>
+        <el-input
+          value={this.activeData.__config__.buttonText}
+          onInput={this.__onValueInput('buttonText', this.activeData.__config__)}
+          placeholder='请输入按钮文字' />
+      </el-form-item>
+    );
+  },
+  // 上传地址
+  fileAction(h) {
+    return (
+      <el-form-item label='上传地址'>
+        <el-input
+          value={this.activeData.action}
+          onInput={this.__onValueInput('action')}
+          placeholder='上传地址' />
+      </el-form-item>
+    );
+  },
+  // 显示提示
+  fileShowTip(h) {
+    return (
+      <el-form-item label='显示提示'>
+        <el-switch
+          value={this.activeData.__config__.showTip}
+          onInput={this.__onValueInput('showTip', this.activeData.__config__)}/>
+      </el-form-item>
+    );
+  },
+  // 多选文件
+  fileMultiple(h) {
+    return (
+      <el-form-item label='多选文件'>
+        <el-switch
+          value={this.activeData.multiple}
+          onInput={this.__onValueInput('multiple')}/>
+      </el-form-item>
+    );
+  },
+  // 自动上传
+  autoUpload(h) {
+    return (
+      <el-form-item label='自动上传'>
+        <el-switch
+          value={this.activeData['auto-upload']}
+          onInput={this.__onValueInput('auto-upload')}/>
+      </el-form-item>
+    );
   },
   // 斑马纹
   stripe(h) {

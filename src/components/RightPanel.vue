@@ -16,9 +16,10 @@ const renderMap = {
   'el-color-picker': [panelRender.vModel, panelRender.defaultValue, panelRender['color-format'], panelRender.size(), panelRender.disabled],
   'el-time-picker': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.selectableRange, panelRender.timeFormat, panelRender.clearable, panelRender.disabled],
   'el-time-picker-range': [panelRender.vModel, panelRender['start-placeholder'], panelRender['end-placeholder'], panelRender.defaultValue, panelRender.componentWidth, panelRender['range-separator'], panelRender.timeFormat, panelRender.clearable, panelRender.disabled],
-
   'el-date-picker': [panelRender.vModel, panelRender.placeholder, panelRender.defaultValue, panelRender.componentWidth, panelRender.dateType('date'), panelRender.timeFormat, panelRender.clearable, panelRender.readonly, panelRender.disabled],
   'el-date-picker-range': [panelRender.vModel, panelRender['start-placeholder'], panelRender['end-placeholder'], panelRender.defaultValue, panelRender.componentWidth, panelRender.dateType('deterange'), panelRender['range-separator'], panelRender.timeFormat, panelRender.clearable, panelRender.readonly, panelRender.disabled],
+
+  'el-upload': [panelRender.vModel, panelRender.defaultValue, panelRender.fileName, panelRender.fileAccept, panelRender.fileSize, panelRender.fileAction, panelRender.fileList, panelRender.fileButtonText, panelRender.fileShowTip, panelRender.fileMultiple, panelRender.autoUpload, panelRender.disabled],
 
   'empty': [panelRender.componentWidth],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size(), panelRender.componentWidth, panelRender.addColumn],
@@ -46,7 +47,6 @@ export default {
   methods: {
     __onValueInput(key, target) {
       return (val) => {
-        console.log(val);
         target = target || this.activeData;
         target[key] = isNumberStr(val) ? +val : val;
         // this.$set(target, key, isNumberStr(val) ? +val : val);
