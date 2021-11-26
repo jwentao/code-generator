@@ -10,6 +10,7 @@ const numberBtnLocList = [{ label: '默认', value: '' }, { label: '右侧', val
 const colorFormatOptions = [{ label: 'hex', value: 'hex' }, { label: 'rgb', value: 'rgb' }, { label: 'rgba', value: 'rgba' }, { label: 'hsv', value: 'hsv' }, { label: 'hsl', value: 'hsl' }];
 const unitList = [{ label: 'KB', value: 'KB' }, { label: 'MB', value: 'MB' }, { label: 'GB', value: 'GB' }];
 const fileListTypeList = [{ label: 'text', value: 'text' }, { label: 'picture', value: 'picture' }, { label: 'picture-card', value: 'picture-card' }];
+const displaList = [{ label: 'block', value: 'block' }, { label: 'flex', value: 'flex' }];
 const dateTypeOptions = [
   { label: '日(date)', value: 'date' },
   { label: '周(week)', value: 'week' },
@@ -31,7 +32,6 @@ const fileTypeList = [
   { label: 'pdf', value: '.pdf' },
   { label: 'txt', value: '.txt' }
 ];
-
 export const dateTimeFormat = {
   date: 'yyyy-MM-dd',
   week: 'yyyy 第 WW 周',
@@ -853,6 +853,43 @@ export default {
         </div>
         <el-divider />
       </div>
+    );
+  },
+  display(h) {
+    return (
+      <el-form-item label='display'>
+        <el-select
+          value={this.activeData.style.display}
+          onInput={(val) => {
+            this.__onValueInput('display', this.activeData.style)(val);
+          }}>
+          { displaList.map(item => (
+            <el-option label={ item.label } value={ item.value } />
+          )) }
+        </el-select>
+      </el-form-item>
+    );
+  },
+  // 内边距
+  padding(h) {
+    return (
+      <el-form-item label='内边距'>
+        <el-input
+          value={this.activeData.style.padding}
+          onInput={this.__onValueInput('padding', this.activeData.style)}
+          placeholder='内边距' />
+      </el-form-item>
+    );
+  },
+  // 外边距
+  margin(h) {
+    return (
+      <el-form-item label='外边距'>
+        <el-input
+          value={this.activeData.style.margin}
+          onInput={this.__onValueInput('margin', this.activeData.style)}
+          placeholder='外边距' />
+      </el-form-item>
     );
   },
   // label宽度,form和基础组件共用

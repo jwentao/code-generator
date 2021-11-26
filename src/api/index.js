@@ -1,6 +1,7 @@
 const STORAGE_KEY = 'CONFIG_STORAGE_KEY';
 
 export const saveConfig = (config) => {
+  console.log(config);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
 };
 

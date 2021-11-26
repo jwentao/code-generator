@@ -21,6 +21,7 @@ const containers = {
           group={{ name: DRAG_GROUP.CONTAINER_COMPONENT, put: [DRAG_GROUP.CONTAINER_COMPONENT, DRAG_GROUP.BASE_COMPONENT] }}
           list={config.children}
           handle='.drag-btn'
+          style={Object.keys(this.config.style || {}).map(key => `${key}: ${this.config.style[key]}`).join(';')}
           onAdd={ this.handleEmptyAdd(config) }
           class='container-wrap'>
           {
@@ -143,6 +144,7 @@ export default {
     handleEmptyAdd(config) {
       return (el) => {
         clearFormExtraConfig(config.children[el.newDraggableIndex]);
+        config.children[el.newDraggableIndex].__config__.parent = { ...config, children: [] };
         this.dispatch('Home', 'active', config.children[el.newDraggableIndex]);
       };
     }

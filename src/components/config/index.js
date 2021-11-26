@@ -9,7 +9,12 @@ export const containerItems = [
         display: 'block' // 仅用于面板render
       }
     },
-    style: { width: '100%' },
+    style: {
+      width: '100%',
+      display: 'block',
+      padding: '2px 2px 2px 2px',
+      margin: '0 0 0 0'
+    },
     children: []
   },
   {

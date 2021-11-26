@@ -291,7 +291,14 @@ const tags = {
 
   // 容器部分
   'empty': el => {
-    const style = el.style?.width ? ` :style="{width: \'${el.style.width}\'}"` : '';
+    const styles = [];
+    Object.keys(el.style || {}).forEach(key => {
+      if (el.style[key]) {
+        styles.push(`${key}: \'${el.style[key]}\'`);
+      }
+    });
+    // const style = el.style?.width ? ` :style="{width: \'${el.style.width}\'}"` : '';
+    const style = styles.length ? ` :style="{${styles.join(',')}}"` : '';
     return `<div${style}>
         ${compile(el.children)}
     </div>`;

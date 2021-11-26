@@ -22,13 +22,29 @@ const renderMap = {
 
   'el-upload': [panelRender.vModel, panelRender.defaultValue, panelRender.fileName, panelRender.fileAccept, panelRender.fileSize, panelRender.fileAction, panelRender.fileList, panelRender.fileButtonText, panelRender.fileShowTip, panelRender.fileMultiple, panelRender.autoUpload, panelRender.disabled],
 
-  'empty': [panelRender.componentWidth],
+  'empty': [panelRender.componentWidth, panelRender.display, panelRender.padding, panelRender.margin],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size(), panelRender.componentWidth, panelRender.addColumn],
   'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size(), panelRender.inline, panelRender.disabled, panelRender.formBtn],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
 
 const formExtraRender = [panelRender.label('__config__'), panelRender.labelWidth('__config__'), panelRender.showLabel, panelRender.required, panelRender.reg];
+
+const flexChild = function(h) {
+  if (this.activeData.__config__.parent?.style.display === 'flex') {
+    return (
+      <el-form-item label='flex'>
+        <el-input
+          value={this.activeData.style.flex}
+          onInput={(val) => {
+            this.$set(this.activeData.style, 'flex', val);
+          }}
+          placeholder='组件宽度' />
+      </el-form-item>
+    );
+  }
+  return null;
+};
 
 export default {
   name: 'RightPanel',
@@ -153,6 +169,9 @@ export default {
         <el-form label-width='90px' size='small'>
           {
             (renderMap[this.activeData.__config__?.key || this.activeData.__config__?.tag] || []).map(item => item.call(this, h))
+          }
+          {
+            flexChild.call(this, h)
           }
           {
             extra
