@@ -58,12 +58,11 @@ const baseItemMap = {
   input: {
     // 组件的自定义配置
     __config__: {
-      type: 'base',
-      showName: '单行文本',
-      changeTag: true,
-      tag: 'el-input',
+      type: 'base', // 组件类型，基础组件base不可嵌套，container组件可嵌套
+      showName: '单行文本', // 左右panel显示的名称，如果嵌套进form组件中，form-item的label会从这里取值
+      tag: 'el-input', // 实际渲染的标签
       tagIcon: 'input',
-      defaultValue: undefined,
+      defaultValue: undefined, // 默认值
       document: 'https://element.eleme.cn/#/zh-CN/component/input',
       wrapStyle: {
         display: 'inline-block'
@@ -74,7 +73,7 @@ const baseItemMap = {
       prepend: '',
       append: ''
     },
-    // 其余的为可直接写在组件标签上的属性
+    // 其余的为可直接写在组件标签上的属性，参考element文档
     placeholder: '请输入',
     style: { width: '100%' },
     clearable: true,

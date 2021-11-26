@@ -107,8 +107,6 @@ export default {
       const tHeader = document.querySelector(`.drag_${this.config.__config__.id} .el-table__header-wrapper tr`);
       this.sortable = Sortable.create(tHeader, {
         animation: 180,
-        /** 延迟 */
-        // delay: 1,
         filter: '.disabled',
         onEnd: (evt) => {
           const oldItem = this.columns[evt.oldIndex];
