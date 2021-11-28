@@ -4,6 +4,7 @@
       <div class="logo-bar">logo</div>
       <div class="action-bar">
         <el-button type="primary" size="small" @click="generateCode">生成代码(测试)</el-button>
+        <el-button type="danger" size="small" @click="clearCode">清空</el-button>
       </div>
       <div class="config-bar">
         显示边界<Help content="每个组件会增加一边框以及6px的内边距，用来辅助拖拽，不会生成在代码中。" /><el-switch v-model="showBorder" />
@@ -176,6 +177,20 @@ export default {
       const vueCode = beautifier.html(template + script + style, beautifierConf.html);
       console.log(vueCode);
       return vueCode;
+    },
+    clearCode() {
+      this.$alert('确定要清空当前配置吗', '确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        showCancelButton: true,
+        callback: action => {
+          if (action === 'confirm') {
+            this.curConfig = [];
+            this.activeData = {};
+            this.activeId = null;
+          }
+        }
+      });
     },
     handlePreviewChange(val) {
       if (val) {
