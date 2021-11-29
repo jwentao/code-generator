@@ -1,7 +1,10 @@
 <template>
   <div class="left-panel">
     <div class="component-block">
-      容器
+      <div class="component-title">
+        <svg-icon icon-class="container" />
+        容器
+      </div>
       <draggable
         :group="{name: DRAG_GROUP.CONTAINER_COMPONENT, pull: 'clone', put: false}"
         :sort="false"
@@ -21,7 +24,10 @@
       </draggable>
     </div>
     <div class="component-block">
-      基础组件
+      <div class="component-title">
+        <svg-icon icon-class="base" />
+        基础组件
+      </div>
       <draggable
         :group="{name: DRAG_GROUP.BASE_COMPONENT, pull: 'clone', put: false}"
         :sort="false"
@@ -35,6 +41,7 @@
           class="component-item"
         >
           <div class="component-inner">
+            <svg-icon :icon-class="item.__config__.tagIcon" />
             {{ item.__config__.showName }}
           </div>
         </div>
@@ -100,17 +107,23 @@ export default {
     display: flex;
     flex-wrap: wrap;
   }
+
+  .component-title {
+    font-size: 18px;
+    color: $textL2;
+    padding-top: 15px;
+  }
   .component-item {
     cursor: move;
     flex: 0 0 50%;
     width: 50%;
-    text-align: center;
     padding: 2px;
 
     .component-inner {
       background-color: $borderL4;
       height: 30px;
       line-height: 30px;
+      padding-left: 20px;
 
       &:hover {
         background-color: $brandColor4;
