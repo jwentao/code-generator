@@ -181,6 +181,7 @@ export default {
         {
           <el-tree
             data={this.allConfig}
+            default-expand-all={true}
             render-content={(h, { data }) => {
               return (
                 <span class='node-label' onClick={() => {
