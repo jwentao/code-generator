@@ -15,12 +15,12 @@
       </el-tooltip>
       <el-tooltip effect="light" content="删除" placement="top-start">
         <div class="op-item icon-del" @click.stop="handleDel">
-          <Delete />
+          <svg-icon icon-class="delete" />
         </div>
       </el-tooltip>
       <el-tooltip effect="light" content="拖拽移动" placement="top-start">
         <div class="op-item drag-btn">
-          <Move />
+          <svg-icon icon-class="move" />
         </div>
       </el-tooltip>
     </div>
@@ -28,15 +28,11 @@
   </div>
 </template>
 <script>
-import Move from '@/icon/Move';
-import Delete from '@/icon/Delete';
 import emitter from '@/mixins/emitter';
 
 export default {
   name: 'BlockWrap',
   components: {
-    Move,
-    Delete
   },
   mixins: [
     emitter
@@ -102,6 +98,11 @@ export default {
           styles.push(`${key}:${this.config.__config__.wrapStyle[key]}`);
         });
       }
+      Object.keys(this.config.style || {}).forEach(key => {
+        if (key !== 'display') {
+          styles.push(`${key}:${this.config.style[key]}`);
+        }
+      });
       return styles.join(';');
     }
   }

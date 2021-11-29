@@ -451,16 +451,31 @@ export const formExtraConfig = {
   regList: []
 };
 
-// demo 可用于form-item
-// 暂无用处，使用拖拽到目标位置后动态添加__config__
+// baseItemMap改装为form-item子组件
 export const formItems = [
-  {
-    ...baseItemMap.input,
-    __config__: {
-      ...baseItemMap.input.__config__
-    }
+  baseItemMap.input,
+  baseItemMap['input-textarea'],
+  baseItemMap['input-number'],
+  baseItemMap.select,
+  baseItemMap['radio-group'],
+  baseItemMap['checkbox-group'],
+  baseItemMap.switch,
+  baseItemMap.slider,
+  baseItemMap.rate,
+  baseItemMap['color-picker'],
+  baseItemMap['time-picker'],
+  baseItemMap['time-picker-range'],
+  baseItemMap['date-picker'],
+  baseItemMap['date-picker-range'],
+  baseItemMap.upload
+].map(item => ({
+  ...item,
+  __config__: {
+    ...item.__config__,
+    ...formExtraConfig,
+    label: item.__config__.showName
   }
-];
+}));
 
 // table column默认配置
 export const columnDefault = {

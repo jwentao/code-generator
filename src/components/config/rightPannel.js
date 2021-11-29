@@ -1,5 +1,6 @@
 import { deepClone, generateId } from '@/utils';
 import { columnDefault } from '@/components/config/index';
+import draggable from 'vuedraggable';
 
 const sizeList = [{ label: '中等', value: 'medium' }, { label: '小', value: 'small' }, { label: '迷你', value: 'mini' }];
 const alignList = [{ label: '左', value: 'left' }, { label: '中', value: 'center' }, { label: '右', value: 'right' }];

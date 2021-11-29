@@ -47,10 +47,34 @@
         </div>
       </draggable>
     </div>
+    <div class="component-block">
+      <div class="component-title">
+        <svg-icon icon-class="form" />
+        表单组件
+      </div>
+      <draggable
+        :group="{name: DRAG_GROUP.FORM_COMPONENT, pull: 'clone', put: false}"
+        :sort="false"
+        class="left-drag-wrap"
+        :list="formItems"
+        :clone="cloneComponent"
+      >
+        <div
+          v-for="(item, index) in formItems"
+          :key="index"
+          class="component-item"
+        >
+          <div class="component-inner">
+            <svg-icon :icon-class="item.__config__.tagIcon" />
+            {{ item.__config__.showName }}
+          </div>
+        </div>
+      </draggable>
+    </div>
   </div>
 </template>
 <script>
-import { containerItems, columnDefault, baseItems } from './config';
+import { containerItems, columnDefault, baseItems, formItems } from './config';
 import draggable from 'vuedraggable';
 import { deepClone, generateId } from '@/utils';
 import { DRAG_GROUP } from '@/constant';
@@ -67,7 +91,8 @@ export default {
     DRAG_GROUP,
 
     containerItems,
-    baseItems
+    baseItems,
+    formItems
   }),
   watch: {},
   methods: {

@@ -1,6 +1,6 @@
 <template>
   <el-tooltip v-if="content" effect="light" :content="content" placement="top-start">
-    <i class="el-icon-question" />
+    <svg-icon icon-class="question" class="el-icon-question" />
   </el-tooltip>
 </template>
 <script>

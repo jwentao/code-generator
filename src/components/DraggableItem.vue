@@ -5,8 +5,6 @@ import DraggableTable from '@/components/DraggableTable';
 import BlockWrap from '@/components/BlockWrap';
 import { DRAG_GROUP } from '@/constant';
 import baseRender from '@/components/render/render';
-import { formExtraConfig } from '@/components/config';
-import { clearFormExtraConfig, deepClone } from '@/utils';
 import emitter from '@/mixins/emitter';
 
 const containers = {
@@ -21,7 +19,7 @@ const containers = {
           group={{ name: DRAG_GROUP.CONTAINER_COMPONENT, put: [DRAG_GROUP.CONTAINER_COMPONENT, DRAG_GROUP.BASE_COMPONENT] }}
           list={config.children}
           handle='.drag-btn'
-          style={Object.keys(this.config.style || {}).map(key => `${key}: ${this.config.style[key]}`).join(';')}
+          style={config.style?.display === 'flex' ? 'display: flex;' : ''}
           onAdd={ this.handleEmptyAdd(config) }
           class='container-wrap'>
           {
@@ -46,7 +44,7 @@ const containers = {
           rules={{}}
           label-width={`${config.labelWidth}px`}>
           <draggable
-            group={{ name: DRAG_GROUP.BASE_COMPONENT }}
+            group={{ name: DRAG_GROUP.FORM_COMPONENT }}
             onAdd={ this.handleFormAdd(config) }
             list={config.children}
             handle='.drag-btn'
@@ -98,7 +96,7 @@ const bases = function(h, config) {
   const base = <baseRender key={config.__config__.renderKey} conf={config} onInput={ event => {
     this.$set(config.__config__, 'defaultValue', event);
   }} />;
-  if (config.__config__.parent.__config__.tag === 'el-form') {
+  if (config.__config__.parent?.__config__?.tag === 'el-form') {
     return base;
   }
   return (
@@ -142,11 +140,10 @@ export default {
   methods: {
     handleFormAdd(config) {
       return (el) => {
-        // config.children[el.newDraggableIndex].__config__ = Object.assign(config.children[el.newDraggableIndex].__config__, deepClone(formExtraConfig));
         this.$set(config.children[el.newDraggableIndex], '__config__', {
           ...config.children[el.newDraggableIndex].__config__,
-          ...deepClone(formExtraConfig),
-          label: config.children[el.newDraggableIndex].__config__.showName,
+          // ...deepClone(formExtraConfig),
+          // label: config.children[el.newDraggableIndex].__config__.showName,
           parent: { ...config, children: [] }
         });
         this.dispatch('Home', 'active', config.children[el.newDraggableIndex]);
@@ -154,7 +151,7 @@ export default {
     },
     handleEmptyAdd(config) {
       return (el) => {
-        clearFormExtraConfig(config.children[el.newDraggableIndex]);
+        // clearFormExtraConfig(config.children[el.newDraggableIndex]);
         config.children[el.newDraggableIndex].__config__.parent = { ...config, children: [] };
         this.dispatch('Home', 'active', config.children[el.newDraggableIndex]);
       };

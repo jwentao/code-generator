@@ -91,6 +91,31 @@ function findParentAndIdx(parent, target) {
   return [null];
 }
 
+function checkVars(config, vars, dupVars) {
+  config.forEach(item => {
+    const { type, tag } = item.__config__;
+    const { children } = item;
+    if (type === 'base') {
+      let vModel = item.__vModel__;
+      if (item.__config__.parent?.__config__.tag === 'el-form') {
+        vModel = `${item.__config__.parent.formModel}.${vModel}`;
+      }
+      if (vars.has(vModel)) {
+        dupVars.add(vModel);
+      }
+      vars.add(vModel);
+    } else if (tag === 'el-form') {
+      if (vars.has(item.formModel)) {
+        dupVars.add(item.formModel);
+      }
+      vars.add(item.formModel);
+      if (Array.isArray(children)) {
+        checkVars(children, vars, dupVars);
+      }
+    }
+  });
+}
+
 export default {
   name: 'Home',
   components: {
@@ -134,12 +159,20 @@ export default {
   mounted() {
     const clipboard = new ClipboardJS('#copyCode', {
       text: () => {
-        const str = this.generateCode();
-        this.$notify({
-          title: '复制成功',
-          message: '代码已复制到剪切板',
-          type: 'success'
-        });
+        const [dups, str] = this.generateCode();
+        if (dups.length) {
+          this.$notify({
+            title: '警告',
+            message: `代码复制成功，但存在同名变量，这可能会导致程序运行出错，请检查，变量名为${dups.join(',')}`,
+            type: 'warning'
+          });
+        } else {
+          this.$notify({
+            title: '复制成功',
+            message: '代码已复制到剪切板',
+            type: 'success'
+          });
+        }
         return str;
       }
     });
@@ -185,14 +218,24 @@ export default {
       clearFormExtraConfig(this.curConfig[el.newDraggableIndex]);
       this.activeItem(this.curConfig[el.newDraggableIndex]);
     },
+
+    checkVar() {
+      const vars = new Set();
+      const dupVars = new Set();
+      checkVars(this.curConfig, vars, dupVars);
+      console.log(vars, dupVars);
+      return Array.from(dupVars);
+    },
+
     generateCode() {
       // todo 检测变量重复 throw error
+      const dups = this.checkVar();
+
       const template = vueTemplate(makeUpTemplate(this.curConfig));
       const script = vueScript(makeupScript(this.curConfig));
       const style = vueStyle('');
       const vueCode = beautifier.html(template + script + style, beautifierConf.html);
-      console.log(vueCode);
-      return vueCode;
+      return [dups, vueCode];
     },
 
     copyCode() {
@@ -215,7 +258,15 @@ export default {
     },
     handlePreviewChange(val) {
       if (val) {
-        this.generatedCode = this.generateCode();
+        const [dups, generatedCode] = this.generateCode();
+        if (dups.length) {
+          this.$notify({
+            title: '警告',
+            message: `存在同名变量，这可能会导致程序运行出错，请检查，变量名为${dups.join(',')}`,
+            type: 'warning'
+          });
+        }
+        this.generatedCode = generatedCode;
       }
     }
   }
@@ -243,6 +294,8 @@ $rightWidth: 350px;
 
     .config-bar {
       padding: 0 24px;
+      display: flex;
+      align-items: center;
     }
   }
 
