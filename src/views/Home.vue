@@ -3,7 +3,7 @@
     <div class="top-container">
       <div class="logo-bar">logo</div>
       <div class="action-bar">
-        <el-button type="primary" size="small" @click="generateCode">生成代码(测试)</el-button>
+        <el-button ref="copyCode" type="primary" size="small" @click="copyCode">生成代码</el-button>
         <el-button type="danger" size="small" @click="clearCode">清空</el-button>
       </div>
       <div class="config-bar">
@@ -41,10 +41,12 @@
         />
       </el-scrollbar>
     </div>
+    <input id="copyCode" type="hidden">
   </div>
 </template>
 
 <script>
+import ClipboardJS from 'clipboard';
 import LeftPanel from '@/components/LeftPanel';
 import RightPanel from '@/components/RightPanel';
 import Display from '@/components/Display';
@@ -130,6 +132,20 @@ export default {
   },
 
   mounted() {
+    const clipboard = new ClipboardJS('#copyCode', {
+      text: () => {
+        const str = this.generateCode();
+        this.$notify({
+          title: '复制成功',
+          message: '代码已复制到剪切板',
+          type: 'success'
+        });
+        return str;
+      }
+    });
+    clipboard.on('error', e => {
+      this.$message.error('复制失败');
+    });
     loadBeautifier(btf => {
       beautifier = btf;
     });
@@ -178,6 +194,11 @@ export default {
       console.log(vueCode);
       return vueCode;
     },
+
+    copyCode() {
+      document.getElementById('copyCode').click();
+    },
+
     clearCode() {
       this.$alert('确定要清空当前配置吗', '确认', {
         confirmButtonText: '确定',
