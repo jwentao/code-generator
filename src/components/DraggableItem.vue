@@ -54,13 +54,19 @@ const containers = {
           >
             {
               config.children && config.children.map(itemConfig => (
-                <el-form-item
-                  label={itemConfig.__config__.showLabel ? itemConfig.__config__.label : ''}
-                  label-width={itemConfig.__config__.showLabel ? (itemConfig.__config__.labelWidth && `${itemConfig.__config__.labelWidth}px`) : '0'}
-                  required={itemConfig.__config__.required}
+                <BlockWrap
+                  activeId={this.activeId}
+                  config={itemConfig}
+                  show-border={this.showBorder}
                 >
-                  { render.call(this, h, itemConfig) }
-                </el-form-item>
+                  <el-form-item
+                    label={itemConfig.__config__.showLabel ? itemConfig.__config__.label : ''}
+                    label-width={itemConfig.__config__.showLabel ? (itemConfig.__config__.labelWidth && `${itemConfig.__config__.labelWidth}px`) : '0'}
+                    required={itemConfig.__config__.required}
+                  >
+                    { render.call(this, h, itemConfig) }
+                  </el-form-item>
+                </BlockWrap>
               ))
             }
           </draggable>
@@ -89,15 +95,19 @@ const containers = {
 };
 
 const bases = function(h, config) {
+  const base = <baseRender key={config.__config__.renderKey} conf={config} onInput={ event => {
+    this.$set(config.__config__, 'defaultValue', event);
+  }} />;
+  if (config.__config__.parent.__config__.tag === 'el-form') {
+    return base;
+  }
   return (
     <BlockWrap
       activeId={this.activeId}
       config={config}
       show-border={this.showBorder}
     >
-      <baseRender key={config.__config__.renderKey} conf={config} onInput={ event => {
-        this.$set(config.__config__, 'defaultValue', event);
-      }} />
+      { base }
     </BlockWrap>
   );
 };
@@ -136,7 +146,8 @@ export default {
         this.$set(config.children[el.newDraggableIndex], '__config__', {
           ...config.children[el.newDraggableIndex].__config__,
           ...deepClone(formExtraConfig),
-          label: config.children[el.newDraggableIndex].__config__.showName
+          label: config.children[el.newDraggableIndex].__config__.showName,
+          parent: { ...config, children: [] }
         });
         this.dispatch('Home', 'active', config.children[el.newDraggableIndex]);
       };
