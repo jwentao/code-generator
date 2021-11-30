@@ -35,7 +35,7 @@ const containers = {
         activeId={this.activeId}
         config={config}
         showBorder={this.showBorder}
-        class='container-wrap'>
+      >
         <el-form
           inline={config.inline}
           size={config.size}
@@ -82,7 +82,7 @@ const containers = {
         activeId={this.activeId}
         config={config}
         showBorder={this.showBorder}
-        class='container-wrap'>
+      >
         <DraggableTable
           activeId={this.activeId}
           config={config}
