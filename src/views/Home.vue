@@ -11,7 +11,7 @@
         预览<el-switch v-model="preview" @change="handlePreviewChange" />
       </div>
     </div>
-    <Display v-show="preview" :code="generatedCode" />
+    <Preview v-show="preview" :code="generatedCode" />
     <div v-show="!preview" class="main-container">
       <el-scrollbar class="container-left">
         <LeftPanel />
@@ -49,7 +49,7 @@
 import ClipboardJS from 'clipboard';
 import LeftPanel from '@/components/LeftPanel';
 import RightPanel from '@/components/RightPanel';
-import Display from '@/components/Display';
+import Preview from '@/components/Preview';
 import DraggableItem from '@/components/DraggableItem';
 import Help from '@/components/common/Help';
 import draggable from 'vuedraggable';
@@ -124,13 +124,13 @@ export default {
     DraggableItem,
     Help,
     draggable,
-    Display
+    Preview
   },
   data: () => ({
     DRAG_GROUP,
 
     showBorder: true,
-    preview: false,
+    preview: true,
 
     activeId: null,
     activeData: {},
