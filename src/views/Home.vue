@@ -1,17 +1,19 @@
 <template>
   <div class="home">
-    <div class="top-container">
-      <div class="logo-bar">logo</div>
-      <div class="action-bar">
-        <el-button ref="copyCode" type="primary" size="small" @click="copyCode">生成代码</el-button>
-        <el-button type="danger" size="small" @click="clearCode">清空</el-button>
+    <Header>
+      <div class="header-inner-wrap">
+        <div class="action-bar">
+          <el-button type="primary" size="small" @click="copyCode">复制代码</el-button>
+          <el-button type="primary" size="small" @click="editCode">编辑代码</el-button>
+          <el-button type="danger" size="small" @click="clearCode">清空</el-button>
+        </div>
+        <div class="config-bar">
+          显示边界<Help content="每个组件会增加一边框以及6px的内边距，用来辅助拖拽，不会生成在代码中。" /><el-switch v-model="showBorder" />
+          预览<el-switch v-model="preview" @change="handlePreviewChange" />
+        </div>
       </div>
-      <div class="config-bar">
-        显示边界<Help content="每个组件会增加一边框以及6px的内边距，用来辅助拖拽，不会生成在代码中。" /><el-switch v-model="showBorder" />
-        预览<el-switch v-model="preview" @change="handlePreviewChange" />
-      </div>
-    </div>
-    <Preview v-show="preview" :code="generatedCode" />
+    </Header>
+    <Display v-show="preview" :code="generatedCode" />
     <div v-show="!preview" class="main-container">
       <el-scrollbar class="container-left">
         <LeftPanel />
@@ -42,6 +44,7 @@
       </el-scrollbar>
     </div>
     <input id="copyCode" type="hidden">
+    <CodeView ref="CodeView" />
   </div>
 </template>
 
@@ -49,9 +52,11 @@
 import ClipboardJS from 'clipboard';
 import LeftPanel from '@/components/LeftPanel';
 import RightPanel from '@/components/RightPanel';
-import Preview from '@/components/Preview';
+import Display from '@/components/Display';
+import CodeView from '@/components/CodeView';
 import DraggableItem from '@/components/DraggableItem';
 import Help from '@/components/common/Help';
+import Header from '@/components/common/Header';
 import draggable from 'vuedraggable';
 import { DRAG_GROUP } from '@/constant';
 import { saveConfig, getConfig } from '@/api';
@@ -119,18 +124,20 @@ function checkVars(config, vars, dupVars) {
 export default {
   name: 'Home',
   components: {
+    Display,
     LeftPanel,
     RightPanel,
     DraggableItem,
     Help,
+    Header,
     draggable,
-    Preview
+    CodeView
   },
   data: () => ({
     DRAG_GROUP,
 
     showBorder: true,
-    preview: true,
+    preview: false,
 
     activeId: null,
     activeData: {},
@@ -159,14 +166,8 @@ export default {
   mounted() {
     const clipboard = new ClipboardJS('#copyCode', {
       text: () => {
-        const [dups, str] = this.generateCode();
-        if (dups.length) {
-          this.$notify({
-            title: '警告',
-            message: `代码复制成功，但存在同名变量，这可能会导致程序运行出错，请检查，变量名为${dups.join(',')}`,
-            type: 'warning'
-          });
-        } else {
+        const [result, str] = this.generateCode();
+        if (!result) {
           this.$notify({
             title: '复制成功',
             message: '代码已复制到剪切板',
@@ -235,11 +236,23 @@ export default {
       const script = vueScript(makeupScript(this.curConfig));
       const style = vueStyle('');
       const vueCode = beautifier.html(template + script + style, beautifierConf.html);
-      return [dups, vueCode];
+      if (dups.length) {
+        this.$notify({
+          title: '警告',
+          message: `代码复制成功，但存在同名变量，这可能会导致程序运行出错，请检查，变量名为${dups.join(',')}`,
+          type: 'warning'
+        });
+      }
+      return [!!dups.length, vueCode];
     },
 
     copyCode() {
       document.getElementById('copyCode').click();
+    },
+
+    editCode() {
+      const [, generatedCode] = this.generateCode();
+      this.$refs.CodeView.show(generatedCode);
     },
 
     clearCode() {
@@ -258,14 +271,7 @@ export default {
     },
     handlePreviewChange(val) {
       if (val) {
-        const [dups, generatedCode] = this.generateCode();
-        if (dups.length) {
-          this.$notify({
-            title: '警告',
-            message: `存在同名变量，这可能会导致程序运行出错，请检查，变量名为${dups.join(',')}`,
-            type: 'warning'
-          });
-        }
+        const [, generatedCode] = this.generateCode();
         this.generatedCode = generatedCode;
       }
     }
@@ -273,22 +279,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
-$topHeight: 50px;
+<style lang="scss" scoped>
 $leftWidth: 280px;
 $rightWidth: 350px;
 
 .home {
   height: 100%;
 
-  .top-container {
-    height: $topHeight;
-    line-height: $topHeight;
-    border-bottom: 1px solid $borderL1;
+  .header-inner-wrap {
     display: flex;
+    justify-content: right;
 
     .action-bar {
-      flex: 1;
       text-align: right;
     }
 
@@ -300,7 +302,7 @@ $rightWidth: 350px;
   }
 
   .main-container {
-    height: calc(100vh - #{$topHeight});
+    height: calc(100vh - #{$headerHeight});
     display: flex;
   }
 
