@@ -19,9 +19,16 @@ export default {
     id: getRandomStr()
   }),
   watch: {
-    code() {
-      this.destroyCode();
-      this.renderCode();
+    code: {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.$nextTick(() => {
+            this.destroyCode();
+            this.renderCode();
+          });
+        }
+      }
     }
   },
   methods: {
