@@ -1,8 +1,7 @@
 <template>
   <el-drawer
-    title="我是标题"
-    class="preview"
-    :visible.sync="editDrawer"
+    class="json-view"
+    :visible.sync="jsonDrawer"
     direction="ttb"
     :show-close="false"
     size="100%"
@@ -15,9 +14,9 @@
           <i class="el-icon-video-play" />
           运行
         </span>
-        <span ref="copyBtn" class="bar-btn copy-btn">
+        <span ref="copyBtn" class="bar-btn json-copy-btn">
           <i class="el-icon-document-copy" />
-          复制代码
+          复制
         </span>
         <span class="bar-btn" @click="reset">
           <i class="el-icon-refresh-left" />
@@ -29,66 +28,36 @@
         </span>
       </div>
     </Header>
-    <Split
-      direction="row"
-      :min="0"
-      :max="100"
-      class="split-wrap"
-      :pane-length-percent.sync="paneLengthPercent"
-    >
-      <template v-slot:one>
-        <el-scrollbar class="render-preview">
-          <codemirror
-            ref="codemirror"
-            v-model="codemirrorCode"
-            :options="cmOptions"
-          />
-        </el-scrollbar>
-      </template>
-
-      <template v-slot:two>
-        <el-scrollbar class="render-preview">
-          <Display :code="displayCode" />
-        </el-scrollbar>
-      </template>
-
-    </Split>
+    <el-scrollbar class="code-bar">
+      <codemirror
+        ref="codemirror"
+        v-model="jsonCode"
+        :options="cmOptions"
+      />
+    </el-scrollbar>
   </el-drawer>
 </template>
 <script>
 import { codemirror } from 'vue-codemirror';
-import '@/components/common/codemirror/vue';
+import '@/components/common/codemirror/json';
 import '@/components/common/codemirror/codemirror.css';
-import Split from '@/components/common/Split';
-import Display from '@/components/Display';
 import Header from '@/components/common/Header';
 import ClipboardJS from 'clipboard';
 
 export default {
-  name: 'Preview',
+  name: 'JSONView',
   components: {
     codemirror,
-    Display,
-    Header,
-    Split
+    Header
   },
   mixins: [],
-  props: {
-    code: {
-      type: String,
-      default: ''
-    }
-  },
+  props: {},
   data: () => ({
-    editDrawer: false,
-
-    codemirrorCode: '',
-    displayCode: '',
-
-    paneLengthPercent: 50,
+    jsonDrawer: false,
+    jsonCode: '',
 
     cmOptions: {
-      mode: 'htmlmixed',
+      mode: 'application/ld+json',
       lineNumbers: true, // 行号
       // scrollbarStyle: "simple",
       autoCloseBrackets: true, // 自动补全括号
@@ -113,22 +82,14 @@ export default {
       }
     }
   }),
-  watch: {
-    // code(val) {
-    //   this.codemirrorCode = val;
-    //   this.$nextTick(() => {
-    //     this.$refs.codemirror.refresh();
-    //   });
-    //   this.displayCode = val;
-    // }
-  },
+  watch: {},
 
   mounted() {
-    this.clipboard = new ClipboardJS('.copy-btn', {
+    this.clipboard = new ClipboardJS('.json-copy-btn', {
       text: trigger => {
         this.$notify({
           title: '成功',
-          message: '代码已复制到剪切板，可粘贴。',
+          message: 'JSON已复制到剪切板，可粘贴。',
           type: 'success'
         });
         return this.codemirrorCode;
@@ -141,34 +102,37 @@ export default {
   },
 
   methods: {
+    show(json) {
+      this.jsonCode = JSON.stringify(json, null, 2);
+      this.originCode = this.jsonCode; // 用于还原
+      this.jsonDrawer = true;
+      this.$nextTick(() => {
+        this.$refs.codemirror.refresh();
+      });
+    },
+
     runCode() {
-      this.displayCode = this.codemirrorCode;
+      try {
+        const config = JSON.parse(this.jsonCode);
+        this.$emit('on-run', config);
+        this.jsonDrawer = false;
+      } catch (e) {
+        this.$message.error('json解析失败，请检查');
+      }
     },
 
     reset() {
-      this.codemirrorCode = this.originCode;
-      this.displayCode = this.originCode;
+      this.jsonCode = this.originCode;
     },
 
     cancel() {
-      this.editDrawer = false;
-    },
-
-    show(code) {
-      this.displayCode = ''; // 强制刷新
-      this.codemirrorCode = code;
-      this.originCode = code; // 用于重置
-      this.editDrawer = true;
-      this.$nextTick(() => {
-        this.displayCode = code;
-        this.$refs.codemirror.refresh();
-      });
+      this.jsonDrawer = false;
     }
   }
 };
 </script>
 <style lang='scss' scoped>
-.preview {
+.json-view {
   .bar-btn {
     display: inline-block;
     padding: 0 6px;
@@ -194,11 +158,8 @@ export default {
     }
   }
 
-  .split-wrap {
+  .code-bar {
     height: calc(100vh - #{$headerHeight});
-  }
-  .render-preview {
-    height: 100%;
   }
 }
 </style>

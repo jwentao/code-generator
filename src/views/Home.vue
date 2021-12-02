@@ -3,9 +3,10 @@
     <Header>
       <div class="header-inner-wrap">
         <div class="action-bar">
-          <el-button type="primary" size="small" @click="copyCode">复制代码</el-button>
-          <el-button type="primary" size="small" @click="editCode">编辑代码</el-button>
-          <el-button type="danger" size="small" @click="clearCode">清空</el-button>
+          <el-button type="text" icon="el-icon-document-copy" class="bar-btn home-copy-btn">复制代码</el-button>
+          <el-button type="text" icon="el-icon-edit-outline" @click="editCode">编辑代码</el-button>
+          <el-button type="text" icon="el-icon-edit-outline" @click="editJSON">编辑JSON</el-button>
+          <el-button class="delete-btn" icon="el-icon-delete" type="text" @click="clearCode">清空</el-button>
         </div>
         <div class="config-bar">
           显示边界<Help content="每个组件会增加一边框以及6px的内边距，用来辅助拖拽，不会生成在代码中。" /><el-switch v-model="showBorder" />
@@ -45,6 +46,7 @@
     </div>
     <input id="copyCode" type="hidden">
     <CodeView ref="CodeView" />
+    <JSONView ref="JSONView" @on-run="handleJsonChange" />
   </div>
 </template>
 
@@ -54,6 +56,7 @@ import LeftPanel from '@/components/LeftPanel';
 import RightPanel from '@/components/RightPanel';
 import Display from '@/components/Display';
 import CodeView from '@/components/CodeView';
+import JSONView from '@/components/JSONView';
 import DraggableItem from '@/components/DraggableItem';
 import Help from '@/components/common/Help';
 import Header from '@/components/common/Header';
@@ -131,7 +134,8 @@ export default {
     Help,
     Header,
     draggable,
-    CodeView
+    CodeView,
+    JSONView
   },
   data: () => ({
     DRAG_GROUP,
@@ -164,7 +168,7 @@ export default {
   },
 
   mounted() {
-    const clipboard = new ClipboardJS('#copyCode', {
+    this.clipboard = new ClipboardJS('.home-copy-btn', {
       text: () => {
         const [result, str] = this.generateCode();
         if (!result) {
@@ -177,7 +181,7 @@ export default {
         return str;
       }
     });
-    clipboard.on('error', e => {
+    this.clipboard.on('error', e => {
       this.$message.error('复制失败');
     });
     loadBeautifier(btf => {
@@ -198,6 +202,11 @@ export default {
       });
     },
     activeItem(config) {
+      if (!config) {
+        this.activeId = null;
+        this.activeData = {};
+        return;
+      }
       this.activeId = config.__config__.id;
       this.activeData = config;
       console.log('active', config);
@@ -224,7 +233,6 @@ export default {
       const vars = new Set();
       const dupVars = new Set();
       checkVars(this.curConfig, vars, dupVars);
-      console.log(vars, dupVars);
       return Array.from(dupVars);
     },
 
@@ -246,13 +254,18 @@ export default {
       return [!!dups.length, vueCode];
     },
 
-    copyCode() {
-      document.getElementById('copyCode').click();
-    },
-
     editCode() {
       const [, generatedCode] = this.generateCode();
       this.$refs.CodeView.show(generatedCode);
+    },
+
+    editJSON() {
+      this.$refs.JSONView.show(deepClone(this.curConfig));
+    },
+
+    handleJsonChange(newConfig) {
+      this.curConfig = newConfig;
+      this.activeItem(this.curConfig[0]);
     },
 
     clearCode() {
@@ -292,6 +305,10 @@ $rightWidth: 350px;
 
     .action-bar {
       text-align: right;
+
+      .delete-btn{
+        color: #F56C6C;
+      }
     }
 
     .config-bar {
