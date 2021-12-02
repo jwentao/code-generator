@@ -137,31 +137,6 @@ export default {
 </script>
 <style lang='scss' scoped>
 .json-view {
-  .bar-btn {
-    display: inline-block;
-    padding: 0 6px;
-    line-height: 32px;
-    color: $textL1;
-    cursor: pointer;
-    font-size: 14px;
-    user-select: none;
-    & i {
-      font-size: 20px;
-    }
-    &:hover {
-      color: $brandColor2;
-    }
-  }
-  .bar-btn + .bar-btn {
-    margin-left: 8px;
-  }
-  .delete-btn {
-    color: $danger1;
-    &:hover {
-      color: #ea0b30;
-    }
-  }
-
   .code-bar {
     height: calc(100vh - #{$headerHeight});
   }

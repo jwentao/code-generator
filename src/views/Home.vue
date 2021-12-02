@@ -3,10 +3,20 @@
     <Header>
       <div class="header-inner-wrap">
         <div class="action-bar">
-          <el-button type="text" icon="el-icon-document-copy" class="bar-btn home-copy-btn">复制代码</el-button>
-          <el-button type="text" icon="el-icon-edit-outline" @click="editCode">编辑代码</el-button>
-          <el-button type="text" icon="el-icon-edit-outline" @click="editJSON">编辑JSON</el-button>
-          <el-button class="delete-btn" icon="el-icon-delete" type="text" @click="clearCode">清空</el-button>
+          <span ref="copyBtn" class="bar-btn home-copy-btn">
+            <i class="el-icon-document-copy" />
+            复制代码
+          </span>
+          <span class="bar-btn" @click="editCode">
+            <svg-icon icon-class="code" />编辑代码
+          </span>
+          <span class="bar-btn" @click="editJSON">
+            <svg-icon icon-class="json" />编辑JSON
+          </span>
+          <span class="bar-btn delete-btn" @click="clearCode">
+            <i class="el-icon-circle-close" />
+            清空
+          </span>
         </div>
         <div class="config-bar">
           显示边界<Help content="每个组件会增加一边框以及6px的内边距，用来辅助拖拽，不会生成在代码中。" /><el-switch v-model="showBorder" />

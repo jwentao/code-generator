@@ -55,3 +55,33 @@ div:focus {
     height: 0;
   }
 }
+
+.bar-btn {
+  display: inline-block;
+  padding: 0 6px;
+  line-height: 32px;
+  color: $textL1;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  .svg-icon {
+    width: 20px!important;
+    height: 20px!important;
+  }
+  & i {
+    font-size: 20px;
+  }
+
+  &:hover {
+    color: $brandColor1;
+  }
+}
+.bar-btn + .bar-btn {
+  margin-left: 8px;
+}
+.delete-btn {
+  color: $danger1;
+  &:hover {
+    color: #ea0b30;
+  }
+}
