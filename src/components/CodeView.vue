@@ -134,6 +134,10 @@ export default {
         return this.codemirrorCode;
       }
     });
+
+    this.clipboard.on('error', e => {
+      this.$message.error('复制失败');
+    });
   },
 
   beforeDestroy() {

@@ -92,8 +92,12 @@ export default {
           message: 'JSON已复制到剪切板，可粘贴。',
           type: 'success'
         });
-        return this.codemirrorCode;
+        return this.jsonCode;
       }
+    });
+
+    this.clipboard.on('error', e => {
+      this.$message.error('复制失败');
     });
   },
 
