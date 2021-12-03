@@ -24,7 +24,7 @@ const renderMap = {
 
   'empty': [panelRender.componentWidth, panelRender.display, panelRender.padding, panelRender.margin],
   'el-table': [panelRender.border, panelRender.stripe, panelRender.size(), panelRender.componentWidth, panelRender.addColumn],
-  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.labelPosition, panelRender.size(), panelRender.inline, panelRender.disabled, panelRender.formBtn],
+  'el-form': [panelRender.formRef, panelRender.formModel, panelRender.formRules, panelRender.componentWidth, panelRender.labelWidth(), panelRender.submitUrl, panelRender.labelPosition, panelRender.size(), panelRender.inline, panelRender.disabled, panelRender.formBtn],
   'el-table-column': [panelRender.prop, panelRender.label(), panelRender.width, panelRender['min-width'], panelRender.align, panelRender.fixed]
 };
 
@@ -146,23 +146,6 @@ export default {
         { formExtraRender.map(item => item.call(this, h)) }
       </div>);
     }
-    // const slots = {
-    //   default: props => {
-    //     const { node, data } = props;
-    //     return (
-    //       <span class='node-label'>
-    //         <svg-icon class='node-icon' icon-class={data.__config__ ? data.__config__.tagIcon : data.tagIcon} />
-    //         { node.label }
-    //       </span>
-    //     );
-    //   },
-    //   props: {
-    //     label(data, node) {
-    //       const config = data.__config__;
-    //       return data.componentName || `${config.showName}: ${data.__vModel__}`;
-    //     }
-    //   }
-    // };
     return (
       <div>
         { this.activeData.__config__.showName }

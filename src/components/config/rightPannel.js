@@ -12,6 +12,7 @@ const colorFormatOptions = [{ label: 'hex', value: 'hex' }, { label: 'rgb', valu
 const unitList = [{ label: 'KB', value: 'KB' }, { label: 'MB', value: 'MB' }, { label: 'GB', value: 'GB' }];
 const fileListTypeList = [{ label: 'text', value: 'text' }, { label: 'picture', value: 'picture' }, { label: 'picture-card', value: 'picture-card' }];
 const displaList = [{ label: 'block', value: 'block' }, { label: 'flex', value: 'flex' }];
+const methodList = [{ label: 'get', value: 'get' }, { label: 'post', value: 'post' }, { label: 'put', value: 'put' }, { label: 'delete', value: 'delete' }];
 const dateTypeOptions = [
   { label: '日(date)', value: 'date' },
   { label: '周(week)', value: 'week' },
@@ -1042,6 +1043,29 @@ export default {
             </el-radio-button>
           )) }
         </el-radio-group>
+      </el-form-item>
+    );
+  },
+  // form提交地址
+  submitUrl(h) {
+    return (
+      <el-form-item label='提交地址'>
+        <el-input
+          value={this.activeData.submitUrl}
+          onInput={this.__onValueInput('submitUrl')}
+          placeholder='提交地址'
+        >
+          <el-select
+            slot='prepend'
+            value={this.activeData.submitMethod}
+            onInput={this.__onValueInput('submitMethod')}
+            style='width: 85px'
+          >
+            {methodList.map(item => (
+              <el-option label={item.label} value={item.value} />
+            ))}
+          </el-select>
+        </el-input>
       </el-form-item>
     );
   },

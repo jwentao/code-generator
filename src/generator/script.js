@@ -3,6 +3,22 @@ import ruleTrigger from './ruleTrigger';
 
 const isArray = Array.isArray;
 
+let globalConfig;
+
+function findElById(id, els) {
+  els = els || globalConfig;
+  for (let i = 0; i < els.length; i++) {
+    const el = els[i];
+    if (el.__config__.id === id) {
+      return el;
+    }
+    if (isArray(el.children)) {
+      return findElById(id, el.children);
+    }
+  }
+  return null;
+}
+
 const units = {
   KB: '1024',
   MB: '1024 / 1024',
@@ -199,12 +215,30 @@ function callInCreated(methodName, created) {
 
 // 混入处理函数
 function mixinMethod(scheme, methodList, type = 'file') {
-  const minxins = {
+  let parent = scheme.__config__.parent;
+  let submitCode = '';
+  if (parent?.__config__.tag === 'empty' && scheme.submitUrl) {
+    parent = findElById(parent.__config__.id);
+    const tables = parent.children.filter(item => item.__config__.tag === 'el-table');
+    let assignmentCode = '';
+    if (tables.length) {
+      assignmentCode = tables.map(item => `this.${item.__config__.tableData} = data`).join('\n');
+    }
+    submitCode = `this.$axios({
+      method: '${scheme.submitMethod}',
+      url: '${scheme.submitUrl}',
+      ${scheme.submitMethod === 'get' ? 'params' : 'data'}: this.${scheme.formModel}
+    }).then(resp => {
+      const { data } = resp
+      ${assignmentCode}
+    })`;
+  }
+  const mixins = {
     file: scheme.formBtn ? {
       submitForm: `submitForm${titleCase(scheme.formRef)}() {
         this.$refs['${scheme.formRef}'].validate(valid => {
-          if(!valid) return
-          // TODO 提交表单
+          if(!valid) return;
+          ${submitCode}
         })
       },`,
       resetForm: `resetForm${titleCase(scheme.formRef)}() {
@@ -228,7 +262,7 @@ function mixinMethod(scheme, methodList, type = 'file') {
     }
   };
 
-  const methods = minxins[type];
+  const methods = mixins[type];
   if (methods) {
     Object.keys(methods).forEach(key => {
       methodList.push(methods[key]);
@@ -277,6 +311,7 @@ export function makeupScript(allConfig, type = 'file') {
   const uploadVarList = [];
   const created = [];
   const configClone = deepClone(allConfig);
+  globalConfig = configClone;
   configClone.forEach(config => {
     buildAttributes(config, dataList, optionsList, methodList, propsList, uploadVarList, created);
   });

@@ -317,7 +317,7 @@ const tags = {
   },
   'el-table': el => {
     const style = el.style?.width ? ` :style="{width: \'${el.style.width}\'}"` : '';
-    return `<el-table${style}></el-table>`;
+    return `<el-table :data="${el.__config__.tableData}" ${style}></el-table>`;
   }
 };
 

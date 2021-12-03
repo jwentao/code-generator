@@ -33,6 +33,8 @@ export const containerItems = [
     labelPosition: 'right',
     labelWidth: 100,
     formRules: 'rules',
+    submitMethod: 'get',
+    submitUrl: '',
     disabled: false,
     inline: false,
     formBtn: true,
