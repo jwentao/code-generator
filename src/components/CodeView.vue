@@ -37,13 +37,12 @@
       :pane-length-percent.sync="paneLengthPercent"
     >
       <template v-slot:one>
-        <el-scrollbar class="render-preview">
-          <codemirror
-            ref="codemirror"
-            v-model="codemirrorCode"
-            :options="cmOptions"
-          />
-        </el-scrollbar>
+        <codemirror
+          ref="codemirror"
+          v-model="codemirrorCode"
+          class="code-mirror"
+          :options="cmOptions"
+        />
       </template>
 
       <template v-slot:two>
@@ -203,6 +202,10 @@ export default {
   }
   .render-preview {
     height: 100%;
+  }
+
+  .code-mirror {
+    overflow: hidden;
   }
 }
 </style>
