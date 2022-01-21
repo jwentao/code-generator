@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from "@emotion/styled";
 
-export const RightPanel = () => {
+interface RightPanelProps {
+    activeData: {}
+}
+
+export const RightPanel = (props: RightPanelProps) => {
     return (
         <Container>
         </Container>

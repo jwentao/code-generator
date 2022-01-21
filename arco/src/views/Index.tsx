@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LeftPanel } from '../components/LeftPanel';
 import { Header } from '../components/Header';
 import { Board } from "../components/Board";
@@ -6,13 +6,18 @@ import { RightPanel } from "../components/RightPanel";
 import styled from "@emotion/styled";
 
 export const Index = () => {
+    const [activeData, setActiveData] = useState({});
+    const setLActiveData = (data: object): void => {
+        setActiveData(data);
+        console.log(data);
+    }
     return (
         <div>
             <Header></Header>
             <Container>
                 <LeftPanel></LeftPanel>
-                <Board></Board>
-                <RightPanel></RightPanel>
+                <Board setActiveData={setLActiveData}></Board>
+                <RightPanel activeData={activeData}></RightPanel>
             </Container>
         </div>
     )
