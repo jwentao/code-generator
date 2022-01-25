@@ -1,18 +1,22 @@
-export const BaseComponents = [
+import { BasicComponent } from '../types';
+
+export const BaseComponents: BasicComponent[] = [
     {
         __config__: {
-            tag: 'input'
+            tag: 'input',
+            showName: '输入框',
+            defaultValue: undefined
         },
         allowClear: true,
-        id: 1,
-        label: 'Input'
+        disabled: false
     },
     {
         __config__: {
-            tag: 'select'
+            tag: 'select',
+            showName: '选择框',
+            defaultValue: undefined
         },
         allowClear: true,
-        id: 2,
-        label: 'Select'
+        disabled: false
     }
 ];

@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@types/sortablejs": "^1.10.7"
+    "@types/sortablejs": "^1.10.7",
+    "@welldone-software/why-did-you-render": "^6.2.3"
   }
 }

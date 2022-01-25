@@ -1,26 +1,26 @@
 import React, { ReactNode }  from 'react';
 import styled from "@emotion/styled";
+import { ConfigItem } from '../types';
 import { Input, Select } from '@arco-design/web-react';
 const Option = Select.Option;
 
-interface RenderProps {
-    label: string,
-    __config__: {
-        tag: string
-    }
+interface RenderProps extends ConfigItem {
+    setActiveData: (data: object) => void
 }
 
 export const ComponentRender = (props: RenderProps) => {
-    const { label } = props;
+    const { setActiveData } = props;
 
     const renderFunction = (): ReactNode => {
-        console.log(props.__config__.tag);
         return (renderMap[props.__config__.tag] as () => {})();
     }
 
     const renderMap: { [key: string]: ReactNode} = {
         'input': () => {
-            return <Input></Input>
+            return <Input
+                allowClear={props.allowClear}
+                disabled={props.disabled}
+            ></Input>
         },
         'select': () => {
             return <Select>
@@ -31,7 +31,7 @@ export const ComponentRender = (props: RenderProps) => {
 
 
     return (
-        <Container>
+        <Container onClick={() => { setActiveData(props) }}>
             <OpWrap>
                 <DragBtn className='drag-btn'/>
             </OpWrap>
@@ -39,6 +39,8 @@ export const ComponentRender = (props: RenderProps) => {
         </Container>
     );
 }
+
+ComponentRender.whyDidYouRender = true;
 
 const Container = styled.div`
   position: relative;

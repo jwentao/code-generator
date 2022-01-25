@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from "@emotion/styled";
+import { ConfigItem } from "../types";
 import { ReactSortable } from "react-sortablejs";
 import { ComponentRender } from "./ComponentRender";
 
@@ -9,10 +10,9 @@ interface BoardProps {
 
 
 export const Board = (props: BoardProps) => {
-    const [list, setList] = useState<{label: string, id: number, __config__: {tag: string }}[]>([]);
+    const [list, setList] = useState<ConfigItem[]>([]);
 
     const { setActiveData } = props;
-    setActiveData({test: 1});
 
     useEffect(() => {
         console.log(list);
@@ -26,12 +26,17 @@ export const Board = (props: BoardProps) => {
                 setList={setList}
             >
                 {
-                    list.map(item => (<ComponentRender key={item.id} {...item} />))
+                    list.map(item => (<ComponentRender
+                        setActiveData={setActiveData}
+                        key={item.id} {...item} />))
                 }
             </ReactSortable>
         </Container>
     );
 }
+
+// Board.whyDidYouRender = true;
+
 
 const Container = styled.div`
   flex: 1;

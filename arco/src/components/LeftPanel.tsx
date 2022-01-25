@@ -4,16 +4,21 @@ import { ReactSortable } from "react-sortablejs";
 import { BaseComponents } from '../constant';
 import { ComponentCard } from "./ComponentCard";
 import { css } from '@emotion/css';
-import { BasicComponent } from '../types';
+import { BasicComponent, ConfigItem } from '../types';
+import { generateId } from '../utils';
+import { ItemInterface } from 'react-sortablejs';
 
 export const LeftPanel = () => {
-    const [baseList, setBaseList] = useState(BaseComponents);
+    const [baseList, setBaseList] = useState(BaseComponents.map(item => ({
+        ...item,
+        id: item.__config__.tag // react-sortable要求有id
+    })));
 
-    const cloneComponent = (val: any) => {
+    const cloneComponent = (val: BasicComponent) => {
       console.log(val);
       return {
           ...val,
-          id: Math.random()
+          id: generateId()
       }
     }
 
@@ -32,7 +37,7 @@ export const LeftPanel = () => {
                     {
                         BaseComponents.map(item => (<ComponentCard
                             key={item.__config__.tag}
-                            label={item.label} />))
+                            label={item.__config__.showName} />))
                     }
                 </ReactSortable>
             </ComponentBlock>
