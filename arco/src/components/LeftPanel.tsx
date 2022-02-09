@@ -5,8 +5,7 @@ import { BaseComponents } from '../constant';
 import { ComponentCard } from "./ComponentCard";
 import { css } from '@emotion/css';
 import { BasicComponent, ConfigItem } from '../types';
-import { generateId } from '../utils';
-import { ItemInterface } from 'react-sortablejs';
+import { generateId, deepClone } from '../utils';
 
 export const LeftPanel = () => {
     const [baseList, setBaseList] = useState(BaseComponents.map(item => ({
@@ -15,11 +14,12 @@ export const LeftPanel = () => {
     })));
 
     const cloneComponent = (val: BasicComponent) => {
-      console.log(val);
-      return {
-          ...val,
+      const cloneComponent = {
+          ...deepClone(val),
           id: generateId()
-      }
+      };
+      console.log(cloneComponent);
+      return cloneComponent
     }
 
     return (

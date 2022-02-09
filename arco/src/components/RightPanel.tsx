@@ -7,7 +7,7 @@ const Option = Select.Option;
 
 interface RightPanelProps {
     activeData: ConfigItem | {},
-    setActiveData: (data: object) => void
+    setActiveData: (oldData: object, newData: object) => void
 }
 
 export const RightPanel = (props: RightPanelProps) => {
@@ -27,7 +27,7 @@ const AllowClearRender = (data: Pick<ConfigItem, 'allowClear'>, setActiveData: (
             <Switch
                 checked={data.allowClear}
                 onChange={(allowClear) => {
-                    setActiveData({
+                    setActiveData(data, {
                         ...data,
                         allowClear
                     })

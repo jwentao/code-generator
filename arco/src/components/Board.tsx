@@ -5,14 +5,15 @@ import { ReactSortable } from "react-sortablejs";
 import { ComponentRender } from "./ComponentRender";
 
 interface BoardProps {
-    setActiveData: (data: object) => void
+    list: ConfigItem[],
+    setList: (data: any) => any,
+    setActiveData: (oldData: object, newData: object) => void
 }
 
 
 export const Board = (props: BoardProps) => {
-    const [list, setList] = useState<ConfigItem[]>([]);
 
-    const { setActiveData } = props;
+    const { list, setList, setActiveData } = props;
 
     useEffect(() => {
         console.log(list);

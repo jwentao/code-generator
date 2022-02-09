@@ -5,7 +5,7 @@ import { Input, Select } from '@arco-design/web-react';
 const Option = Select.Option;
 
 interface RenderProps extends ConfigItem {
-    setActiveData: (data: object) => void
+    setActiveData: (oldData: object, newData: object) => void
 }
 
 export const ComponentRender = (props: RenderProps) => {
@@ -31,7 +31,7 @@ export const ComponentRender = (props: RenderProps) => {
 
 
     return (
-        <Container onClick={() => { setActiveData(props) }}>
+        <Container onClick={() => { setActiveData(props, props) }}>
             <OpWrap>
                 <DragBtn className='drag-btn'/>
             </OpWrap>
