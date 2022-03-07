@@ -1,4 +1,5 @@
 cd template
+echo ls
 {
   npm run build
   echo "构建完成"
