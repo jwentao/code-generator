@@ -6,16 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 import { registerMicroApps, start } from 'qiankun';
 
-registerMicroApps([
-    {
-        name: 'newfile',
-        entry: '//localhost:8080',
-        container: '#testContainer',
-        activeRule: '/testContainer',
-    },
-]);
+// registerMicroApps([
+//     {
+//         name: 'microA',
+//         entry: '//localhost:8080',
+//         container: '#microA',
+//         activeRule: 'microA',
+//     },
+// ]);
 
-start();
+// start();
 
 ReactDOM.render(
   <React.StrictMode>
