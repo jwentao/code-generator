@@ -8,8 +8,8 @@ import { registerMicroApps, start } from 'qiankun';
 
 registerMicroApps([
     {
-        name: 'vue app',
-        entry: { scripts: ['//localhost:8080/main.js'] },
+        name: 'newfile',
+        entry: '//localhost:8080',
         container: '#testContainer',
         activeRule: '/testContainer',
     },
