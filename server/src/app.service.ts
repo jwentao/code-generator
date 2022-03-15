@@ -23,7 +23,7 @@ export class AppService {
     // console.log(name);
     // check path
     const path = root.replace('src', 'test-lib');
-    let isDulName = false;
+
     const fileNames = fs.readdirSync(path);
     for (let i = 0; i < fileNames.length; i++) {
       const item = fileNames[i];
@@ -100,6 +100,42 @@ export class AppService {
         '</script>\n' +
         '<style>\n' +
         '</style>\n')
+
+    fs.writeFileSync(root.replace('src', 'template/package.json'), `{
+      "name": "${name}",
+      "version": "0.1.0",
+      "private": true,
+      "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
+      },
+      "dependencies": {
+        "core-js": "^3.8.3",
+        "element-ui": "^2.15.6",
+        "vue": "^2.6.14",
+        "vue-router": "^3.5.1",
+        "vuex": "^3.6.2"
+      },
+      "devDependencies": {
+        "@babel/core": "^7.12.16",
+        "@babel/eslint-parser": "^7.12.16",
+        "@vue/cli-plugin-babel": "~5.0.0",
+        "@vue/cli-plugin-eslint": "~5.0.0",
+        "@vue/cli-plugin-router": "~5.0.0",
+        "@vue/cli-plugin-vuex": "~5.0.0",
+        "@vue/cli-service": "~5.0.0",
+        "@vue/eslint-config-standard": "^6.1.0",
+        "eslint": "^7.32.0",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^5.1.0",
+        "eslint-plugin-vue": "^8.0.3",
+        "open-browser-webpack-plugin": "^0.0.5",
+        "vue-template-compiler": "^2.6.14"
+      }
+    }
+    `)
     try {
       return execSync(`${script} ${name}`).toString();
     } catch (e) {

@@ -23,5 +23,6 @@ cd $curDir/$libName
 
 rm -rf $curDir/template/dist
 rm -f $curDir/template/src/App.vue
+rm -f $curDir/template/package.json
 
 exit 0
