@@ -10,19 +10,15 @@ interface RouteItem {
     exact: boolean
 }
 
+interface RouteRes {
+    entry: string,
+    name: string
+}
 const staticRoutes: RouteItem[] = [
     {
         key: 'pageA',
         path: '/pageA',
         render: () => <PageA/>,
-        exact: true
-    },
-    {
-        key: 'microA',
-        path: '/microA',
-        render: () => {
-            return <MircoContainer name="mircoA" />
-        },
         exact: true
     }
 ];
@@ -34,21 +30,18 @@ const BasicRoute = () => {
             console.log(res);
             return res.json();
         }).then(data => {
-            console.log(data);
+            setTimeout(() => { // 模拟异步加载
+                setRoutes([
+                    ...staticRoutes,
+                    ...(data as RouteRes[]).map((item) => ({
+                        key: item.name,
+                        path: `/${item.name}`,
+                        render: () => <MircoContainer name={item.name} entry={item.entry} />,
+                        exact: true
+                    }))
+                ])
+            }, 1000);
         })
-        setTimeout(() => { // 模拟异步加载
-            setRoutes([
-                ...staticRoutes,
-                {
-                    key: 'microB',
-                    path: '/microB',
-                    render: () => {
-                        return <MircoContainer name="mircoB" />
-                    },
-                    exact: true
-                }
-            ])
-        }, 1000);
     }, [])
     return <HashRouter>
         <Routes>

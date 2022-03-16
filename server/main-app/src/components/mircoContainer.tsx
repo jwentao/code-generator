@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { loadMicroApp } from 'qiankun';
 
 interface Props {
-    name: string
+    name: string,
+    entry: string
 }
 
 const MircoContainer = (props: Props) => {
@@ -12,7 +13,7 @@ const MircoContainer = (props: Props) => {
         if (props.name) {
             loadMicroApp({
                 name: props.name,
-                entry: '//localhost:8080',
+                entry: props.entry,
                 container: ref.current as unknown as HTMLElement,
             });
         }

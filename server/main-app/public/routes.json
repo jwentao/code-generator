@@ -1,5 +1,10 @@
 [
   {
-    "name": "microB"
+    "name": "microA",
+    "entry": "https://cdn-app.myshopline.com/web/mirco/newFile/index.html"
+  },
+  {
+    "name": "microB",
+    "entry": "https://cdn-app.myshopline.com/web/mirco/newFile1/index.html"
   }
 ]
