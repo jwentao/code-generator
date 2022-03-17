@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, HttpException } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller('test')
@@ -7,7 +7,7 @@ export class AppController {
 
   @Get('/child')
   getChild(): object {
-    return {aa: 123};
+    throw new HttpException('文章已存在', 401);
   }
 
   @Get('/hello')

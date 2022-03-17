@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { InjectConnection } from '@nestjs/mongoose';
+import { Connection } from 'mongoose';
 const { execSync } = require('child_process');
 const script = 'sh ./script/build.sh';
 
@@ -8,6 +10,9 @@ const root = path.join(__dirname);
 
 @Injectable()
 export class AppService {
+  constructor(@InjectConnection() private  connection: Connection) {
+  }
+
   getHello(): string {
     execSync(script, (err, stdout, stderr) => {
       if (!err) {
