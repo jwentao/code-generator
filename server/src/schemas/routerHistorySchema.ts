@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-
-export type JsonSchemaDocument = JsonSchema & Document;
+// router更新记录
+export type RouterHistoryDocument = RouterHistory & Document;
 
 @Schema({
     timestamps: {
@@ -9,15 +9,15 @@ export type JsonSchemaDocument = JsonSchema & Document;
         updatedAt: 'updateTime'
     }
 })
-export class JsonSchema extends Document {
+export class RouterHistory extends Document {
     @Prop({ required: true })
     createUser: string;
 
     @Prop({ required: true })
-    scheme: string;
+    router: string;
 
-    @Prop({ required: true, type: String })
-    updateUser
+    @Prop({ required: true })
+    updateUser: string;
 }
 
-export const JsonSchemaSchema = SchemaFactory.createForClass(JsonSchema);
+export const RouterHistorySchema = SchemaFactory.createForClass(RouterHistory);

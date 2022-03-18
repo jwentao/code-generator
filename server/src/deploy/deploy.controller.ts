@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException } from '@nestjs/common';
 import { DeployService } from "./deploy.service";
+import { JsonSchema } from "../schemas/jsonSchema";
 
 @Controller('deploy')
 export class DeployController {
@@ -8,7 +9,36 @@ export class DeployController {
 
     @Get('/create')
     async create(): Promise<string> {
-        await this.deployService.create();
-        return 'success';
+        try {
+            await this.deployService.create();
+            return 'success';
+        } catch (e) {
+            throw new HttpException('插入异常', 401);
+        }
+    }
+
+    @Get('/findAll')
+    async findAll(): Promise<{ total: number, list: JsonSchema[] }> {
+        try {
+            return await this.deployService.findAll();
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    @Post('/find')
+    async find(@Body() body: { id: string }): Promise<JsonSchema[]> {
+        return await this.deployService.find({ id: body.id });
+    }
+
+    @Post('/updateRouter')
+    async updateRouter(@Body() body) {
+        const [err, data] = await this.deployService.updateRouter();
+        console.log(err, data);
+        if (err) {
+            return err;
+        } else {
+            return data;
+        }
     }
 }
