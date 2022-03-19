@@ -33,10 +33,9 @@ export class DeployController {
 
     @Post('/updateRouter')
     async updateRouter(@Body() body) {
-        const [err, data] = await this.deployService.updateRouter();
-        console.log(err, data);
+        const [err, data] = await this.deployService.updateRouter(body);
         if (err) {
-            return err;
+            return err.message;
         } else {
             return data;
         }

@@ -38,9 +38,12 @@ export class DeployService {
         return await this.jsonSchemaModal.findOne({ _id: id });
     }
 
-    async updateRouter(): Promise<any> {
+    async updateRouter(body): Promise<any> {
         // 插入记录 =》 router.json推送至aws =》 成功：更新记录成功 | 失败：更新记录失败并重试
-        return this.routerHistoryModal.create({}).then(res => {
+        return this.routerHistoryModal.create({
+            ...body,
+            status: 2
+        }).then(res => {
             return [null, res];
         }).catch(e =>  [e, null]);
     }

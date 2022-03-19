@@ -1,25 +1,48 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+} from '@nestjs/common';
+// import * as Raven from 'raven';
+import { ENV } from '../../config/app.config';
 
-@Catch()
-export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
-    const ctx = host.switchToHttp(); // 获取请求上下文
-    const response = ctx.getResponse(); // 获取请求上下文中的 response对象
-    const status = exception.getStatus(); // 获取异常状态码
+@Catch() // cache所有错误
+export class HttpExceptionFilter<T> implements ExceptionFilter {
+  catch(exception: any, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse();
+    const request = ctx.getRequest();
+    if (ENV !== 'development') {
+      // Raven.captureException(exception, { // todo sentry 上报 or 其它上报方式
+      //   tags: {
+      //     service_type: 'server',
+      //   },
+      // });
+    }
 
-    // 设置错误信息
-    const message = exception.message
-        ? exception.message
-        : `${status >= 500 ? 'Service Error' : 'Client Error'}`;
-    const errorResponse = {
-      data: {},
-      message: message,
-      code: -1,
+    let resBody: any = {
+      timestamp: Date.now(),
+      path: request.url,
     };
 
-    // 设置返回的状态码， 请求头，发送错误信息
-    response.status(status);
-    response.header('Content-Type', 'application/json; charset=utf-8');
-    response.send(errorResponse);
+    if (exception instanceof HttpException) {
+      // http错误
+      const e: any = exception;
+      const { statusCode, error, message } = e.response;
+      resBody = Object.assign(resBody, {
+        statusCode,
+        error,
+        errmsg: message,
+      });
+      response.status(resBody.statusCode).send(resBody);
+    } else {
+      const e: any = exception;
+      resBody = Object.assign(resBody, {
+        code: 0,
+        errmsg: e.toString(),
+      });
+      response.status(200).send(resBody);
+    }
   }
 }
