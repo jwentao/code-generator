@@ -18,6 +18,9 @@ export class RouterHistory extends Document {
 
     @Prop({ required: true })
     updateUser: string;
+
+    @Prop({ required: '{PATH} is required!', enum: [0, 1, 2] }) // 0失败 1 成功 2pending
+    status: number
 }
 
 export const RouterHistorySchema = SchemaFactory.createForClass(RouterHistory);

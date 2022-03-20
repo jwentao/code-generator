@@ -21,6 +21,8 @@ cd $curDir/$libName
 #git commit -m"auto commit $1"
 #git push origin main
 
+#aws s3 sync $curDir/$libName/$1/dist s3://sl-appsaas/web/lowcode/？？ todo
+
 rm -rf $curDir/template/dist
 rm -f $curDir/template/src/App.vue
 rm -f $curDir/template/package.json

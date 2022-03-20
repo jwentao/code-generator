@@ -148,4 +148,14 @@ export class AppService {
       return e;
     }
   }
+
+  testScript() {
+    try {
+      const a = execSync('sh ./script/deploy.sh').toString();
+      console.log(a);
+    } catch (e) {
+      console.log(e.output.map(item => item && item.toString()));
+      console.log(e);
+    }
+  }
 }

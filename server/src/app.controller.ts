@@ -19,4 +19,10 @@ export class AppController {
   init(@Query() query ): Promise<string> {
     return this.appService.init(query);
   }
+
+  @Get('/test')
+  testScript(): string {
+    this.appService.testScript();
+    return 'success';
+  }
 }

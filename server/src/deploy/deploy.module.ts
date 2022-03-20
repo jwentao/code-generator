@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { DeployService } from './deploy.service';
 import { DeployController } from './deploy.controller';
 import { JsonSchema, JsonSchemaSchema } from "../schemas/jsonSchema";
-import { RouterHistory, RouterHistorySchema } from "../schemas/routerHistorySchema";
+import { RouterHistory, RouterHistorySchema } from "../schemas/routerHistory";
 import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [MongooseModule.forFeature([
