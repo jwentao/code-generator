@@ -3,6 +3,7 @@ node_modules
 template/dist
 
 /server/dist
+/server/.env/base.env
 # local env files
 .env.local
 .env.*.local
