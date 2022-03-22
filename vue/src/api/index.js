@@ -1,3 +1,4 @@
+import request from '@/utils/request';
 const STORAGE_KEY = 'CONFIG_STORAGE_KEY';
 
 export const saveConfig = (config) => {
@@ -15,4 +16,8 @@ export const getConfig = () => {
   } catch (e) {
     return [];
   }
+};
+
+export const getSchemaList = () => {
+  return request();
 };

@@ -13,8 +13,11 @@ export class DeployRecord extends Document {
     @Prop({ required: true })
     createUser: string;
 
-    @Prop()
-    mircoName: string;
+    @Prop({ required: true })
+    mircoId: string;
+
+    @Prop({ required: true})
+    deployPath: string
 }
 
 export const DeployRecordSchema = SchemaFactory.createForClass(DeployRecord);

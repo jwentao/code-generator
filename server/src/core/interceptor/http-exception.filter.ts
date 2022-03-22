@@ -39,7 +39,7 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
     } else {
       const e: any = exception;
       resBody = Object.assign(resBody, {
-        code: 0,
+        code: -1,
         errmsg: e.toString(),
       });
       response.status(200).send(resBody);

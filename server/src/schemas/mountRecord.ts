@@ -19,7 +19,7 @@ export class MountRecord extends Document {
     deployId: string;
 
     @Prop( { required: true })
-    mainId: string; // 主应用id
+    mainId: string; // 主应用id，和微应用id一对多
 
     @Prop( { required: true })
     microId: string; // 微应用id
