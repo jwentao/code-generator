@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-export type MountRecordDocument = MountRecord & Document;
+import { MANGO_TIMESTAMPS_TYPE } from '../types';
+export type MountRecordDocument = MountRecord & Document & MANGO_TIMESTAMPS_TYPE;
 
 @Schema({
     timestamps: {

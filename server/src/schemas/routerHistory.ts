@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { MANGO_TIMESTAMPS_TYPE } from '../types';
 // router更新记录
-export type RouterHistoryDocument = RouterHistory & Document;
+export type RouterHistoryDocument = RouterHistory & Document & MANGO_TIMESTAMPS_TYPE;
 
 @Schema({
     timestamps: {

@@ -14,10 +14,14 @@ export class SchemaService {
   async getSchemaList(): Promise<[null | Error, SchemaListResponse | null]> {
     try {
       const count = await this.jsonSchemaModal.countDocuments();
-      const list = await this.jsonSchemaModal.find();
+      const list: JsonSchemaDocument[] = await this.jsonSchemaModal.find();
       return [null, {
         total: count,
-        list
+        list: list.map(item => ({
+          id: item._id,
+          createUser: item.createUser,
+          createTime: item.createTime
+        }))
       }];
     } catch (e) {
       return [new Error(e), null];
