@@ -9,3 +9,7 @@ export interface SchemaListResponse {
     total: number,
     list: JsonSchemaDocument[]
 }
+
+export interface CreateSchemaRequest {
+    config: object
+}

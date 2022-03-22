@@ -199,3 +199,25 @@ function insertNodeAt(fatherNode, node, position) {
 }
 
 export { insertNodeAt, camelize, console, removeNode };
+
+export function formatTimeStamp(timeStamp, format = 'yyyy-MM-dd hh:mm:ss') {
+  let showTime = '';
+  if (timeStamp) {
+    const date = new Date(timeStamp);
+    const year = date.getFullYear();
+    const month = `0${(date.getMonth() + 1)}`.substr(-2);
+    const day = `0${date.getDate()}`.substr(-2);
+    const hours = `0${date.getHours()}`.substr(-2);
+    const min = `0${date.getMinutes()}`.substr(-2);
+    const sec = `0${date.getSeconds()}`.substr(-2);
+    // 格式化
+    showTime = format
+      .replace('yyyy', year)
+      .replace('MM', month)
+      .replace('dd', day)
+      .replace(/hh/i, hours)
+      .replace('mm', min)
+      .replace('ss', sec);
+  }
+  return showTime;
+}

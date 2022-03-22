@@ -5,22 +5,58 @@
     >
       <el-table-column
         prop="createUser"
-        label="日期"
-        width="180">
+        label="创建人"
+        min-width="180"
+      />
+
+      <el-table-column
+        prop="createTime"
+        label="创建日期"
+        min-width="180"
+      >
+        <template slot-scope="{ row }">
+          {{ row.createTime | formatTime }}
+        </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
 <script>
+import { getSchemaList } from '@/api';
+import { formatTimeStamp } from '@/utils';
+
 export default {
   name: 'SchemaList',
+  filters: {
+    formatTime(val) {
+      return formatTimeStamp(val, 'yyyy-MM-dd hh:mm:ss');
+    }
+  },
   mixins: [],
   props: {},
   data: () => ({
-    tableData: [{}]
+    tableData: [{}],
+    pageParams: {
+      pageSize: 20,
+      pageNum: 1
+    }
   }),
   watch: {},
-  methods: {}
+
+  created() {
+    this.getSchemaList();
+  },
+
+  methods: {
+    async getSchemaList() {
+      const [err, data] = await getSchemaList({
+        ...this.pageParams
+      });
+      if (!err) {
+        this.tableData = data.list;
+      }
+    }
+  }
 };
 </script>
 <style lang='scss' scoped>

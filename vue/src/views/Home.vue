@@ -7,6 +7,9 @@
             <i class="el-icon-document-copy" />
             复制代码
           </span>
+          <span class="bar-btn" @click="saveSchema">
+            <svg-icon icon-class="code" />保存
+          </span>
           <span class="bar-btn" @click="editCode">
             <svg-icon icon-class="code" />编辑代码
           </span>
@@ -78,6 +81,7 @@ import { clearFormExtraConfig, beautifierConf, deepClone, generateId } from '@/u
 import { makeUpTemplate, vueTemplate, vueScript, vueStyle } from '@/generator/template';
 import { makeupScript } from '@/generator/script';
 import loadBeautifier from '@/utils/loadBeautifier';
+import { createSchema } from '@/api';
 
 const saveConfigDebounce = debounce(300, saveConfig);
 
@@ -267,6 +271,15 @@ export default {
     editCode() {
       const [, generatedCode] = this.generateCode();
       this.$refs.CodeView.show(generatedCode);
+    },
+
+    async saveSchema() {
+      const [err] = await createSchema({
+        config: deepClone(this.curConfig)
+      });
+      if (!err) {
+        this.$message.success('保存成功');
+      }
     },
 
     editJSON() {

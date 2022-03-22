@@ -18,6 +18,18 @@ export const getConfig = () => {
   }
 };
 
-export const getSchemaList = () => {
-  return request();
+export const getSchemaList = (data) => {
+  return request({
+    url: '/schema/list',
+    method: 'post',
+    data
+  });
+};
+
+export const createSchema = (data) => {
+  return request({
+    url: '/schema/create',
+    method: 'post',
+    data
+  });
 };
