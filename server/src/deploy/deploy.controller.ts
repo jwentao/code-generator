@@ -10,10 +10,10 @@ export class DeployController {
     @Get('/create')
     async create(): Promise<string> {
         try {
-            await this.deployService.create();
+            await this.deployService.create({ schema: '' });
             return 'success';
         } catch (e) {
-            throw new HttpException('插入异常', 401);
+            throw new Error;
         }
     }
 

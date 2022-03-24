@@ -2,6 +2,7 @@ curDir=$(pwd)
 libName=test-lib
 
 cd $curDir/template
+npm run lint
 npm run build
 
 cd $curDir/$libName

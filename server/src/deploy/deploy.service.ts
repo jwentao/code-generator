@@ -16,16 +16,16 @@ export class DeployService {
     pushRetryCount: Map<string, number>
 
 
-    async create(): Promise<JsonSchema> {
+    async create({ schema } : { schema: string }):Promise<[null | Error, JsonSchemaDocument | null]> {
         try {
             const json = await this.jsonSchemaModal.create({
                 createUser: 'admin',
-                scheme: JSON.stringify({a: '12', b: 'cc'}),
+                schema,
                 updateUser: 'admin',
             });
-            return json.save();
+            return [null, json];
         } catch (e) {
-            console.log(e);
+            return [e, null];
         }
     }
 

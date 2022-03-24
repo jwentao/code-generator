@@ -10,6 +10,9 @@
           <span class="bar-btn" @click="saveSchema">
             <svg-icon icon-class="code" />保存
           </span>
+          <span class="bar-btn" @click="saveAndDeploy">
+            <svg-icon icon-class="code" />发布
+          </span>
           <span class="bar-btn" @click="editCode">
             <svg-icon icon-class="code" />编辑代码
           </span>
@@ -81,7 +84,7 @@ import { clearFormExtraConfig, beautifierConf, deepClone, generateId } from '@/u
 import { makeUpTemplate, vueTemplate, vueScript, vueStyle } from '@/generator/template';
 import { makeupScript } from '@/generator/script';
 import loadBeautifier from '@/utils/loadBeautifier';
-import { createSchema } from '@/api';
+import { createSchema, createAndDeploy } from '@/api';
 
 const saveConfigDebounce = debounce(300, saveConfig);
 
@@ -279,6 +282,18 @@ export default {
       });
       if (!err) {
         this.$message.success('保存成功');
+      }
+    },
+
+    async saveAndDeploy() {
+      const [, generatedCode] = this.generateCode();
+      const [err] = await createAndDeploy({
+        name: 'newFile2',
+        config: deepClone(this.curConfig),
+        code: generatedCode
+      });
+      if (!err) {
+        this.$message.success('提交成功');
       }
     },
 

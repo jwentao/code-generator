@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Param, Body, HttpCode } from '@nestjs/common';
-import { SchemaListQuery, SchemaListResponse, CreateSchemaRequest } from '../types';
+import {SchemaListQuery, SchemaListResponse, CreateSchemaRequest, CreateAndDeploySchemaRequest} from '../types';
 import { SchemaService } from './schema.service';
+import { JsonSchemaDocument } from "../schemas/jsonSchema";
 
 @Controller('schema')
 export class SchemaController {
@@ -20,8 +21,19 @@ export class SchemaController {
 
     @Post('create')
     @HttpCode(200)
-    async createSchema(@Body() body: CreateSchemaRequest): Promise<string> {
+    async createSchema(@Body() body: CreateSchemaRequest): Promise<JsonSchemaDocument> {
        const [err, data] = await this.schemaService.createSchema(body);
+       if (!err) {
+            return data;
+       } else {
+           throw err;
+       }
+    }
+
+    @Post('createAndDeploy')
+    @HttpCode(200)
+    async createAndDeploySchema(@Body() body: CreateAndDeploySchemaRequest): Promise<object> {
+       const [err, data] = await this.schemaService.createAndDeploySchema(body);
        if (!err) {
             return data;
        } else {

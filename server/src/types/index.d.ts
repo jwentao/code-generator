@@ -20,6 +20,11 @@ export interface CreateSchemaRequest {
     config: object
 }
 
+export interface CreateAndDeploySchemaRequest extends CreateSchemaRequest {
+    code: string,
+    name: string
+}
+
 interface MANGO_TIMESTAMPS_TYPE {
     createTime: Date,
     updateTIme: Date

@@ -33,3 +33,11 @@ export const createSchema = (data) => {
     data
   });
 };
+
+export const createAndDeploy = (data) => {
+  return request({
+    url: '/schema/createAndDeploy',
+    method: 'post',
+    data
+  });
+};
