@@ -29,15 +29,4 @@ export class SchemaController {
            throw err;
        }
     }
-
-    @Post('createAndDeploy')
-    @HttpCode(200)
-    async createAndDeploySchema(@Body() body: CreateAndDeploySchemaRequest): Promise<object> {
-       const [err, data] = await this.schemaService.createAndDeploySchema(body);
-       if (!err) {
-            return data;
-       } else {
-           throw err;
-       }
-    }
 }

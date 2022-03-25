@@ -25,6 +25,19 @@ export interface CreateAndDeploySchemaRequest extends CreateSchemaRequest {
     name: string
 }
 
+export interface CreateDeployRequest {
+    config?: object,
+    schemaId?: string,
+    code: string,
+    mircoId: string,
+}
+
+export interface CreateDeployResponse {
+    schemaId: string,
+    mircoId: string,
+    deployId: string,
+}
+
 interface MANGO_TIMESTAMPS_TYPE {
     createTime: Date,
     updateTIme: Date

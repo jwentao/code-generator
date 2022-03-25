@@ -1,19 +1,20 @@
 import { Controller, Get, Post, Body, HttpException } from '@nestjs/common';
 import { DeployService } from "./deploy.service";
 import { JsonSchema } from "../schemas/jsonSchema";
+import {CreateDeployRequest, CreateDeployResponse} from '../types';
 
 @Controller('deploy')
 export class DeployController {
     constructor(private readonly deployService: DeployService) {}
 
 
-    @Get('/create')
-    async create(): Promise<string> {
-        try {
-            await this.deployService.create({ schema: '' });
-            return 'success';
-        } catch (e) {
-            throw new Error;
+    @Post('/create')
+    async create(@Body() body: CreateDeployRequest): Promise<CreateDeployResponse> {
+        const [err, data] = await this.deployService.create( body );
+        if (!err) {
+            return data;
+        } else {
+            throw err;
         }
     }
 

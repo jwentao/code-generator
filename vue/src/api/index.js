@@ -34,9 +34,9 @@ export const createSchema = (data) => {
   });
 };
 
-export const createAndDeploy = (data) => {
+export const createDeploy = (data) => {
   return request({
-    url: '/schema/createAndDeploy',
+    url: '/deploy/create',
     method: 'post',
     data
   });

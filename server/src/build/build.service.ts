@@ -10,7 +10,7 @@ console.log(root, root.replace('src', 'test-lib'), Lib_Path)
 
 @Injectable()
 export class BuildService {
-  async build({ name, code }: { name: string, code: string }) {
+  async build({ name, code, deployId }: { name: string, code: string, deployId: string }) {
     // 确认没有同名
     const fileNames = fs.readdirSync(Lib_Path);
     for (let i = 0; i < fileNames.length; i++) {
@@ -30,6 +30,7 @@ export class BuildService {
     fs.writeFileSync(`${ROOT_PATH}/template/package.json`, `{
       "name": "${name}",
       "version": "1.0.0",
+      "deployId": "${deployId}",
       "private": true,
       "scripts": {
         "serve": "vue-cli-service serve",
@@ -64,6 +65,6 @@ export class BuildService {
     }
     `)
 
-    execSync(`${script} ${name}`);
+    execSync(`${script} ${name} ${deployId}`);
   }
 }

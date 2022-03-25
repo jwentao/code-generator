@@ -15,7 +15,13 @@ export class DeployRecord extends Document {
     createUser: string;
 
     @Prop({ required: true })
+    updateUser: string;
+
+    @Prop({ required: true })
     mircoId: string;
+
+    @Prop({ required: true })
+    schemaId: string;
 
     @Prop({ required: true})
     deployPath: string

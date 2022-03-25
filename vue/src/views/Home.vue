@@ -84,7 +84,7 @@ import { clearFormExtraConfig, beautifierConf, deepClone, generateId } from '@/u
 import { makeUpTemplate, vueTemplate, vueScript, vueStyle } from '@/generator/template';
 import { makeupScript } from '@/generator/script';
 import loadBeautifier from '@/utils/loadBeautifier';
-import { createSchema, createAndDeploy } from '@/api';
+import { createSchema, createDeploy } from '@/api';
 
 const saveConfigDebounce = debounce(300, saveConfig);
 
@@ -287,8 +287,8 @@ export default {
 
     async saveAndDeploy() {
       const [, generatedCode] = this.generateCode();
-      const [err] = await createAndDeploy({
-        name: 'newFile2',
+      const [err] = await createDeploy({
+        mircoId: 'newFile2',
         config: deepClone(this.curConfig),
         code: generatedCode
       });

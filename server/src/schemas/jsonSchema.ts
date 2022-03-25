@@ -15,10 +15,10 @@ export class JsonSchema extends Document {
     createUser: string;
 
     @Prop({ required: true })
-    scheme: string;
+    config: string;
 
-    @Prop({ required: true, type: String })
-    updateUser
+    @Prop({ required: true })
+    updateUser: string;
 }
 
 export const JsonSchemaSchema = SchemaFactory.createForClass(JsonSchema);
